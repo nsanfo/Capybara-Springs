@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &453906385
+--- !u!1001 &600194176
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -131,57 +131,61 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 100010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
-      propertyPath: m_Name
-      value: CapybaraModelNoFur
-      objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.1427784
+      value: 1.0897708
       objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.2595708
+      value: 0.23411058
       objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
+      propertyPath: m_Name
+      value: capybaraFixedEyes
+      objectReference: {fileID: 0}
+    - target: {fileID: 2102852915055734738, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d02c5196fd2978742ab18f00dc504399, type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
-  m_SourcePrefab: {fileID: 100100000, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 9f6e2f2a107d57b4d8bbf88e72b3679a, type: 3}
 --- !u!1 &892655626
 GameObject:
   m_ObjectHideFlags: 0
