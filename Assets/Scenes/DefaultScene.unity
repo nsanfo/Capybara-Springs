@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tmp: {fileID: 1114478057}
-  scrollInput: 0
+  mouseInput: 0
   cameraSpeed: 1.5
 --- !u!1 &937673358
 GameObject:
