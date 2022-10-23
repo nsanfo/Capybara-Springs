@@ -1,9 +1,29 @@
 fileFormatVersion: 2
-guid: 9f6e2f2a107d57b4d8bbf88e72b3679a
+guid: fd459c79af08dc647a7c726f15ff19e2
 ModelImporter:
   serializedVersion: 22103
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CapyEyes.001
+    second: {fileID: 2100000, guid: baf95540645860d48aa850b6e1c2fc9b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CapyLineArt
+    second: {fileID: 2100000, guid: baf95540645860d48aa850b6e1c2fc9b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CapybaraFur
+    second: {fileID: 2100000, guid: d02c5196fd2978742ab18f00dc504399, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Capydark
+    second: {fileID: 2100000, guid: bdc868b0103bc4b40a4f7506f41d88e5, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
