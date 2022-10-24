@@ -68,7 +68,7 @@ public class CameraControl : MonoBehaviour
 
         KeyMove();
 
-        if (Input.mousePosition.y >= Screen.height * 0.95 || Input.mousePosition.y <= Screen.height * 0.05 || Input.mousePosition.x >= Screen.width * 0.95 || Input.mousePosition.x <= Screen.width * 0.05)
+        if (Input.mousePosition.y >= Screen.height * 0.995 || Input.mousePosition.y <= Screen.height * 0.005 || Input.mousePosition.x >= Screen.width * 0.995 || Input.mousePosition.x <= Screen.width * 0.005)
         {
             EdgeMove();
         }
