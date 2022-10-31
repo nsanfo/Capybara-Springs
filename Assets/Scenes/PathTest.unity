@@ -376,8 +376,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 851343754}
-        m_TargetAssemblyTypeName: BuildPaths, Assembly-CSharp
+      - m_Target: {fileID: 851343756}
+        m_TargetAssemblyTypeName: PathBuilder, Assembly-CSharp
         m_MethodName: ToggleBuild
         m_Mode: 1
         m_Arguments:
@@ -389,7 +389,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PathGuide, Assembly-CSharp
+        m_TargetAssemblyTypeName: PathBuilder2, Assembly-CSharp
         m_MethodName: ToggleBuild
         m_Mode: 1
         m_Arguments:
@@ -684,7 +684,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 851343755}
-  - component: {fileID: 851343754}
+  - component: {fileID: 851343756}
   m_Layer: 0
   m_Name: PathBuilder
   m_TagString: Untagged
@@ -692,22 +692,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &851343754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 851343752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbf98b072c0a5754e9657c0e23ee070e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buildMode: 0
-  buildText: {fileID: 842314998}
-  materialRef: {fileID: 2100000, guid: 7c3942452511892468648ccaa2c1ea3c, type: 2}
-  meshWidth: 1.5
 --- !u!4 &851343755
 Transform:
   m_ObjectHideFlags: 0
@@ -721,8 +705,23 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &851343756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851343752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cbc7b0e572dbd940914422a4bd8e50b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingObject: {fileID: 1935710404}
+  buildText: {fileID: 842314998}
+  guideMaterial: {fileID: 2100000, guid: 7c3942452511892468648ccaa2c1ea3c, type: 2}
 --- !u!1 &1020584223
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,37 +754,6 @@ Transform:
   - {fileID: 1386832154}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1125721924
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1125721927}
-  m_Layer: 0
-  m_Name: Paths
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1125721927
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1125721924}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1371300886
 GameObject:
