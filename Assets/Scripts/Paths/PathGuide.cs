@@ -11,8 +11,6 @@ public class PathGuide : MonoBehaviour
     private string guidePathName = "GuidePath";
     private string guidePathPointName = "GuidePathPoint";
 
-    private GameObject pathBuilderSelf;
-
     private (Vector3, Vector3) points;
     private Vector3 initialGuidePoint;
     private bool buildMode = false;
@@ -26,20 +24,19 @@ public class PathGuide : MonoBehaviour
     private Material guideMaterial;
 
     // Path builder vars
-    PathBuilder pathBuilderScript;
+    private PathBuilder pathBuilderScript;
     private GameObject buildingObject;
 
     void Start()
     {
-        pathBuilderSelf = gameObject;
-        pathBuilderScript = pathBuilderSelf.GetComponent<PathBuilder>();
+        pathBuilderScript = gameObject.GetComponent<PathBuilder>();
         buildingObject = pathBuilderScript.buildingObject;
         guideMaterial = pathBuilderScript.guideMaterial;
     }
 
     void Update()
     {
-        pathBuilderScript = pathBuilderSelf.GetComponent<PathBuilder>();
+        pathBuilderScript = gameObject.GetComponent<PathBuilder>();
         
 
         // Check for build mode
@@ -138,7 +135,7 @@ public class PathGuide : MonoBehaviour
 
         // Set parent for guide mouse
         guideMouseObject = guideObject;
-        guideMouseObject.transform.SetParent(pathBuilderSelf.transform);
+        guideMouseObject.transform.SetParent(gameObject.transform);
     }
 
     void UpdateGuideMouse(RaycastHit raycast)
@@ -169,7 +166,7 @@ public class PathGuide : MonoBehaviour
 
         // Set parent for guide point
         guidePointObject = guideObject;
-        guidePointObject.transform.SetParent(pathBuilderSelf.transform);
+        guidePointObject.transform.SetParent(gameObject.transform);
     }
 
     void DeleteGuidePoint()
@@ -187,11 +184,13 @@ public class PathGuide : MonoBehaviour
 
         // Set parent for guide path
         guidePathObject = guideObject;
-        guidePathObject.transform.SetParent(pathBuilderSelf.transform);
+        guidePathObject.transform.SetParent(gameObject.transform);
 
         // Get spaced points on path
         (Vector3, Vector3) pathGuideTuple = (initialGuidePoint, mousePosition);
-        Vector3[] spacedGuidePoints = PathUtilities.CalculateEvenlySpacedPoints(pathGuideTuple, 0.5f, 1);
+        float spacing = pathBuilderScript.pointSpacing;
+        float resolution = pathBuilderScript.resolution;
+        Vector3[] spacedGuidePoints = PathUtilities.CalculateEvenlySpacedPoints(pathGuideTuple, spacing, resolution);
 
         // Create object points on path
         for (int i = 0; i < spacedGuidePoints.Length; i++)

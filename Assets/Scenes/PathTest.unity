@@ -722,6 +722,13 @@ MonoBehaviour:
   buildingObject: {fileID: 1935710404}
   buildText: {fileID: 842314998}
   guideMaterial: {fileID: 2100000, guid: 7c3942452511892468648ccaa2c1ea3c, type: 2}
+  pointSpacing: 0.1
+  resolution: 1
+  visualizePoints: 0
+  spacing: 1
+  pathWidth: 1
+  offset: 0.01
+  pathMaterial: {fileID: 2100000, guid: 8b565097202caaa4b8df3527251a49aa, type: 2}
 --- !u!1 &1020584223
 GameObject:
   m_ObjectHideFlags: 0
