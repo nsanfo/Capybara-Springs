@@ -34,8 +34,6 @@ public class PathCreator : MonoBehaviour
             }
 
             forward.Normalize();
-
-            //Vector3 left = new Vector3(-forward.y, forward.x, forward.z);
             Vector3 left = new Vector3(forward.z, forward.y, -forward.x);
 
             verts[vertIndex] = points[i] + left * pathWidth * 0.5f;
@@ -47,16 +45,8 @@ public class PathCreator : MonoBehaviour
 
             if (i < points.Length - 1)
             {
-                tris[triIndex] = vertIndex;
-                /*
-                tris[triIndex + 1] = vertIndex + 2;
-                tris[triIndex + 2] = vertIndex + 1;
-
-                tris[triIndex + 3] = vertIndex + 1;
-                tris[triIndex + 4] = vertIndex + 2;
-                tris[triIndex + 5] = vertIndex + 3;
-                */
                 // Create poly CCW
+                tris[triIndex] = vertIndex;
                 tris[triIndex + 1] = vertIndex + 1;
                 tris[triIndex + 2] = vertIndex + 2;
 

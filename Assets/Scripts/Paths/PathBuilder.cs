@@ -134,7 +134,15 @@ public class PathBuilder : MonoBehaviour
         path.GetComponent<PathCreator>().UpdatePath(evenPoints, pathWidth);
 
         // Set material for guide path point
-        if (pathMaterial != null) path.GetComponent<Renderer>().material = pathMaterial;
+        if (pathMaterial != null)
+        {
+            Renderer renderer = path.GetComponent<Renderer>();
+            renderer.material = pathMaterial;
+
+            // Change material tiling based on number of points
+            float tiling = (-0.11f * spacing) * (evenPoints.Length / spacing);
+            renderer.material.mainTextureScale = new Vector2(1, tiling);
+        }
     }
 
     void VisualizePoints(GameObject path, Vector3[] points)

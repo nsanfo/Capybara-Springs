@@ -34,6 +34,7 @@ public static class PathUtilities
             previousPoint = pointOnCurve;
         }
 
+        // Adds the last point (clicked endpoint) to the array
         //evenlySpacedPoints.Add(pointTuple.Item2);
 
         return evenlySpacedPoints.ToArray();
