@@ -9,7 +9,7 @@ public class PathGuide : MonoBehaviour
     private string guideMouseName = "GuideMouse";
     private string guidePointName = "GuidePoint";
     private string guidePathName = "GuidePath";
-    private string guidePathPointName = "GuidePathPoint";
+    //private string guidePathPointName = "GuidePathPoint";
 
     private (Vector3, Vector3) points;
     private Vector3 initialGuidePoint;
@@ -26,12 +26,18 @@ public class PathGuide : MonoBehaviour
     // Path builder vars
     private PathBuilder pathBuilderScript;
     private GameObject buildingObject;
+    private float spacing;
+    private float pathWidth;
+    private float offset;
 
     void Start()
     {
         pathBuilderScript = gameObject.GetComponent<PathBuilder>();
         buildingObject = pathBuilderScript.buildingObject;
         guideMaterial = pathBuilderScript.guideMaterial;
+        spacing = pathBuilderScript.spacing;
+        pathWidth = pathBuilderScript.pathWidth;
+        offset = pathBuilderScript.offset;
     }
 
     void Update()
@@ -48,7 +54,7 @@ public class PathGuide : MonoBehaviour
         // Raycast to mouse position
         RaycastHit hitInfo = new RaycastHit();
         bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
-        var position = new Vector3(hitInfo.point.x, hitInfo.point.y - 0.06f, hitInfo.point.z);
+        var position = new Vector3(hitInfo.point.x, hitInfo.point.y, hitInfo.point.z);
         if (!hit) return;
 
         #region GuideMouse
@@ -159,7 +165,7 @@ public class PathGuide : MonoBehaviour
 
         // Set transforms for guide point
         guideObject.transform.localScale += new Vector3(-0.7f, -0.9f, -0.7f);
-        guideObject.transform.position = position;
+        guideObject.transform.position = position + new Vector3(0, offset, 0);
 
         // Set material for guide point
         guideObject.GetComponent<Renderer>().material = guideMaterial;
@@ -188,28 +194,22 @@ public class PathGuide : MonoBehaviour
 
         // Get spaced points on path
         (Vector3, Vector3) pathGuideTuple = (initialGuidePoint, mousePosition);
-        float spacing = pathBuilderScript.pointSpacing;
+        float pointSpacing = pathBuilderScript.pointSpacing;
         float resolution = pathBuilderScript.resolution;
-        Vector3[] spacedGuidePoints = PathUtilities.CalculateEvenlySpacedPoints(pathGuideTuple, spacing, resolution);
+        //Vector3[] spacedGuidePoints = PathUtilities.CalculateEvenlySpacedPoints(pathGuideTuple, spacing, resolution);
 
-        // Create object points on path
-        for (int i = 0; i < spacedGuidePoints.Length; i++)
-        {
-            // Create guide path point object
-            GameObject pathPointObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            pathPointObject.name = guidePathPointName + (i + 1);
-            pathPointObject.GetComponent<Collider>().enabled = false;
+        // Set points along the path
+        (Vector3, Vector3) offsetPoints = (pathGuideTuple.Item1 + new Vector3(0, offset, 0), pathGuideTuple.Item2 + new Vector3(0, offset, 0));
+        Vector3[] evenPoints = PathUtilities.CalculateEvenlySpacedPoints(offsetPoints, pointSpacing, resolution);
 
-            // Set transform for guide path point
-            pathPointObject.transform.localScale += new Vector3(-0.85f, -0.85f, -0.85f);
-            pathPointObject.transform.position = spacedGuidePoints[i];
+        // Add components to draw mesh
+        guidePathObject.AddComponent<PathCreator>();
+        guidePathObject.AddComponent<MeshFilter>();
+        guidePathObject.AddComponent<MeshRenderer>();
+        guidePathObject.GetComponent<PathCreator>().UpdatePath(evenPoints, pathWidth);
 
-            // Set material for guide path point
-            pathPointObject.GetComponent<Renderer>().material = guideMaterial;
-
-            // Set parent for guide path point
-            pathPointObject.transform.SetParent(guidePathObject.transform);
-        }
+        // Set material for guide path
+        if (guideMaterial != null) guidePathObject.GetComponent<Renderer>().material = guideMaterial;
     }
 
     void DeleteGuidePath()
