@@ -13,13 +13,8 @@ public class PathBuilder : MonoBehaviour
 
     [Header("Builder Variables")]
     public GameObject buildingObject;
-
     [SerializeField]
     private TextMeshProUGUI buildText;
-
-    [Space(10)]
-    [Header("Guide Variables")]
-    public Material guideMaterial;
 
     [Space(10)]
     [Header("Point Variables")]
@@ -37,6 +32,8 @@ public class PathBuilder : MonoBehaviour
 
     [Space(10)]
     [Header("Textures")]
+    public Material guideMaterial;
+    public Material guideDisabledMaterial;
     public Material pathMaterial;
 
     // Start is called before the first frame update
@@ -77,10 +74,13 @@ public class PathBuilder : MonoBehaviour
             }
             else
             {
-                points.Item2 = position;
-                DrawPath();
-                points.Item1 = Vector3.zero;
-                points.Item2 = Vector3.zero;
+                if (gameObject.GetComponent<PathGuide>().canBuild)
+                {
+                    points.Item2 = position;
+                    DrawPath();
+                    points.Item1 = Vector3.zero;
+                    points.Item2 = Vector3.zero;
+                }
             }
         }
         #endregion
@@ -120,8 +120,9 @@ public class PathBuilder : MonoBehaviour
         // Set parent for path object
         path.transform.SetParent(pathsObject.transform);
 
-        // Set points along the path
-        (Vector3, Vector3) offsetPoints = (points.Item1 + new Vector3(0, offset, 0), points.Item2 + new Vector3(0, offset, 0));
+        // Get offsetted spaced points on path
+        Vector3 offsetVector = new Vector3(0, offset, 0);
+        (Vector3, Vector3) offsetPoints = (points.Item1 + offsetVector, points.Item2 + offsetVector);
         Vector3[] evenPoints = PathUtilities.CalculateEvenlySpacedPoints(offsetPoints, pointSpacing, resolution);
 
         // Set spheres to show points
@@ -131,7 +132,7 @@ public class PathBuilder : MonoBehaviour
         path.AddComponent<PathCreator>();
         path.AddComponent<MeshFilter>();
         path.AddComponent<MeshRenderer>();
-        path.GetComponent<PathCreator>().UpdatePath(evenPoints, pathWidth);
+        path.GetComponent<PathCreator>().CreatePath(evenPoints, pathWidth);
 
         // Set material for guide path point
         if (pathMaterial != null)
@@ -142,6 +143,36 @@ public class PathBuilder : MonoBehaviour
             // Change material tiling based on number of points
             float tiling = (-0.11f * spacing) * (evenPoints.Length / spacing);
             renderer.material.mainTextureScale = new Vector2(1, tiling);
+        }
+
+        // Update collision spheres
+        List<Vector3> collisionPointsList = new List<Vector3>();
+        for (int i = 0; i < evenPoints.Length; i++)
+        {
+            // Every 5 points
+            if ((i % 10) == 0)
+            {
+                collisionPointsList.Add(evenPoints[i]);
+            }
+        }
+
+        Vector3[] collisionPoints = collisionPointsList.ToArray();
+        GameObject collisionHolder = new GameObject();
+        collisionHolder.name = "CollisionsPath";
+
+        collisionHolder.transform.SetParent(path.transform);
+
+        for (int i = 0; i < collisionPoints.Length; i++)
+        {
+            GameObject collisionSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            collisionSphere.name = "PathCollider";
+            collisionSphere.transform.SetParent(collisionHolder.transform);
+            collisionSphere.transform.position = collisionPoints[i];
+            collisionSphere.GetComponent<Renderer>().enabled = false;
+            collisionSphere.layer = LayerMask.NameToLayer("Ignore Raycast");
+
+            collisionSphere.AddComponent<Rigidbody>();
+            collisionSphere.GetComponent<Rigidbody>().isKinematic = true;
         }
     }
 

@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PathCreator : MonoBehaviour
 {
-    public void UpdatePath(Vector3[] points, float width)
+    public Mesh mesh;
+
+    public void CreatePath(Vector3[] points, float width)
     {
-        gameObject.GetComponent<MeshFilter>().mesh = CreatePathMesh(points, width);
+        mesh = CreatePathMesh(points, width);
+        gameObject.GetComponent<MeshFilter>().mesh = mesh;
     }
 
     Mesh CreatePathMesh(Vector3[] points, float pathWidth)

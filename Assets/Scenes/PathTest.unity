@@ -464,7 +464,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 417917224}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 120513733a5318b45a826d96df1aec2e, type: 3}
   m_Name: 
@@ -721,13 +721,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingObject: {fileID: 1935710404}
   buildText: {fileID: 842314998}
-  guideMaterial: {fileID: 2100000, guid: 7c3942452511892468648ccaa2c1ea3c, type: 2}
   pointSpacing: 0.1
   resolution: 1
   visualizePoints: 0
   spacing: 1
   pathWidth: 1
   offset: 0.01
+  guideMaterial: {fileID: 2100000, guid: b66e2603426b0f440b9aa5282174eeb3, type: 2}
+  guideDisabledMaterial: {fileID: 2100000, guid: e59322ae0442da343a2d03aeb62740f7, type: 2}
   pathMaterial: {fileID: 2100000, guid: 8b565097202caaa4b8df3527251a49aa, type: 2}
 --- !u!1 &1020584223
 GameObject:
