@@ -237,7 +237,7 @@ public class PathGuide : MonoBehaviour
         float resolution = pathBuilderScript.resolution;
 
         // Get offsetted spaced points on guide path
-        Vector3 offsetVector = new Vector3(0, offset + 0.00f, 0);
+        Vector3 offsetVector = new Vector3(0, offset + 0.01f, 0);
         (Vector3, Vector3) offsetPoints = (pathGuideTuple.Item1 + offsetVector, pathGuideTuple.Item2 + offsetVector);
         Vector3[] evenPoints = PathUtilities.CalculateEvenlySpacedPoints(offsetPoints, pointSpacing, resolution);
 
@@ -284,7 +284,7 @@ public class PathGuide : MonoBehaviour
                 collisionSphere.transform.position = collisionPoints[i];
 
                 // Set rendering and layer
-                //collisionSphere.GetComponent<Renderer>().enabled = false;
+                collisionSphere.GetComponent<Renderer>().enabled = false;
                 collisionSphere.layer = LayerMask.NameToLayer("Ignore Raycast");
 
                 // Set collider trigger
