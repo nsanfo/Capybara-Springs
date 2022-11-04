@@ -29,8 +29,18 @@ public class CameraControl : MonoBehaviour
 
     void EdgeMove()
     {
-        horizontalInput = (Input.mousePosition.x - (Screen.width / 2)) / (Screen.width / 2);
-        forwardInput = (Input.mousePosition.y - (Screen.height / 2)) / (Screen.height / 2);
+        if (Input.mousePosition.x > Screen.width)
+            horizontalInput = 1;
+        else if (Input.mousePosition.x < 0)
+            horizontalInput = -1;
+        else
+            horizontalInput = (Input.mousePosition.x - (Screen.width / 2)) / (Screen.width / 2);
+        if (Input.mousePosition.y > Screen.height)
+            forwardInput = 1;
+        else if (Input.mousePosition.y < 0)
+            forwardInput = -1;
+        else
+            forwardInput = (Input.mousePosition.y - (Screen.height / 2)) / (Screen.height / 2);
 
         transform.Translate(((Vector3.right * Time.deltaTime * horizontalInput * cameraSpeed) / 0.6f) * modifier);
         transform.Translate(((Vector3.forward * Time.deltaTime * forwardInput * cameraSpeed) / 0.6f) * modifier, tmp.transform);
