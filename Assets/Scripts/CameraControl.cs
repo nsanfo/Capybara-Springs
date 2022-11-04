@@ -8,7 +8,7 @@ public class CameraControl : MonoBehaviour
     Ray ray;
     Plane ground;
     Vector3 intersection;
-    public float cameraSpeed = 1.5f, maxZoom = 0.6f, minZoom = 5f;
+    public float cameraSpeed = 1.5f, zoomSpeed = 100f, maxZoom = 0.6f, minZoom = 5f;
     float horizontalInput, forwardInput, scrollInput, mouseInput, modifier;
 
     // Start is called before the first frame update
@@ -50,10 +50,10 @@ public class CameraControl : MonoBehaviour
     {
         scrollInput = Input.GetAxis("Mouse ScrollWheel");
         tmp.transform.rotation = transform.rotation;
-        tmp.transform.Translate(Vector3.forward * Time.deltaTime * scrollInput * 100);
+        tmp.transform.Translate(Vector3.forward * Time.deltaTime * scrollInput * zoomSpeed);
 
         if (tmp.transform.position.y >= maxZoom && tmp.transform.position.y <= minZoom)
-            transform.Translate(Vector3.forward * Time.deltaTime * scrollInput * 100);
+            transform.Translate(Vector3.forward * Time.deltaTime * scrollInput * zoomSpeed);
     }
 
     void Rotate()
