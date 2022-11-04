@@ -16,9 +16,9 @@ public class CapybaraInfo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        hunger -= .01f * Time.deltaTime;
-        comfort -= .01f * Time.deltaTime;
-        fun -= .01f * Time.deltaTime;
+        hunger -= .02f * Time.deltaTime;
+        comfort -= .02f * Time.deltaTime;
+        fun -= .02f * Time.deltaTime;
         happiness = (hunger + comfort + fun) / 3;
     }
 }
