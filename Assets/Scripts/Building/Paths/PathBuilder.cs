@@ -32,21 +32,23 @@ public class PathBuilder : MonoBehaviour
     public Material guideDisabledMaterial;
     public Material pathMaterial;
 
-    public (Vector3, Vector3) endpoints;
-    private BuildingModes buildingModes;
+    // Object to hold paths
     private GameObject pathsObject;
 
-    private Vector3 raycastPosition;
-
-    private PathGuide pathGuideComponent;
-
+    // Array to hold paths
     private GameObject[] paths;
 
-    private bool buildable = true;
+    // Building raycast/endpoints
+    public (Vector3, Vector3) endpoints;
+    private Vector3 raycastPosition;
 
     // Guide variables
     private string guideHandlerName;
     private string guidePathName;
+
+    // Building Variables
+    private BuildingModes buildingModes;
+    private bool buildable = true;
 
     void Start()
     {
@@ -151,5 +153,11 @@ public class PathBuilder : MonoBehaviour
         pathComponent.SetMesh(pathWidth);
         pathComponent.CreateCollision("PathCollider", false);
         pathComponent.SetRendering(pathMaterial, spacing);
+
+        // Add new path to list
+        List<GameObject> pathList = new List<GameObject>();
+        pathList.AddRange(paths);
+        pathList.Add(path);
+        paths = pathList.ToArray();
     }
 }

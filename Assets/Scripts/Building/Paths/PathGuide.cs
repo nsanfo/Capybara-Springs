@@ -38,6 +38,7 @@ public class PathGuide : MonoBehaviour
     private (Vector3, Vector3) endpoints;
     private Vector3 raycastPosition;
 
+    // Building variables
     private BuildingModes buildingModes;
     private bool buildable = true;
 

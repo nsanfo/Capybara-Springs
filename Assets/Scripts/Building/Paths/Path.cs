@@ -10,9 +10,11 @@ public class Path : MonoBehaviour
     public Vector3[] spacedPoints;
     public Vector3[] collisionPoints;
 
-    private GameObject collisionObject;
-
+    // Mesh for path
     public Mesh mesh;
+
+    // Collision object to hold colliders
+    private GameObject collisionObject;
 
     public void SetMesh(float pathWidth)
     {
@@ -100,7 +102,7 @@ public class Path : MonoBehaviour
             collisionSphere.layer = LayerMask.NameToLayer("Ignore Raycast");
 
             // Set collision component
-            collisionSphere.AddComponent<GuideCheck>();
+            collisionSphere.AddComponent<PathColliderTrigger>();
             collisionSphere.AddComponent<Rigidbody>();
             collisionSphere.GetComponent<Rigidbody>().isKinematic = true;
 

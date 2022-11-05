@@ -128,7 +128,7 @@ public static class PathUtilities
 
         foreach (Transform child in collisionsTransform)
         {
-            if (child.gameObject.GetComponent<GuideCheck>().GetCollision() == true) return true;
+            if (child.gameObject.GetComponent<PathColliderTrigger>().GetCollision() == true) return true;
         }
 
         return false;

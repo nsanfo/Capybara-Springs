@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class GuideCheck : MonoBehaviour
+public class PathColliderTrigger : MonoBehaviour
 {
     private bool isPathCollision;
 
