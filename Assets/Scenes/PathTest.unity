@@ -1883,6 +1883,7 @@ MonoBehaviour:
   guideDisabledMaterial: {fileID: 2100000, guid: e59322ae0442da343a2d03aeb62740f7, type: 2}
   pathMaterial: {fileID: 2100000, guid: 8b565097202caaa4b8df3527251a49aa, type: 2}
   nodeRange: 10
+  snapRange: 2
   nodePrefab: {fileID: 7572078818666252900, guid: e94296cf4809ebf438a04fd3ca6cb680, type: 3}
   nodeAnimatorController: {fileID: 9100000, guid: c2d29960a3013d54c9d17bb339450acf, type: 2}
 --- !u!114 &1618958475

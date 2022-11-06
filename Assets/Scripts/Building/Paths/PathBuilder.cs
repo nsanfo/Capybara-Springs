@@ -35,6 +35,7 @@ public class PathBuilder : MonoBehaviour
     [Space(10)]
     [Header("Nodes")]
     public float nodeRange = 10.0f;
+    public float snapRange = 2.0f;
     public GameObject nodePrefab;
     public RuntimeAnimatorController nodeAnimatorController;
 
@@ -55,9 +56,12 @@ public class PathBuilder : MonoBehaviour
     private string guideHandlerName;
     private string guidePathName;
 
-    // Building Variables
+    // Building variables
     private BuildingModes buildingModes;
     private bool buildable = true;
+
+    // Node variables
+    private bool nodesHidden = true;
 
     void Start()
     {
@@ -80,7 +84,11 @@ public class PathBuilder : MonoBehaviour
     void Update()
     {
         // Check building
-        if (!buildingModes.pathBuilding) return;
+        if (!buildingModes.pathBuilding)
+        {
+            if (nodesHidden == false && nodes != null) HideAllNodes();
+            return;
+        }
 
         // Check if pointer is over ui
         if (EventSystem.current.IsPointerOverGameObject()) return;
@@ -203,7 +211,6 @@ public class PathBuilder : MonoBehaviour
             {
                 if (!currNode.gameObject.activeSelf)
                 {
-                    //Debug.Log("SHOW");
                     currNode.ShowNode();
                 }
             }
@@ -211,10 +218,24 @@ public class PathBuilder : MonoBehaviour
             {
                 if (currNode.gameObject.activeSelf)
                 {
-                    //Debug.Log("HIDE");
                     currNode.HideNode();
                 }
             }
         }
+
+        nodesHidden = false;
+    }
+
+    void HideAllNodes()
+    {
+        PathNode currNode;
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            currNode = nodes[i].GetComponent<PathNode>();
+
+            if (currNode.gameObject.activeSelf) currNode.HideNode();
+        }
+
+        nodesHidden = true;
     }
 }
