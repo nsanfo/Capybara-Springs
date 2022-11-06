@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Path : MonoBehaviour
@@ -15,6 +16,10 @@ public class Path : MonoBehaviour
 
     // Collision object to hold colliders
     private GameObject collisionObject;
+
+    // Node object to hold nodes
+    private GameObject nodeObject;
+    private GameObject[] nodes;
 
     public void SetMesh(float pathWidth)
     {
@@ -71,6 +76,8 @@ public class Path : MonoBehaviour
             }
         }
 
+        collisionPointsList.Add(spacedPoints[spacedPoints.Length - 1]);
+
         collisionPoints = collisionPointsList.ToArray();
     }
 
@@ -117,5 +124,35 @@ public class Path : MonoBehaviour
 
         Destroy(collisionObject);
         collisionObject = null;
+    }
+
+    public void InitializeNodes(GameObject nodeModel, RuntimeAnimatorController nodeAnimatorController)
+    {
+        GameObject nodeHolder = new GameObject("Nodes");
+        nodeHolder.transform.SetParent(gameObject.transform);
+        nodeObject = nodeHolder;
+
+        nodes = new GameObject[2];
+
+        GameObject node1 = Instantiate(nodeModel, endpoints.Item1, Quaternion.identity);
+        node1.name = "PathNode";
+        node1.transform.SetParent(nodeObject.transform);
+        node1.AddComponent<PathNode>();
+        //node1.GetComponent<PathNode>().animatorController = nodeAnimatorController;
+        node1.GetComponent<PathNode>().InitializeAnimator(nodeAnimatorController);
+        nodes[0] = node1;
+
+        GameObject node2 = Instantiate(nodeModel, endpoints.Item2, Quaternion.identity);
+        node2.name = "PathNode";
+        node2.transform.SetParent(nodeObject.transform);
+        node2.AddComponent<PathNode>();
+        //node2.GetComponent<PathNode>().animatorController = nodeAnimatorController;
+        node2.GetComponent<PathNode>().InitializeAnimator(nodeAnimatorController);
+        nodes[1] = node2;
+    }
+
+    public GameObject[] GetNodes()
+    {
+        return nodes;
     }
 }

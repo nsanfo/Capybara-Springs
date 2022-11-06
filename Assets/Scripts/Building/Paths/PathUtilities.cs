@@ -37,7 +37,7 @@ public static class PathUtilities
         }
 
         // Adds the last point (clicked endpoint) to the array
-        //evenlySpacedPoints.Add(pointTuple.Item2);
+        evenlySpacedPoints.Add(pointTuple.Item2);
 
         return evenlySpacedPoints.ToArray();
     }

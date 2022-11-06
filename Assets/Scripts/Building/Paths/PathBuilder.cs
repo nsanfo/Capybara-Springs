@@ -32,11 +32,20 @@ public class PathBuilder : MonoBehaviour
     public Material guideDisabledMaterial;
     public Material pathMaterial;
 
+    [Space(10)]
+    [Header("Nodes")]
+    public float nodeRange = 10.0f;
+    public GameObject nodePrefab;
+    public RuntimeAnimatorController nodeAnimatorController;
+
     // Object to hold paths
     private GameObject pathsObject;
 
     // Array to hold paths
     private GameObject[] paths;
+
+    // Array to hold paths
+    private GameObject[] nodes;
 
     // Building raycast/endpoints
     public (Vector3, Vector3) endpoints;
@@ -113,6 +122,11 @@ public class PathBuilder : MonoBehaviour
         }
         #endregion
 
+        if (nodes != null)
+        {
+            TrackNearbyNodes(raycastPosition);
+        }
+
         buildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guidePathName + "/Collisions");
     }
     bool UpdateRaycast()
@@ -152,12 +166,55 @@ public class PathBuilder : MonoBehaviour
         pathComponent.spacedPoints = spacedPoints;
         pathComponent.SetMesh(pathWidth);
         pathComponent.CreateCollision("PathCollider", false);
+        pathComponent.InitializeNodes(nodePrefab, nodeAnimatorController);
         pathComponent.SetRendering(pathMaterial, spacing);
 
         // Add new path to list
         List<GameObject> pathList = new List<GameObject>();
-        pathList.AddRange(paths);
+        if (paths != null) pathList.AddRange(paths);
         pathList.Add(path);
         paths = pathList.ToArray();
+        UpdateNodes();
+    }
+
+    void UpdateNodes()
+    {
+        List<GameObject> currentNodes = new List<GameObject>();
+
+        for (int i = 0; i < paths.Length; i++)
+        {
+            currentNodes.AddRange(paths[i].GetComponent<Path>().GetNodes());
+        }
+
+        nodes = currentNodes.ToArray();
+    }
+
+    void TrackNearbyNodes(Vector3 mousePosition)
+    {
+        PathNode currNode;
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            currNode = nodes[i].GetComponent<PathNode>();
+
+            Vector3 offset = currNode.transform.position - mousePosition;
+            float sqrLen = offset.sqrMagnitude;
+
+            if (sqrLen < nodeRange * nodeRange)
+            {
+                if (!currNode.gameObject.activeSelf)
+                {
+                    //Debug.Log("SHOW");
+                    currNode.ShowNode();
+                }
+            }
+            else
+            {
+                if (currNode.gameObject.activeSelf)
+                {
+                    //Debug.Log("HIDE");
+                    currNode.HideNode();
+                }
+            }
+        }
     }
 }
