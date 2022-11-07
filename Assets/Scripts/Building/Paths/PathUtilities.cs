@@ -121,14 +121,17 @@ public static class PathUtilities
         return mesh;
     }
 
-    public static bool CheckForCollision(GameObject builderGameObject, string objectWithCollisions)
+    public static bool CheckForCollision(GameObject builderGameObject, string objectWithCollisions, int skipTo = 0, int skipFromEnd = 0)
     {
         Transform collisionsTransform = builderGameObject.transform.Find(objectWithCollisions);
         if (collisionsTransform == null) return false;
 
-        foreach (Transform child in collisionsTransform)
+        if (skipTo > collisionsTransform.childCount - skipFromEnd) return false;
+        if (skipFromEnd > collisionsTransform.childCount - skipFromEnd) return false;
+
+        for (int i = skipTo; i < collisionsTransform.childCount - skipFromEnd; i++)
         {
-            if (child.gameObject.GetComponent<PathColliderTrigger>().GetCollision() == true) return true;
+            if (collisionsTransform.GetChild(i).GetComponent<PathColliderTrigger>().GetCollision() == true) return true;
         }
 
         return false;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PathNode : MonoBehaviour
 {
+    private bool isSelected = false;
+
     void Start()
     {
         gameObject.SetActive(false);
@@ -28,11 +30,29 @@ public class PathNode : MonoBehaviour
 
     public void HideNode()
     {
-        gameObject.GetComponent<Animator>().Play("HidePathNode");
+        if (!isSelected)
+        {
+            gameObject.GetComponent<Animator>().Play("HidePathNode");
+        }
+    }
+
+    public void SnapNode()
+    {
+        gameObject.GetComponent<Animator>().Play("SnapPathNode");
+    }
+
+    public void UnsnapNode()
+    {
+        gameObject.GetComponent<Animator>().Play("UnsnapPathNode");
     }
 
     public void SetOff()
     {
         gameObject.SetActive(false);
+    }
+
+    public void SetSelected(bool selection)
+    {
+        isSelected = selection;
     }
 }

@@ -849,8 +849,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1618958473}
-        m_TargetAssemblyTypeName: PlayerBuilding, Assembly-CSharp
+      - m_Target: {fileID: 863275693}
+        m_TargetAssemblyTypeName: PlayerBuilding2, Assembly-CSharp
         m_MethodName: TogglePathBuilding
         m_Mode: 1
         m_Arguments:
@@ -1419,6 +1419,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 753730662}
   m_CullTransparentMesh: 1
+--- !u!1 &863275688
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 863275692}
+  - component: {fileID: 863275694}
+  - component: {fileID: 863275693}
+  m_Layer: 0
+  m_Name: PlayerBuilding
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &863275692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863275688}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.376405, y: -123.11833, z: -32.247906}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &863275693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863275688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54a8672db0136943b0422cc5af5ae20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interfacePanels:
+    helpTextPanel: {fileID: 191792541}
+    buildTypePanel: {fileID: 667239482}
+    buildPanel: {fileID: 1422776572}
+--- !u!114 &863275694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863275688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06e16437a96b8a44bb651218d2fc9cf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingObject: {fileID: 1935710404}
+  pointSpacing: 0.1
+  pointResolution: 1
+  meshSpacing: 1
+  meshWidth: 1
+  meshOffset: 0.01
+  guideDefaultMaterial: {fileID: 2100000, guid: d8ecd077889ef0046bf1f03952ac1ba6, type: 2}
+  guideEnabledMaterial: {fileID: 2100000, guid: b66e2603426b0f440b9aa5282174eeb3, type: 2}
+  guideDisabledMaterial: {fileID: 2100000, guid: e59322ae0442da343a2d03aeb62740f7, type: 2}
+  pathMaterial: {fileID: 2100000, guid: 8b565097202caaa4b8df3527251a49aa, type: 2}
+  nodeAppearRange: 10
+  nodeSnapRange: 1
+  nodePrefab: {fileID: 7572078818666252900, guid: e94296cf4809ebf438a04fd3ca6cb680, type: 3}
+  nodeAnimatorController: {fileID: 9100000, guid: c2d29960a3013d54c9d17bb339450acf, type: 2}
+  guideHandlerName: GuideHandler
+  guideMouseName: GuideMouse
+  guidePointName: GuidePoint
+  guidePathName: GuidePath
 --- !u!1 &1020584223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1810,96 +1889,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1618958470
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1618958472}
-  - component: {fileID: 1618958474}
-  - component: {fileID: 1618958473}
-  - component: {fileID: 1618958475}
-  m_Layer: 0
-  m_Name: BuildHandler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1618958472
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1618958470}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 322.0741, y: 216.16519, z: 260.84583}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1618958473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1618958470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ecf37321160f9048ba19f4da572ec4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interfacePanels:
-    helpTextPanel: {fileID: 191792541}
-    buildTypePanel: {fileID: 667239482}
-    buildPanel: {fileID: 1422776572}
---- !u!114 &1618958474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1618958470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc6e0bdc72c3a3b439582035725d650c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buildingObject: {fileID: 1935710404}
-  pointSpacing: 0.1
-  resolution: 1
-  visualizePoints: 0
-  spacing: 1
-  pathWidth: 1
-  offset: 0.01
-  guideMaterial: {fileID: 2100000, guid: b66e2603426b0f440b9aa5282174eeb3, type: 2}
-  guideDisabledMaterial: {fileID: 2100000, guid: e59322ae0442da343a2d03aeb62740f7, type: 2}
-  pathMaterial: {fileID: 2100000, guid: 8b565097202caaa4b8df3527251a49aa, type: 2}
-  nodeRange: 10
-  snapRange: 2
-  nodePrefab: {fileID: 7572078818666252900, guid: e94296cf4809ebf438a04fd3ca6cb680, type: 3}
-  nodeAnimatorController: {fileID: 9100000, guid: c2d29960a3013d54c9d17bb339450acf, type: 2}
---- !u!114 &1618958475
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1618958470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbe7843ea9a49f846b0a244f80e86342, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  guideHandlerName: GuideHandler
-  guidePathName: GuidePath
 --- !u!1 &1675487388
 GameObject:
   m_ObjectHideFlags: 0
@@ -1984,8 +1973,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1618958473}
-        m_TargetAssemblyTypeName: PlayerBuilding, Assembly-CSharp
+      - m_Target: {fileID: 863275693}
+        m_TargetAssemblyTypeName: PlayerBuilding2, Assembly-CSharp
         m_MethodName: ToggleBuild
         m_Mode: 1
         m_Arguments:

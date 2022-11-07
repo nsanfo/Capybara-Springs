@@ -17,6 +17,26 @@ public class AnimateBuildUI
         }
     }
 
+    public static void AnimateSelectTypeButton2(Button[] buildTypeButtons, string typeButtonName, bool enableBuild)
+    {
+        for (int i = 0; i < buildTypeButtons.Length; i++)
+        {
+            if (buildTypeButtons[i].gameObject.name == typeButtonName)
+            {
+                if (enableBuild)
+                {
+                    buildTypeButtons[i].GetComponent<Animator>().Play("Color Layer.EnableBuildType");
+                }
+                else
+                {
+                    buildTypeButtons[i].GetComponent<Animator>().Play("Color Layer.DisableBuildType");
+                }
+
+                return;
+            }
+        }
+    }
+
     public static IEnumerator[] AnimateShowTypeButtons(Button[] buildTypeButtons, bool canBuild)
     {
         List<IEnumerator> enumerators = new List<IEnumerator>();
