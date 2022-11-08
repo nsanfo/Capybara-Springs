@@ -118,6 +118,7 @@ public class PlayerBuilding : MonoBehaviour
         }
         else
         {
+            gameObject.GetComponent<PathBuilder>().HideAllNodes();
             Destroy(gameObject.GetComponent<PathGuide>());
         }
 

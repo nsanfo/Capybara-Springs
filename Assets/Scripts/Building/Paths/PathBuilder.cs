@@ -96,9 +96,9 @@ public class PathBuilder : MonoBehaviour
     void Update()
     {
         // Check building
-        if (!buildingModes.enableBuild)
+        if (!buildingModes.enablePath)
         {
-            if (nodesHidden == false && nodes != null) HideAllNodes();
+            //if (buildingModes.enablePath && (nodesHidden == false && nodes != null)) HideAllNodes();
             return;
         }
 
@@ -277,7 +277,7 @@ public class PathBuilder : MonoBehaviour
         nodesHidden = false;
     }
 
-    void HideAllNodes()
+    public void HideAllNodes()
     {
         PathNode currNode;
         for (int i = 0; i < nodes.Length; i++)

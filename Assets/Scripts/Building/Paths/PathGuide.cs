@@ -224,6 +224,8 @@ public class PathGuide : MonoBehaviour
     void OnDestroy()
     {
         DestroyGuides();
+        Destroy(guideMouseObject);
+        guideMouseObject = null;
     }
 
     void DestroyGuides()
