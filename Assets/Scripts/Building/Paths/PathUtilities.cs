@@ -128,7 +128,7 @@ public static class PathUtilities
 
         if (skipTo > collisionsTransform.childCount - skipFromEnd) return false;
         if (skipFromEnd > collisionsTransform.childCount - skipFromEnd) return false;
-
+        
         for (int i = skipTo; i < collisionsTransform.childCount - skipFromEnd; i++)
         {
             if (collisionsTransform.GetChild(i).GetComponent<PathColliderTrigger>().GetCollision() == true) return true;

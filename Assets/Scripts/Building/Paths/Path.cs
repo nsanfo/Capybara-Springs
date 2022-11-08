@@ -17,8 +17,6 @@ public class Path : MonoBehaviour
 
     // Guide materials
     private Material guideDefaultMaterial;
-    private Material guideEnabledMaterial;
-    private Material guideDisabledMaterial;
 
     // Path material
     private Material pathMaterial;
@@ -55,8 +53,6 @@ public class Path : MonoBehaviour
 
         // Get guide material from path builder script
         guideDefaultMaterial = pathBuilderScript.guideDefaultMaterial;
-        guideEnabledMaterial = pathBuilderScript.guideEnabledMaterial;
-        guideDisabledMaterial = pathBuilderScript.guideDisabledMaterial;
 
         // Get material from path builder script
         pathMaterial = pathBuilderScript.pathMaterial;

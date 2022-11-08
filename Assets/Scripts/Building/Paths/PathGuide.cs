@@ -78,7 +78,11 @@ public class PathGuide : MonoBehaviour
     void Update()
     {
         // Check building
-        if (!buildingModes.enableBuild) return;
+        if (!buildingModes.enableBuild)
+        {
+            //DestroyGuides();
+            return;
+        }
 
         // Check if cursor is over UI, check for raycast hit
         #region CursorAndRaycast
@@ -100,33 +104,13 @@ public class PathGuide : MonoBehaviour
         }
         #endregion
 
-        // Update path building depending on points snapped to
-        #region UpdatePathBuilding
-        if (pathingBuilder.point1Snapped && pathingBuilder.currentSnappedNode != null)
-        {
-            pathingBuilder.pathBuildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guidePathName + "/Collisions", 3, 3);
-        }
-        else if (!pathingBuilder.point1Snapped && pathingBuilder.currentSnappedNode != null)
-        {
-            pathingBuilder.pathBuildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guidePathName + "/Collisions", 0, 3);
-        }
-        else if (pathingBuilder.point1Snapped)
-        {
-            pathingBuilder.pathBuildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guidePathName + "/Collisions", 3);
-        }
-        else
-        {
-            pathingBuilder.pathBuildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guidePathName + "/Collisions");
-        }
-        #endregion
-
         // Update mouse guide materials and bools
-        #region UpdateMouseGuide
+        #region UpdateMouseMaterial
         if (endpoints.Item1 == Vector3.zero)
         {
             if (pathingBuilder.currentSnappedNode == null)
             {
-                pathingBuilder.point1Buildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guideMouseName + "/Collisions");
+                //pathingBuilder.point1Buildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guideMouseName + "/Collisions");
 
                 if (pathingBuilder.point1Buildable)
                 {
@@ -147,7 +131,7 @@ public class PathGuide : MonoBehaviour
         {
             if (pathingBuilder.currentSnappedNode == null)
             {
-                pathingBuilder.point2Buildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guideMouseName + "/Collisions");
+                //pathingBuilder.point2Buildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guideMouseName + "/Collisions");
 
                 if (pathingBuilder.point2Buildable)
                 {

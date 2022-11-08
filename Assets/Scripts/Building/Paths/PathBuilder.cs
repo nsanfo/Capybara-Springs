@@ -68,7 +68,6 @@ public class PathBuilder : MonoBehaviour
     // Node variables
     //public (PathNode, Vector3) nodeSnapPosition;
     private GameObject[] nodes;
-    private bool nodesHidden = true;
 
     // Guide names
     public string guideHandlerName = "GuideHandler";
@@ -98,7 +97,7 @@ public class PathBuilder : MonoBehaviour
         // Check building
         if (!buildingModes.enablePath)
         {
-            //if (buildingModes.enablePath && (nodesHidden == false && nodes != null)) HideAllNodes();
+            ResetPathingBuilder();
             return;
         }
 
@@ -273,12 +272,12 @@ public class PathBuilder : MonoBehaviour
                 }
             }
         }
-
-        nodesHidden = false;
     }
 
     public void HideAllNodes()
     {
+        if (nodes == null) return;
+
         PathNode currNode;
         for (int i = 0; i < nodes.Length; i++)
         {
@@ -286,8 +285,6 @@ public class PathBuilder : MonoBehaviour
 
             if (currNode.gameObject.activeSelf) currNode.HideNode();
         }
-
-        nodesHidden = true;
     }
 
     void SnapToNearbyNode()
@@ -347,5 +344,11 @@ public class PathBuilder : MonoBehaviour
         pathingBuilder.point1Snapped = false;
         pathingBuilder.currentSnappedNode = null;
         pathingBuilder.snappedNodePoints = new PathNode[2];
+    }
+
+    public void ResetEndpoints()
+    {
+        endpoints.Item1 = Vector3.zero;
+        endpoints.Item2 = Vector3.zero;
     }
 }
