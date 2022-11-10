@@ -7,6 +7,23 @@ public class PathColliderTrigger : MonoBehaviour
 {
     private bool isPathCollision;
 
+    /*
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.name == "PathCollider")
+        {
+            isPathCollision = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.name == "PathCollider")
+        {
+            isPathCollision = false;
+        }
+    }
+    */
     void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.name == "PathCollider")

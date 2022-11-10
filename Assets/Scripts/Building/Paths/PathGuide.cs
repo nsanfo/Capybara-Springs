@@ -78,11 +78,7 @@ public class PathGuide : MonoBehaviour
     void Update()
     {
         // Check building
-        if (!buildingModes.enableBuild)
-        {
-            //DestroyGuides();
-            return;
-        }
+        if (!buildingModes.enableBuild) return;
 
         // Check if cursor is over UI, check for raycast hit
         #region CursorAndRaycast

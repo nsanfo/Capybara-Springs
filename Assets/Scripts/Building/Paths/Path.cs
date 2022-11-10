@@ -28,7 +28,6 @@ public class Path : MonoBehaviour
 
     // Collision holder
     private GameObject collisionHolder;
-    private GameObject[] colliders;
 
     // Colider variables
     string colliderName;
@@ -78,6 +77,7 @@ public class Path : MonoBehaviour
 
         SetMesh();
         SetMaterialRendering(isGuide);
+        SetCollisionPoints();
         CreateCollisions();
         if (!isGuide) InitializeNodes();
     }
@@ -103,10 +103,9 @@ public class Path : MonoBehaviour
         mesh = PathUtilities.CreateMesh(spacedPoints, meshWidth);
         gameObject.GetComponent<MeshFilter>().sharedMesh = mesh;
 
-        // Recalculate collision points
+        // Update collisions
         SetCollisionPoints();
-        Destroy(collisionHolder);
-        CreateCollisions();
+        UpdateCollisions();
     }
 
     private void SetMaterialRendering(bool isGuide)
@@ -136,10 +135,6 @@ public class Path : MonoBehaviour
 
     private void CreateCollisions()
     {
-        SetCollisionPoints();
-
-        List<GameObject> colliderList = new List<GameObject>();
-
         // Create collision holder object
         collisionHolder = new GameObject("Collisions");
         collisionHolder.transform.SetParent(gameObject.transform);
@@ -159,11 +154,62 @@ public class Path : MonoBehaviour
             collider.AddComponent<Rigidbody>();
             collider.GetComponent<Rigidbody>().isKinematic = true;
             collider.AddComponent<PathColliderTrigger>();
-
-            colliderList.Add(collider);
         }
+    }
 
-        colliders = colliderList.ToArray();
+    private void UpdateCollisions()
+    {
+        Transform collisionsTransform = gameObject.transform.Find("Collisions");
+
+        // Add colliders to match points
+        if (collisionPoints.Length > collisionsTransform.childCount)
+        {
+            // Transform existing colliders
+            for (int i = 0; i < collisionsTransform.childCount; i++)
+            {
+                collisionsTransform.transform.GetChild(i).transform.position = collisionPoints[i];
+            }
+
+            // Create new colliders
+            for (int i = collisionsTransform.childCount; i < collisionPoints.Length; i++)
+            {
+                // Create collider objects
+                GameObject collider = new GameObject(colliderName);
+                collider.transform.SetParent(collisionHolder.transform);
+                collider.transform.position = collisionPoints[i];
+
+                // Add collision components
+                collider.layer = LayerMask.NameToLayer("Ignore Raycast");
+                collider.AddComponent<SphereCollider>();
+                collider.GetComponent<SphereCollider>().isTrigger = setColliderTrigger;
+                collider.AddComponent<Rigidbody>();
+                collider.GetComponent<Rigidbody>().isKinematic = true;
+                collider.AddComponent<PathColliderTrigger>();
+            }
+        }
+        // Destroy colliders to match points
+        else if (collisionPoints.Length < collisionsTransform.childCount)
+        {
+            // Transform existing colliders
+            for (int i = 0; i < collisionPoints.Length; i++)
+            {
+                collisionsTransform.transform.GetChild(i).transform.position = collisionPoints[i];
+            }
+
+            // Destroy excess colliders
+            for (int i = collisionPoints.Length; i < collisionsTransform.childCount; i++)
+            {
+                Destroy(collisionsTransform.GetChild(i).gameObject);
+            }
+        }
+        // Set new position of existing colliders
+        else
+        {
+            for (int i = 0; i < collisionsTransform.childCount; i++)
+            {
+                collisionsTransform.transform.GetChild(i).transform.position = collisionPoints[i];
+            }
+        }
     }
 
     private void SetCollisionPoints()
