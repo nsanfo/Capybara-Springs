@@ -7,6 +7,8 @@ public class UIManager : MonoBehaviour
 {
     public GameObject detailsWindow;
     GameObject detailsInstance;
+    GameObject lastSelected;
+    SelectionIndicator selectionScript;
 
     public void setCDetailsWindow(GameObject target)
     {
@@ -46,9 +48,15 @@ public class UIManager : MonoBehaviour
 
             Destroy(detailsInstance);
 
+            if (lastSelected != null)
+                selectionScript.deactivateSelection();
+
             if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.name.StartsWith("Capybara"))
             {
                 setCDetailsWindow(hit.transform.gameObject);
+                lastSelected = hit.transform.gameObject;
+                selectionScript = hit.transform.gameObject.GetComponent<SelectionIndicator>();
+                selectionScript.activateSelection();
             }
         }
     }
