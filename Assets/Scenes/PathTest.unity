@@ -1481,6 +1481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingObject: {fileID: 1935710404}
+  pathMinLength: 5
   pointSpacing: 0.1
   pointResolution: 1
   meshSpacing: 1

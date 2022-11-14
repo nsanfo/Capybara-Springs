@@ -272,7 +272,10 @@ public class PathGuide : MonoBehaviour
     {
         if (pathingBuilder.currentSnappedNode != null)
         {
-            guideMouseObject.transform.position = pathingBuilder.currentSnappedNode.transform.position;
+            if (endpoints.Item1 != pathingBuilder.currentSnappedNode.transform.position)
+            {
+                guideMouseObject.transform.position = pathingBuilder.currentSnappedNode.transform.position;
+            }
         }
         else
         {

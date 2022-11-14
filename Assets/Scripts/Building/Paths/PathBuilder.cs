@@ -345,9 +345,12 @@ public class PathBuilder : MonoBehaviour
             {
                 if (pathingBuilder.snappedNodePoints[i] != closestNode.Item1)
                 {
-                    pathingBuilder.currentSnappedNode = closestNode.Item1;
-                    pathingBuilder.currentSnappedNode.SnapNode();
-                    return;
+                    if (endpoints.Item1 != closestNode.Item1.transform.position)
+                    {
+                        pathingBuilder.currentSnappedNode = closestNode.Item1;
+                        pathingBuilder.currentSnappedNode.SnapNode();
+                        return;
+                    }
                 }
             }
         }
