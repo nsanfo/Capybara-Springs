@@ -189,7 +189,7 @@ public class PathGuide : MonoBehaviour
                 UpdateGuidePath((endpoints.Item1, mouseRaycast.GetPosition()));
             }
 
-            if (pathingBuilder.pathBuildable)
+            if (pathingBuilder.pathBuildable && !pathingBuilder.pathTooShort)
             {
                 guidePathObject.GetComponent<Renderer>().material = guideEnabledMaterial;
             }

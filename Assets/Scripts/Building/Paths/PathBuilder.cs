@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class PathingBuilder
 {
-    public bool pathBuildable, point1Buildable, point2Buildable, point1Snapped;
+    public bool pathBuildable, point1Buildable, point2Buildable, point1Snapped, pathTooShort;
     public PathNode[] snappedNodePoints;
     public PathNode currentSnappedNode;
 
@@ -15,6 +15,7 @@ public class PathingBuilder
         point1Buildable = true;
         point2Buildable = true;
         point1Snapped = false;
+        pathTooShort = false;
         currentSnappedNode = null;
         snappedNodePoints = new PathNode[2];
     }
@@ -24,6 +25,10 @@ public class PathBuilder : MonoBehaviour
 {
     [Header("Builder Variables")]
     public GameObject buildingObject;
+
+    [Space(10)]
+    [Header("Path Variables")]
+    public float pathMinLength = 5.0f;
 
     [Space(10)]
     [Header("Path Point Variables")]
@@ -143,6 +148,20 @@ public class PathBuilder : MonoBehaviour
         }
         #endregion
 
+        #region UpdatePathLength
+        if (endpoints.Item1 != Vector3.zero)
+        {
+            if ((endpoints.Item1 - mouseRaycast.GetPosition()).sqrMagnitude < pathMinLength)
+            {
+                pathingBuilder.pathTooShort = true;
+            }
+            else
+            {
+                pathingBuilder.pathTooShort = false;
+            }
+        }
+        #endregion
+
         // Placing points and building paths
         #region InputLeftMouse
         if (Input.GetMouseButtonDown(0))
@@ -167,22 +186,25 @@ public class PathBuilder : MonoBehaviour
             {
                 if (pathingBuilder.pathBuildable)
                 {
-                    if (pathingBuilder.point2Buildable)
+                    if (!pathingBuilder.pathTooShort)
                     {
-                        endpoints.Item2 = mouseRaycast.GetPosition();
-                        CreatePath();
-                        endpoints.Item1 = Vector3.zero;
-                        endpoints.Item2 = Vector3.zero;
-                        ResetPathingBuilder();
-                    }
-                    else if (pathingBuilder.currentSnappedNode != null)
-                    {
-                        pathingBuilder.snappedNodePoints[1] = pathingBuilder.currentSnappedNode;
-                        endpoints.Item2 = pathingBuilder.snappedNodePoints[1].transform.position;
-                        CreatePath();
-                        endpoints.Item1 = Vector3.zero;
-                        endpoints.Item2 = Vector3.zero;
-                        ResetPathingBuilder();
+                        if (pathingBuilder.point2Buildable)
+                        {
+                            endpoints.Item2 = mouseRaycast.GetPosition();
+                            CreatePath();
+                            endpoints.Item1 = Vector3.zero;
+                            endpoints.Item2 = Vector3.zero;
+                            ResetPathingBuilder();
+                        }
+                        else if (pathingBuilder.currentSnappedNode != null)
+                        {
+                            pathingBuilder.snappedNodePoints[1] = pathingBuilder.currentSnappedNode;
+                            endpoints.Item2 = pathingBuilder.snappedNodePoints[1].transform.position;
+                            CreatePath();
+                            endpoints.Item1 = Vector3.zero;
+                            endpoints.Item2 = Vector3.zero;
+                            ResetPathingBuilder();
+                        }
                     }
                 }
             }
