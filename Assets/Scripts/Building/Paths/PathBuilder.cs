@@ -119,6 +119,9 @@ public class PathBuilder : MonoBehaviour
         // Update path helper
         UpdatePathHelper();
 
+        // Track nodes
+        TrackNearbyNodes();
+
         // Check mouse inputs
         CheckLeftMouseInput();
         CheckRightMouseInput();
@@ -320,16 +323,46 @@ public class PathBuilder : MonoBehaviour
         nodeController.AddPath(pathComponent);
     }
 
+    void TrackNearbyNodes()
+    {
+        PathNode[] nodes = nodeController.GetNodes();
+        if (nodes == null) return;
+
+        PathNode currNode;
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            currNode = nodes[i];
+
+            Vector3 offset = currNode.transform.position - mouseRaycast.GetPosition();
+            float sqrLen = offset.sqrMagnitude;
+
+            if (sqrLen < nodeAppearRange * nodeAppearRange)
+            {
+                if (!currNode.gameObject.activeSelf)
+                {
+                    currNode.ShowNode();
+                }
+            }
+            else
+            {
+                if (currNode.gameObject.activeSelf)
+                {
+                    currNode.HideNode();
+                }
+            }
+        }
+
+    }
+
     void SnapToNearbyNode()
     {
+        PathNode[] nodes = nodeController.GetNodes();
+        if (nodes == null) return;
+
         PathNode currNode;
         (PathNode, float) closestNode;
         closestNode.Item1 = null;
         closestNode.Item2 = 0.0f;
-
-        PathNode[] nodes = nodeController.GetNodes();
-        if (nodes == null) return;
-
         int numNodesInRange = 0;
         for (int i = 0; i < nodes.Length; i++)
         {
