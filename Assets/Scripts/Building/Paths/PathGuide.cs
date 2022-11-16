@@ -1,29 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.IO;
+using System.Net;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PathGuide : MonoBehaviour
 {
-    // Guide names
-    private string guideHandlerName;
-    private string guideMouseName;
-    private string guidePointName;
-    private string guidePathName;
-
     // Guide objects
     private GameObject guideHandlerObject;
     private GameObject guideMouseObject;
     private GameObject guidePointObject;
     private GameObject guidePathObject;
 
-    // Building variables
-    private BuildingModes buildingModes;
-    public PathingBuilder pathingBuilder;
-
-    // Mouse raycast
-    public MouseRaycast mouseRaycast = new MouseRaycast();
+    // Path variables
+    private PathBuilder pathBuilderScript;
 
     // Guide settings
     private float meshOffset;
@@ -31,31 +23,21 @@ public class PathGuide : MonoBehaviour
     private float pointResolution;
 
     // Guide materials
-    public Material guideDefaultMaterial;
-    public Material guideEnabledMaterial;
-    public Material guideDisabledMaterial;
+    private Material guideDefaultMaterial;
+    private Material guideEnabledMaterial;
+    private Material guideDisabledMaterial;
 
-    // Path variables
-    private PathBuilder pathBuilderScript;
-    private (Vector3, Vector3) endpoints;
+    // Mouse raycast
+    public MouseRaycast mouseRaycast = new MouseRaycast();
 
-    // Start is called before the first frame update
+    // Building variables
+    private BuildingModes buildingModes;
+    public PathHelper pathHelper = new PathHelper();
+
     void Start()
     {
         pathBuilderScript = gameObject.GetComponent<PathBuilder>();
-
-        // Get variables from path builder script
-        guideHandlerName = pathBuilderScript.guideHandlerName;
-        guideMouseName = pathBuilderScript.guideMouseName;
-        guidePointName = pathBuilderScript.guidePointName;
-        guidePathName = pathBuilderScript.guidePathName;
-
-        // Get building modes from building script
-        PlayerBuilding playerBuildingScript = gameObject.GetComponent<PlayerBuilding>();
-        buildingModes = playerBuildingScript.buildingModes;
-
-        // Get raycast from building script
-        mouseRaycast = playerBuildingScript.mouseRaycast;
+        PlayerBuilding buildingScript = gameObject.GetComponent<PlayerBuilding>();
 
         // Get guide settings from building script
         meshOffset = pathBuilderScript.meshOffset;
@@ -67,29 +49,60 @@ public class PathGuide : MonoBehaviour
         guideEnabledMaterial = pathBuilderScript.guideEnabledMaterial;
         guideDisabledMaterial = pathBuilderScript.guideDisabledMaterial;
 
-        // Set guide handler
-        guideHandlerObject = new GameObject(guideHandlerName);
-        guideHandlerObject.transform.SetParent(gameObject.transform);
+        // Get raycast from building script
+        mouseRaycast = buildingScript.mouseRaycast;
 
-        pathingBuilder = pathBuilderScript.pathingBuilder;
+        // Get building modes from building script
+        buildingModes = buildingScript.buildingModes;
+
+        // Set guide handler
+        guideHandlerObject = new GameObject(PathBuilder.GuideNames.GuideHandler.ToString());
+        guideHandlerObject.transform.SetParent(gameObject.transform);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Check building
-        if (!buildingModes.enableBuild) return;
+        // Check to update
+        if (!CheckIfUpdate()) return;
 
-        // Check if cursor is over UI, check for raycast hit
-        #region CursorAndRaycast
-        if (EventSystem.current.IsPointerOverGameObject()) return;
+        // Update mouse
+        HandleGuideMouse();
+
+        // Update path helper
+        pathHelper = pathBuilderScript.pathHelper;
+
+        // Update point
+        HandleGuidePoint();
+
+        // Update path
+        HandleGuidePath();
+    }
+
+    void OnDestroy()
+    {
+        Destroy(guideHandlerObject);
+    }
+
+    bool CheckIfUpdate()
+    {
+        // Check if path is buildable
+        if (!buildingModes.enablePath)
+        {
+            return false;
+        }
+
+        // Check if pointer is over UI
+        if (EventSystem.current.IsPointerOverGameObject()) return false;
 
         // Check for raycast hit
-        if (!mouseRaycast.CheckHit()) return;
-        #endregion
+        if (!mouseRaycast.CheckHit()) return false;
 
-        // Handle updating mouse
-        #region HandleGuideMouse
+        return true;
+    }
+
+    void HandleGuideMouse()
+    {
+        // Handle object
         if (guideMouseObject == null)
         {
             InitializeGuideMouse();
@@ -97,141 +110,58 @@ public class PathGuide : MonoBehaviour
         else
         {
             UpdateGuideMouse();
-        }
-        #endregion
 
-        // Update mouse guide materials and bools
-        #region UpdateMouseMaterial
-        if (endpoints.Item1 == Vector3.zero)
-        {
-            if (pathingBuilder.currentSnappedNode == null)
-            {
-                //pathingBuilder.point1Buildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guideMouseName + "/Collisions");
-
-                if (pathingBuilder.point1Buildable)
-                {
-                    guideMouseObject.GetComponent<Renderer>().material = guideDefaultMaterial;
-                }
-                else
-                {
-                    guideMouseObject.GetComponent<Renderer>().material = guideDisabledMaterial;
-                }
-            }
-            else
+            // Handle material
+            if (pathHelper.mouseBuildable)
             {
                 guideMouseObject.GetComponent<Renderer>().material = guideDefaultMaterial;
-                pathingBuilder.point1Buildable = true;
-            }
-        }
-        else if (endpoints.Item2 == Vector3.zero)
-        {
-            if (pathingBuilder.currentSnappedNode == null)
-            {
-                //pathingBuilder.point2Buildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guideMouseName + "/Collisions");
-
-                if (pathingBuilder.point2Buildable)
-                {
-                    guideMouseObject.GetComponent<Renderer>().material = guideDefaultMaterial;
-                }
-                else
-                {
-                    guideMouseObject.GetComponent<Renderer>().material = guideDisabledMaterial;
-                }
             }
             else
             {
-                guideMouseObject.GetComponent<Renderer>().material = guideDefaultMaterial;
-                pathingBuilder.point2Buildable = true;
+                guideMouseObject.GetComponent<Renderer>().material = guideDisabledMaterial;
             }
         }
-        #endregion
-
-        // Update endpoints
-        endpoints = pathBuilderScript.endpoints;
-
-        // Handle initializing and destroying guides
-        #region InitializeGuide
-        if (endpoints.Item1 != Vector3.zero)
-        {
-            if (guidePointObject == null)
-            {
-                if (pathingBuilder.currentSnappedNode != null)
-                {
-                    endpoints.Item1 = mouseRaycast.GetPosition();
-                    InitializeGuidePath((endpoints.Item1, pathingBuilder.currentSnappedNode.transform.position));
-                    InitializeGuidePoint(pathingBuilder.currentSnappedNode.transform.position);
-                }
-                else if (pathingBuilder.point1Buildable)
-                {
-                    endpoints.Item1 = mouseRaycast.GetPosition();
-                    InitializeGuidePath((endpoints.Item1, mouseRaycast.GetPosition()));
-                    InitializeGuidePoint(mouseRaycast.GetPosition());
-                }
-            }
-        }
-        else
-        {
-            DestroyGuides();
-            pathingBuilder.point1Snapped = false;
-        }
-        #endregion
-
-        // Handle updating guide path
-        #region UpdatePathGuide
-        if (guidePathObject != null)
-        {
-            if (pathingBuilder.currentSnappedNode != null)
-            {
-                UpdateGuidePath((endpoints.Item1, pathingBuilder.currentSnappedNode.transform.position));
-            }
-            else
-            {
-                UpdateGuidePath((endpoints.Item1, mouseRaycast.GetPosition()));
-            }
-
-            if (pathingBuilder.pathBuildable && !pathingBuilder.pathTooShort)
-            {
-                guidePathObject.GetComponent<Renderer>().material = guideEnabledMaterial;
-            }
-            else
-            {
-                guidePathObject.GetComponent<Renderer>().material = guideDisabledMaterial;
-            }
-        }
-        #endregion
-    }
-
-    void OnDestroy()
-    {
-        DestroyGuides();
-        Destroy(guideMouseObject);
-        guideMouseObject = null;
-    }
-
-    void DestroyGuides()
-    {
-        Destroy(guidePointObject);
-        Destroy(guidePathObject);
-        guidePointObject = null;
-        guidePathObject = null;
     }
 
     void InitializeGuideMouse()
     {
         // Create guide mouse object
         guideMouseObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        guideMouseObject.name = guideMouseName;
+        guideMouseObject.name = PathBuilder.GuideNames.GuideMouse.ToString();
         guideMouseObject.transform.SetParent(guideHandlerObject.transform);
         guideMouseObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
+        SetMouseColliders();
+
+        // Set transforms for guide mouse
+        guideMouseObject.transform.localScale = new Vector3(0.4f, 0.1f, 0.4f);
+    }
+
+    void UpdateGuideMouse()
+    {
+        if (pathHelper.snappedMouseNode != null)
+        {
+            if (pathHelper.pathPoints.Item1 != pathHelper.snappedMouseNode.transform.position)
+            {
+                guideMouseObject.transform.position = pathHelper.snappedMouseNode.transform.position;
+            }
+        }
+        else
+        {
+            guideMouseObject.transform.position = mouseRaycast.GetPosition();
+        }
+    }
+
+    void SetMouseColliders()
+    {
         // Set colliders
-        GameObject collisionHolder = new GameObject("Collisions");
+        GameObject collisionHolder = new GameObject(PathBuilder.PathNames.Collisions.ToString());
         collisionHolder.transform.SetParent(guideMouseObject.transform);
         int currentSide = 1;
         for (int i = 0; i < 5; i++)
         {
             // Create collider object
-            GameObject collider = new GameObject("MouseCollider");
+            GameObject collider = new GameObject(PathBuilder.GuideNames.GuideCollider.ToString());
             collider.transform.SetParent(collisionHolder.transform);
             collider.transform.position = guideMouseObject.transform.position;
 
@@ -263,85 +193,111 @@ public class PathGuide : MonoBehaviour
 
         // Set collider trigger
         guideMouseObject.GetComponent<CapsuleCollider>().isTrigger = true;
-
-        // Set transforms for guide mouse
-        guideMouseObject.transform.localScale += new Vector3(-0.6f, -0.9f, -0.6f);
     }
 
-    void UpdateGuideMouse()
+    void HandleGuidePoint()
     {
-        if (pathingBuilder.currentSnappedNode != null)
+        // Handle object
+        if (pathHelper.pathPoints.Item1 != Vector3.zero && guidePointObject == null)
         {
-            if (endpoints.Item1 != pathingBuilder.currentSnappedNode.transform.position)
-            {
-                guideMouseObject.transform.position = pathingBuilder.currentSnappedNode.transform.position;
-            }
+            InitializeGuidePoint();
         }
-        else
+        else if (pathHelper.pathPoints.Item1 == Vector3.zero && guidePointObject != null)
         {
-            guideMouseObject.transform.position = mouseRaycast.GetPosition();
+            Destroy(guidePointObject);
+            guidePointObject = null;
         }
     }
 
-    void InitializeGuidePoint(Vector3 initialPoint)
+    void InitializeGuidePoint()
     {
-        // Create guide point object
-        GameObject guideObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        guideObject.name = guidePointName;
-        guideObject.GetComponent<Collider>().enabled = false;
-
-        // Set transforms for guide point
-        guideObject.transform.localScale += new Vector3(-0.6f, -0.9f, -0.6f);
-        if (pathingBuilder.currentSnappedNode != null)
-        {
-            guideObject.transform.position = pathingBuilder.currentSnappedNode.transform.position;
-        }
-        else
-        {
-            guideObject.transform.position = initialPoint;
-        }
-
-        // Set parent for guide point
-        guideObject.transform.SetParent(guideHandlerObject.transform);
+        // Create guide mouse object
+        guidePointObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        guidePointObject.name = PathBuilder.GuideNames.GuidePoint.ToString();
+        guidePointObject.transform.SetParent(guideHandlerObject.transform);
+        guidePointObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
         // Set rendering
-        guideObject.GetComponent<Renderer>().material = guideEnabledMaterial;
+        guidePointObject.GetComponent<Renderer>().material = guideEnabledMaterial;
 
-        guidePointObject = guideObject;
+        // Set transforms for guide point
+        guidePointObject.transform.position = pathHelper.pathPoints.Item1;
+        guidePointObject.transform.localScale = new Vector3(0.6f, 0.05f, 0.6f);
     }
 
-    void InitializeGuidePath((Vector3, Vector3) initialEndpoints)
+    void HandleGuidePath()
+    {
+        // Initialize guide when first point set
+        if (pathHelper.pathPoints.Item1 != Vector3.zero && guidePathObject == null)
+        {
+            InitializeGuidePath();
+        }
+        // Destroy guide if first point is removed
+        else if (pathHelper.pathPoints.Item1 == Vector3.zero && guidePathObject != null)
+        {
+            Destroy(guidePathObject);
+            guidePathObject = null;
+        }
+        // Update guide
+        else if (guidePathObject != null)
+        {
+            UpdateGuidePath();
+
+            // Handle material
+            if (pathHelper.pathBuildable)
+            {
+                guidePathObject.GetComponent<Renderer>().material = guideEnabledMaterial;
+            }
+            else
+            {
+                guidePathObject.GetComponent<Renderer>().material = guideDisabledMaterial;
+            }
+        }
+    }
+
+    void InitializeGuidePath()
     {
         // Create guide path object
-        guidePathObject = new GameObject(guidePathName);
+        guidePathObject = new GameObject(PathBuilder.GuideNames.GuidePath.ToString());
         guidePathObject.transform.SetParent(guideHandlerObject.transform);
 
         // Get offset points (prevent z-axis fighting on terrain)
-        Vector3 offsetVector = new Vector3(0, meshOffset + 0.01f, 0);
-        (Vector3, Vector3) offsetEndpoints = (initialEndpoints.Item1 + offsetVector, initialEndpoints.Item2 + offsetVector);
-
-        // Calculate spaced points
-        Vector3[] spacedPoints = PathUtilities.CalculateEvenlySpacedPoints(offsetEndpoints, pointSpacing, pointResolution);
+        Vector3 point1 = new Vector3(pathHelper.pathPoints.Item1.x, meshOffset + 0.01f, pathHelper.pathPoints.Item1.z);
+        Vector3 point2 = new Vector3(mouseRaycast.GetPosition().x, meshOffset + 0.01f, mouseRaycast.GetPosition().z);
+        Vector3 point3 = Vector3.zero;
+        if (pathHelper.curvedPath) point3 = new Vector3(pathHelper.pathPoints.Item3.x, meshOffset + 0.01f, pathHelper.pathPoints.Item3.z);
 
         // Add path component to handle mesh
         guidePathObject.AddComponent<Path>();
         Path pathComponent = guidePathObject.GetComponent<Path>();
-        pathComponent.UpdateVariables(gameObject.GetComponent<PathBuilder>());
-        pathComponent.InitializeMesh("GuideCollider", true);
+        pathComponent.UpdateVariables(gameObject.GetComponent<PathBuilder>(), (point1, point2, point3));
+        pathComponent.InitializeMesh(true, null);
+
+        // Update material
+        guidePathObject.GetComponent<Renderer>().material = guideEnabledMaterial;
     }
 
-    void UpdateGuidePath((Vector3, Vector3) updateEndpoints)
+    void UpdateGuidePath()
     {
         // Get offset points (prevent z-axis fighting on terrain)
-        Vector3 offsetVector = new Vector3(0, meshOffset + 0.01f, 0);
-        (Vector3, Vector3) offsetEndpoints = (updateEndpoints.Item1 + offsetVector, updateEndpoints.Item2 + offsetVector);
+        Vector3 point1 = new Vector3(pathHelper.pathPoints.Item1.x, meshOffset + 0.01f, pathHelper.pathPoints.Item1.z);
 
-        // Calculate spaced points
-        Vector3[] spacedPoints = PathUtilities.CalculateEvenlySpacedPoints(offsetEndpoints, pointSpacing, pointResolution);
+        Vector3 point2;
+        if (pathHelper.snappedMouseNode != null)
+        {
+            point2 = new Vector3(pathHelper.snappedMouseNode.transform.position.x, meshOffset + 0.01f, pathHelper.snappedMouseNode.transform.position.z);
+        }
+        else
+        {
+            point2 = new Vector3(mouseRaycast.GetPosition().x, meshOffset + 0.01f, mouseRaycast.GetPosition().z);
+        }
+        
+        Vector3 point3 = Vector3.zero;
+        if (pathHelper.curvedPath) point3 = new Vector3(pathHelper.pathPoints.Item3.x, meshOffset + 0.01f, pathHelper.pathPoints.Item3.z);
 
-        // Add path component to handle mesh
+        // Update path component to handle mesh
         Path pathComponent = guidePathObject.GetComponent<Path>();
-        pathComponent.UpdateVariables(gameObject.GetComponent<PathBuilder>());
-        pathComponent.UpdateMesh(offsetEndpoints);
+        pathComponent.UpdateVariables(gameObject.GetComponent<PathBuilder>(), (point1, point2, point3));
+        pathComponent.UpdateMesh();
     }
 }

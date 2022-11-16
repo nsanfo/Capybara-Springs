@@ -4,22 +4,10 @@ using UnityEngine;
 
 public class PathNode : MonoBehaviour
 {
-    private bool isSelected = false;
-
-    void Start()
-    {
-        gameObject.SetActive(false);
-    }
-
     public void InitializeAnimator(RuntimeAnimatorController animatorController)
     {
         gameObject.AddComponent<Animator>();
         gameObject.GetComponent<Animator>().runtimeAnimatorController = animatorController;
-    }
-
-    public void UpdatePosition(Vector3 position)
-    {
-        gameObject.transform.position = position;
     }
 
     public void ShowNode()
@@ -30,10 +18,7 @@ public class PathNode : MonoBehaviour
 
     public void HideNode()
     {
-        if (!isSelected)
-        {
-            gameObject.GetComponent<Animator>().Play("HidePathNode");
-        }
+        gameObject.GetComponent<Animator>().Play("HidePathNode");
     }
 
     public void SnapNode()
@@ -46,13 +31,18 @@ public class PathNode : MonoBehaviour
         gameObject.GetComponent<Animator>().Play("UnsnapPathNode");
     }
 
-    public void SetOff()
+    public void SetInactive()
     {
         gameObject.SetActive(false);
     }
 
-    public void SetSelected(bool selection)
+    public GameObject GetNodeGameObject()
     {
-        isSelected = selection;
+        return gameObject;
+    }
+
+    public Vector3 GetNodePosition()
+    {
+        return gameObject.transform.position;
     }
 }
