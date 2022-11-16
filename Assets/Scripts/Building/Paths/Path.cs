@@ -41,6 +41,7 @@ public class Path : MonoBehaviour
     {
         // Set path settings
         meshWidth = pathBuilderScript.meshWidth;
+        meshSpacing = pathBuilderScript.meshSpacing;
         pointSpacing = pathBuilderScript.pointSpacing;
         pointResolution = pathBuilderScript.pointResolution;
 
