@@ -332,7 +332,7 @@ public class PathGuide : MonoBehaviour
         // Initialize guide when first point set
         if (pathHelper.pathPoints.Item1 != Vector3.zero && guideDottedLineObject == null)
         {
-            if ((pathHelper.curvedPath && pathHelper.pathPoints.Item3 != Vector3.zero) || !pathHelper.curvedPath) InitializeGuideDottedLine();
+            InitializeGuideDottedLine();
         }
         // Destroy guide if first point is removed
         else if (pathHelper.pathPoints.Item1 == Vector3.zero && guideDottedLineObject != null)
@@ -394,19 +394,17 @@ public class PathGuide : MonoBehaviour
     {
         LineRenderer lineRenderer = guideDottedLineObject.GetComponent<LineRenderer>();
 
-        // Add another point to line renderer for curved paths
-        if (pathHelper.curvedPath)
+        // Add point to line renderer on curved paths
+        if (pathHelper.curvedPath && pathHelper.pathPoints.Item3 != Vector3.zero)
         {
-            if (pathHelper.pathPoints.Item3 != Vector3.zero)
-            {
-                Vector3[] positions = new Vector3[3];
-                positions[0] = pathHelper.pathPoints.Item1 + new Vector3(0, meshOffset + 0.02f, 0); ;
-                positions[1] = pathHelper.pathPoints.Item3 + new Vector3(0, meshOffset + 0.02f, 0); ;
-                positions[2] = mouseRaycast.GetPosition() + new Vector3(0, meshOffset + 0.02f, 0); ;
-                lineRenderer.positionCount = positions.Length;
-                lineRenderer.SetPositions(positions);
-            }
+            Vector3[] positions = new Vector3[3];
+            positions[0] = pathHelper.pathPoints.Item1 + new Vector3(0, meshOffset + 0.02f, 0); ;
+            positions[1] = pathHelper.pathPoints.Item3 + new Vector3(0, meshOffset + 0.02f, 0); ;
+            positions[2] = mouseRaycast.GetPosition() + new Vector3(0, meshOffset + 0.02f, 0); ;
+            lineRenderer.positionCount = positions.Length;
+            lineRenderer.SetPositions(positions);
         }
+        // Handle linear paths and first point of curved paths
         else
         {
             // Set position of points for line renderer

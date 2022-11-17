@@ -43,6 +43,7 @@ public class PathBuilder : MonoBehaviour
     [Header("Path Variables")]
     public float pathMinLength = 2.0f;
     public int pathCollisionGrace = 3;
+    public float pathCurvedMinAngle = 35.0f;
 
     [Space(10)]
     [Header("Path Point Variables")]
@@ -209,10 +210,8 @@ public class PathBuilder : MonoBehaviour
         }
         #endregion
 
-        // Check for curved path
-        pathHelper.curvedPath = pathCurvedToggle.isOn;
-
         // Check for path minimum length
+        #region CheckPathMinimumLength
         if (pathHelper.pathPoints.Item1 != Vector3.zero && pathHelper.pathBuildable)
         {
             if ((pathHelper.pathPoints.Item1 - mouseRaycast.GetPosition()).sqrMagnitude < pathMinLength)
@@ -220,6 +219,25 @@ public class PathBuilder : MonoBehaviour
                 pathHelper.pathBuildable = false;
             }
         }
+        #endregion
+
+        // Check for curved pathing
+        #region CheckCurvedPathing
+        pathHelper.curvedPath = pathCurvedToggle.isOn;
+
+        if (pathHelper.curvedPath)
+        {
+            // Check curved path angle
+            if (pathHelper.pathPoints.Item1 != Vector3.zero && pathHelper.pathPoints.Item3 != Vector3.zero)
+            {
+                float angle = Vector3.Angle(pathHelper.pathPoints.Item1 - pathHelper.pathPoints.Item3, mouseRaycast.GetPosition() - pathHelper.pathPoints.Item3);
+                if (angle < pathCurvedMinAngle) pathHelper.pathBuildable = false;
+            }
+
+            // Check curve point building
+            if (pathHelper.pathPoints.Item3 == Vector3.zero) pathHelper.mouseBuildable = true;
+        }
+        #endregion
     }
 
     void CheckLeftMouseInput()
@@ -273,12 +291,12 @@ public class PathBuilder : MonoBehaviour
         else if (pathHelper.curvedPath)
         {
             // Set curved point
-            if (pathHelper.pathPoints.Item3 == Vector3.zero)
+            if (pathHelper.mouseBuildable && pathHelper.pathPoints.Item3 == Vector3.zero)
             {
                 pathHelper.pathPoints.Item3 = mouseRaycast.GetPosition();
             }
             // Set second point to complete path
-            else
+            else if (pathHelper.pathBuildable)
             {
                 if (pathHelper.snappedMouseNode != null)
                 {
@@ -390,6 +408,10 @@ public class PathBuilder : MonoBehaviour
 
         if (numNodesInRange > 0)
         {
+            // Disable snapping on curved point placement
+            if (pathHelper.curvedPath && pathHelper.pathPoints.Item1 != Vector3.zero && pathHelper.pathPoints.Item3 == Vector3.zero) return;
+
+            // Snap only on nodes not previously snapped to
             if (pathHelper.snappedInitialNode != closestNode.Item1)
             {
                 pathHelper.snappedMouseNode = closestNode.Item1;
