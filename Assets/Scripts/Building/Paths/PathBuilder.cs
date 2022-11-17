@@ -26,7 +26,7 @@ public class PathBuilder : MonoBehaviour
 {
     public enum GuideNames
     {
-        GuideHandler, GuideMouse, GuidePoint, GuidePath, GuideCollider
+        GuideHandler, GuideMouse, GuidePoint, GuideCurvedPoint, GuidePath, GuideDottedLine, GuideCollider
     }
 
     public enum PathNames
@@ -68,6 +68,8 @@ public class PathBuilder : MonoBehaviour
     public Material guideDefaultMaterial;
     public Material guideEnabledMaterial;
     public Material guideDisabledMaterial;
+    public Material guideEnabledDottedMaterial;
+    public Material guideDisabledDottedMaterial;
     [Space(5)]
     public Material pathMaterial;
 

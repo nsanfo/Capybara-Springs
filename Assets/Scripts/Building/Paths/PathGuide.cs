@@ -5,6 +5,7 @@ using System.Net;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class PathGuide : MonoBehaviour
 {
@@ -12,20 +13,22 @@ public class PathGuide : MonoBehaviour
     private GameObject guideHandlerObject;
     private GameObject guideMouseObject;
     private GameObject guidePointObject;
+    private GameObject guideCurvedPointObject;
     private GameObject guidePathObject;
+    private GameObject guideDottedLineObject;
 
     // Path variables
     private PathBuilder pathBuilderScript;
 
     // Guide settings
     private float meshOffset;
-    private float pointSpacing;
-    private float pointResolution;
 
     // Guide materials
     private Material guideDefaultMaterial;
     private Material guideEnabledMaterial;
     private Material guideDisabledMaterial;
+    private Material guideEnabledDottedMaterial;
+    private Material guideDisabledDottedMaterial;
 
     // Mouse raycast
     public MouseRaycast mouseRaycast = new MouseRaycast();
@@ -41,13 +44,13 @@ public class PathGuide : MonoBehaviour
 
         // Get guide settings from building script
         meshOffset = pathBuilderScript.meshOffset;
-        pointSpacing = pathBuilderScript.pointSpacing;
-        pointResolution = pathBuilderScript.pointResolution;
 
         // Get guide materials from building script
         guideDefaultMaterial = pathBuilderScript.guideDefaultMaterial;
         guideEnabledMaterial = pathBuilderScript.guideEnabledMaterial;
         guideDisabledMaterial = pathBuilderScript.guideDisabledMaterial;
+        guideEnabledDottedMaterial = pathBuilderScript.guideEnabledDottedMaterial;
+        guideDisabledDottedMaterial = pathBuilderScript.guideDisabledDottedMaterial;
 
         // Get raycast from building script
         mouseRaycast = buildingScript.mouseRaycast;
@@ -76,6 +79,9 @@ public class PathGuide : MonoBehaviour
 
         // Update path
         HandleGuidePath();
+
+        // Update dotted line
+        HandleGuideDottedLine();
     }
 
     void OnDestroy()
@@ -197,32 +203,45 @@ public class PathGuide : MonoBehaviour
 
     void HandleGuidePoint()
     {
-        // Handle object
+        // Handle point object
         if (pathHelper.pathPoints.Item1 != Vector3.zero && guidePointObject == null)
         {
-            InitializeGuidePoint();
+            guidePointObject = CreateGuidePoint(PathBuilder.GuideNames.GuidePoint.ToString(), pathHelper.pathPoints.Item1);
         }
         else if (pathHelper.pathPoints.Item1 == Vector3.zero && guidePointObject != null)
         {
             Destroy(guidePointObject);
             guidePointObject = null;
         }
+
+        // Handle curved point object
+        if (pathHelper.pathPoints.Item3 != Vector3.zero && guideCurvedPointObject == null)
+        {
+            guideCurvedPointObject = CreateGuidePoint(PathBuilder.GuideNames.GuideCurvedPoint.ToString(), pathHelper.pathPoints.Item3);
+        }
+        else if (pathHelper.pathPoints.Item3 == Vector3.zero && guideCurvedPointObject != null)
+        {
+            Destroy(guideCurvedPointObject);
+            guideCurvedPointObject = null;
+        }
     }
 
-    void InitializeGuidePoint()
+    GameObject CreateGuidePoint(string pointName, Vector3 position)
     {
-        // Create guide mouse object
-        guidePointObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        guidePointObject.name = PathBuilder.GuideNames.GuidePoint.ToString();
-        guidePointObject.transform.SetParent(guideHandlerObject.transform);
-        guidePointObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        // Create guide point object
+        GameObject pointObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        pointObject.name = pointName;
+        pointObject.transform.SetParent(guideHandlerObject.transform);
+        pointObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
         // Set rendering
-        guidePointObject.GetComponent<Renderer>().material = guideEnabledMaterial;
+        pointObject.GetComponent<Renderer>().material = guideEnabledMaterial;
 
         // Set transforms for guide point
-        guidePointObject.transform.position = pathHelper.pathPoints.Item1;
-        guidePointObject.transform.localScale = new Vector3(0.6f, 0.05f, 0.6f);
+        pointObject.transform.position = position;
+        pointObject.transform.localScale = new Vector3(0.6f, 0.05f, 0.6f);
+
+        return pointObject;
     }
 
     void HandleGuidePath()
@@ -230,7 +249,14 @@ public class PathGuide : MonoBehaviour
         // Initialize guide when first point set
         if (pathHelper.pathPoints.Item1 != Vector3.zero && guidePathObject == null)
         {
-            InitializeGuidePath();
+            if (pathHelper.curvedPath)
+            {
+                if (pathHelper.pathPoints.Item3 != Vector3.zero) InitializeGuidePath();
+            }
+            else
+            {
+                InitializeGuidePath();
+            }
         }
         // Destroy guide if first point is removed
         else if (pathHelper.pathPoints.Item1 == Vector3.zero && guidePathObject != null)
@@ -299,5 +325,96 @@ public class PathGuide : MonoBehaviour
         Path pathComponent = guidePathObject.GetComponent<Path>();
         pathComponent.UpdateVariables(gameObject.GetComponent<PathBuilder>(), (point1, point2, point3));
         pathComponent.UpdateMesh();
+    }
+
+    void HandleGuideDottedLine()
+    {
+        // Initialize guide when first point set
+        if (pathHelper.pathPoints.Item1 != Vector3.zero && guideDottedLineObject == null)
+        {
+            if ((pathHelper.curvedPath && pathHelper.pathPoints.Item3 != Vector3.zero) || !pathHelper.curvedPath) InitializeGuideDottedLine();
+        }
+        // Destroy guide if first point is removed
+        else if (pathHelper.pathPoints.Item1 == Vector3.zero && guideDottedLineObject != null)
+        {
+            Destroy(guideDottedLineObject);
+            guideDottedLineObject = null;
+        }
+        // Update guide
+        else if (guideDottedLineObject != null)
+        {
+            UpdateGuideDottedLine();
+
+            // Handle material
+            if (pathHelper.pathBuildable)
+            {
+                guideDottedLineObject.GetComponent<LineRenderer>().material = guideEnabledDottedMaterial;
+            }
+            else
+            {
+                guideDottedLineObject.GetComponent<LineRenderer>().material = guideDisabledDottedMaterial;
+            }
+        }
+    }
+
+    void InitializeGuideDottedLine()
+    {
+        // Create guide dotted line object
+        guideDottedLineObject = new GameObject(PathBuilder.GuideNames.GuideDottedLine.ToString());
+        guideDottedLineObject.transform.SetParent(guideHandlerObject.transform);
+
+        // Rotate to make line visible
+        guideDottedLineObject.transform.Rotate(new Vector3(90, 0, 0));
+
+        // Add line renderer component
+        guideDottedLineObject.AddComponent<LineRenderer>();
+        LineRenderer lineRenderer = guideDottedLineObject.GetComponent<LineRenderer>();
+        lineRenderer.alignment = LineAlignment.TransformZ;
+        lineRenderer.textureMode = LineTextureMode.Tile;
+        lineRenderer.textureScale = new Vector2(1.3f, 1);
+        lineRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        lineRenderer.receiveShadows = false;
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
+        lineRenderer.numCornerVertices = 10;
+        lineRenderer.numCapVertices = 10;
+
+        // Set position of points for line renderer
+        Vector3[] positions = new Vector3[2];
+        positions[0] = pathHelper.pathPoints.Item1 + new Vector3(0, meshOffset + 0.02f, 0);
+        positions[1] = mouseRaycast.GetPosition() + new Vector3(0, meshOffset + 0.02f, 0); ;
+        lineRenderer.positionCount = positions.Length;
+        lineRenderer.SetPositions(positions);
+
+        // Set material
+        lineRenderer.material = guideEnabledDottedMaterial;
+    }
+
+    void UpdateGuideDottedLine()
+    {
+        LineRenderer lineRenderer = guideDottedLineObject.GetComponent<LineRenderer>();
+
+        // Add another point to line renderer for curved paths
+        if (pathHelper.curvedPath)
+        {
+            if (pathHelper.pathPoints.Item3 != Vector3.zero)
+            {
+                Vector3[] positions = new Vector3[3];
+                positions[0] = pathHelper.pathPoints.Item1 + new Vector3(0, meshOffset + 0.02f, 0); ;
+                positions[1] = pathHelper.pathPoints.Item3 + new Vector3(0, meshOffset + 0.02f, 0); ;
+                positions[2] = mouseRaycast.GetPosition() + new Vector3(0, meshOffset + 0.02f, 0); ;
+                lineRenderer.positionCount = positions.Length;
+                lineRenderer.SetPositions(positions);
+            }
+        }
+        else
+        {
+            // Set position of points for line renderer
+            Vector3[] positions = new Vector3[2];
+            positions[0] = pathHelper.pathPoints.Item1 + new Vector3(0, meshOffset + 0.02f, 0); ;
+            positions[1] = mouseRaycast.GetPosition() + new Vector3(0, meshOffset + 0.02f, 0); ;
+            lineRenderer.positionCount = positions.Length;
+            lineRenderer.SetPositions(positions);
+        }
     }
 }
