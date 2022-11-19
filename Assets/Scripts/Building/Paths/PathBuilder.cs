@@ -66,11 +66,10 @@ public class PathBuilder : MonoBehaviour
 
     [Space(10)]
     [Header("Textures")]
-    public Material guideDefaultMaterial;
-    public Material guideEnabledMaterial;
-    public Material guideDisabledMaterial;
-    public Material guideEnabledDottedMaterial;
-    public Material guideDisabledDottedMaterial;
+    public Material[] guideDefaultMaterials;
+    public Material[] guideOnMaterials;
+    public Material[] guideOffMaterials;
+    public Material[] guidePathMaterials;
     [Space(5)]
     public Material pathMaterial;
 
@@ -223,8 +222,6 @@ public class PathBuilder : MonoBehaviour
 
         // Check for curved pathing
         #region CheckCurvedPathing
-        pathHelper.curvedPath = pathCurvedToggle.isOn;
-
         if (pathHelper.curvedPath)
         {
             // Check curved path angle
@@ -424,5 +421,11 @@ public class PathBuilder : MonoBehaviour
             pathHelper.snappedMouseNode.UnsnapNode();
             pathHelper.snappedMouseNode = null;
         }
+    }
+
+    public void ToggleCurvedPathing()
+    {
+        pathHelper = new PathHelper();
+        pathHelper.curvedPath = pathCurvedToggle.isOn;
     }
 }

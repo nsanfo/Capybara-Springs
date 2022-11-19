@@ -11,9 +11,6 @@ public class Path : MonoBehaviour
     private float pointSpacing;
     private float pointResolution;
 
-    // Guide materials
-    private Material guideEnabledMaterial;
-
     // Path material
     private Material pathMaterial;
 
@@ -44,9 +41,6 @@ public class Path : MonoBehaviour
         meshSpacing = pathBuilderScript.meshSpacing;
         pointSpacing = pathBuilderScript.pointSpacing;
         pointResolution = pathBuilderScript.pointResolution;
-
-        // Get guide material from path builder script
-        guideEnabledMaterial = pathBuilderScript.guideDefaultMaterial;
 
         // Get material from path builder script
         pathMaterial = pathBuilderScript.pathMaterial;

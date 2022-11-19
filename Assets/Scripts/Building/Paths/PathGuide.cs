@@ -24,11 +24,10 @@ public class PathGuide : MonoBehaviour
     private float meshOffset;
 
     // Guide materials
-    private Material guideDefaultMaterial;
-    private Material guideEnabledMaterial;
-    private Material guideDisabledMaterial;
-    private Material guideEnabledDottedMaterial;
-    private Material guideDisabledDottedMaterial;
+    private Material[] guideDefaultMaterials;
+    private Material[] guideOnMaterials;
+    private Material[] guideOffMaterials;
+    private Material[] guidePathMaterials;
 
     // Mouse raycast
     public MouseRaycast mouseRaycast = new MouseRaycast();
@@ -36,6 +35,11 @@ public class PathGuide : MonoBehaviour
     // Building variables
     private BuildingModes buildingModes;
     public PathHelper pathHelper = new PathHelper();
+
+    // Outline colors
+    private Color blueOutline = new Color(0.537f, 0.847f, 1.0f, 1f);
+    private Color redOutline = new Color(0.949f, 0.49f, 0.267f, 1f);
+    private Color whiteOutline = new Color(0.427f, 0.486f, 0.529f, 1f);
 
     void Start()
     {
@@ -46,11 +50,10 @@ public class PathGuide : MonoBehaviour
         meshOffset = pathBuilderScript.meshOffset;
 
         // Get guide materials from building script
-        guideDefaultMaterial = pathBuilderScript.guideDefaultMaterial;
-        guideEnabledMaterial = pathBuilderScript.guideEnabledMaterial;
-        guideDisabledMaterial = pathBuilderScript.guideDisabledMaterial;
-        guideEnabledDottedMaterial = pathBuilderScript.guideEnabledDottedMaterial;
-        guideDisabledDottedMaterial = pathBuilderScript.guideDisabledDottedMaterial;
+        guideDefaultMaterials = pathBuilderScript.guideDefaultMaterials;
+        guideOnMaterials = pathBuilderScript.guideOnMaterials;
+        guideOffMaterials = pathBuilderScript.guideOffMaterials;
+        guidePathMaterials = pathBuilderScript.guidePathMaterials;
 
         // Get raycast from building script
         mouseRaycast = buildingScript.mouseRaycast;
@@ -120,11 +123,11 @@ public class PathGuide : MonoBehaviour
             // Handle material
             if (pathHelper.mouseBuildable)
             {
-                guideMouseObject.GetComponent<Renderer>().material = guideDefaultMaterial;
+                guideMouseObject.GetComponent<Renderer>().materials = guideDefaultMaterials;
             }
             else
             {
-                guideMouseObject.GetComponent<Renderer>().material = guideDisabledMaterial;
+                guideMouseObject.GetComponent<Renderer>().materials = guideOffMaterials;
             }
         }
     }
@@ -140,7 +143,9 @@ public class PathGuide : MonoBehaviour
         SetMouseColliders();
 
         // Set transforms for guide mouse
-        guideMouseObject.transform.localScale = new Vector3(0.4f, 0.1f, 0.4f);
+        guideMouseObject.transform.localScale = new Vector3(0.4f, 0.025f, 0.4f);
+
+        guideMouseObject.GetComponent<Renderer>().materials = new Material[2];
     }
 
     void UpdateGuideMouse()
@@ -149,12 +154,12 @@ public class PathGuide : MonoBehaviour
         {
             if (pathHelper.pathPoints.Item1 != pathHelper.snappedMouseNode.transform.position)
             {
-                guideMouseObject.transform.position = pathHelper.snappedMouseNode.transform.position;
+                guideMouseObject.transform.position = pathHelper.snappedMouseNode.transform.position + new Vector3(0, 0.028f, 0);
             }
         }
         else
         {
-            guideMouseObject.transform.position = mouseRaycast.GetPosition();
+            guideMouseObject.transform.position = mouseRaycast.GetPosition() + new Vector3(0, 0.028f, 0);
         }
     }
 
@@ -235,7 +240,7 @@ public class PathGuide : MonoBehaviour
         pointObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
         // Set rendering
-        pointObject.GetComponent<Renderer>().material = guideEnabledMaterial;
+        pointObject.GetComponent<Renderer>().materials = guideOnMaterials;
 
         // Set transforms for guide point
         pointObject.transform.position = position;
@@ -272,11 +277,11 @@ public class PathGuide : MonoBehaviour
             // Handle material
             if (pathHelper.pathBuildable)
             {
-                guidePathObject.GetComponent<Renderer>().material = guideEnabledMaterial;
+                guidePathObject.GetComponent<Renderer>().material = guideOnMaterials[0];
             }
             else
             {
-                guidePathObject.GetComponent<Renderer>().material = guideDisabledMaterial;
+                guidePathObject.GetComponent<Renderer>().material = guideOffMaterials[0];
             }
         }
     }
@@ -298,9 +303,6 @@ public class PathGuide : MonoBehaviour
         Path pathComponent = guidePathObject.GetComponent<Path>();
         pathComponent.UpdateVariables(gameObject.GetComponent<PathBuilder>(), (point1, point2, point3));
         pathComponent.InitializeMesh(true, null);
-
-        // Update material
-        guidePathObject.GetComponent<Renderer>().material = guideEnabledMaterial;
     }
 
     void UpdateGuidePath()
@@ -348,11 +350,11 @@ public class PathGuide : MonoBehaviour
             // Handle material
             if (pathHelper.pathBuildable)
             {
-                guideDottedLineObject.GetComponent<LineRenderer>().material = guideEnabledDottedMaterial;
+                guideDottedLineObject.GetComponent<LineRenderer>().material = guidePathMaterials[0];
             }
             else
             {
-                guideDottedLineObject.GetComponent<LineRenderer>().material = guideDisabledDottedMaterial;
+                guideDottedLineObject.GetComponent<LineRenderer>().material = guidePathMaterials[1];
             }
         }
     }
@@ -371,11 +373,11 @@ public class PathGuide : MonoBehaviour
         LineRenderer lineRenderer = guideDottedLineObject.GetComponent<LineRenderer>();
         lineRenderer.alignment = LineAlignment.TransformZ;
         lineRenderer.textureMode = LineTextureMode.Tile;
-        lineRenderer.textureScale = new Vector2(1.3f, 1);
+        lineRenderer.textureScale = new Vector2(0.9f, 1);
         lineRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         lineRenderer.receiveShadows = false;
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
+        lineRenderer.startWidth = 0.3f;
+        lineRenderer.endWidth = 0.3f;
         lineRenderer.numCornerVertices = 10;
         lineRenderer.numCapVertices = 10;
 
@@ -385,9 +387,6 @@ public class PathGuide : MonoBehaviour
         positions[1] = mouseRaycast.GetPosition() + new Vector3(0, meshOffset + 0.02f, 0); ;
         lineRenderer.positionCount = positions.Length;
         lineRenderer.SetPositions(positions);
-
-        // Set material
-        lineRenderer.material = guideEnabledDottedMaterial;
     }
 
     void UpdateGuideDottedLine()
