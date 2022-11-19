@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class PathNode : MonoBehaviour
 {
-    public void InitializeAnimator(RuntimeAnimatorController animatorController)
-    {
-        gameObject.AddComponent<Animator>();
-        gameObject.GetComponent<Animator>().runtimeAnimatorController = animatorController;
-    }
+    public bool snappedNode = false;
 
     public void ShowNode()
     {
@@ -28,7 +24,7 @@ public class PathNode : MonoBehaviour
 
     public void UnsnapNode()
     {
-        gameObject.GetComponent<Animator>().Play("UnsnapPathNode");
+        if (!snappedNode) gameObject.GetComponent<Animator>().Play("UnsnapPathNode");
     }
 
     public void SetInactive()

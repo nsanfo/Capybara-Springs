@@ -227,7 +227,6 @@ public class Path : MonoBehaviour
 
                 // Add node component
                 node.AddComponent<PathNode>();
-                node.GetComponent<PathNode>().InitializeAnimator(nodeAnimatorController);
             }
 
             nodes[i] = node.GetComponent<PathNode>();

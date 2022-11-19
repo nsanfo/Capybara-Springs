@@ -36,11 +36,6 @@ public class PathGuide : MonoBehaviour
     private BuildingModes buildingModes;
     public PathHelper pathHelper = new PathHelper();
 
-    // Outline colors
-    private Color blueOutline = new Color(0.537f, 0.847f, 1.0f, 1f);
-    private Color redOutline = new Color(0.949f, 0.49f, 0.267f, 1f);
-    private Color whiteOutline = new Color(0.427f, 0.486f, 0.529f, 1f);
-
     void Start()
     {
         pathBuilderScript = gameObject.GetComponent<PathBuilder>();
@@ -85,6 +80,9 @@ public class PathGuide : MonoBehaviour
 
         // Update dotted line
         HandleGuideDottedLine();
+
+        // Update mouse snapped node
+        HandleMouseSnappedNode();
     }
 
     void OnDestroy()
@@ -243,8 +241,8 @@ public class PathGuide : MonoBehaviour
         pointObject.GetComponent<Renderer>().materials = guideOnMaterials;
 
         // Set transforms for guide point
-        pointObject.transform.position = position;
-        pointObject.transform.localScale = new Vector3(0.6f, 0.05f, 0.6f);
+        pointObject.transform.position = position + new Vector3(0, 0.028f, 0);
+        pointObject.transform.localScale = new Vector3(0.6f, 0.025f, 0.6f);
 
         return pointObject;
     }
@@ -399,7 +397,16 @@ public class PathGuide : MonoBehaviour
             Vector3[] positions = new Vector3[3];
             positions[0] = pathHelper.pathPoints.Item1 + new Vector3(0, meshOffset + 0.02f, 0); ;
             positions[1] = pathHelper.pathPoints.Item3 + new Vector3(0, meshOffset + 0.02f, 0); ;
-            positions[2] = mouseRaycast.GetPosition() + new Vector3(0, meshOffset + 0.02f, 0); ;
+
+            if (pathHelper.snappedMouseNode != null)
+            {
+                positions[2] = pathHelper.snappedMouseNode.transform.position + new Vector3(0, meshOffset + 0.02f, 0); ;
+            }
+            else
+            {
+                positions[2] = mouseRaycast.GetPosition() + new Vector3(0, meshOffset + 0.02f, 0); ;
+            }
+            
             lineRenderer.positionCount = positions.Length;
             lineRenderer.SetPositions(positions);
         }
@@ -409,9 +416,25 @@ public class PathGuide : MonoBehaviour
             // Set position of points for line renderer
             Vector3[] positions = new Vector3[2];
             positions[0] = pathHelper.pathPoints.Item1 + new Vector3(0, meshOffset + 0.02f, 0); ;
-            positions[1] = mouseRaycast.GetPosition() + new Vector3(0, meshOffset + 0.02f, 0); ;
+
+            if (pathHelper.snappedMouseNode != null)
+            {
+                positions[1] = pathHelper.snappedMouseNode.transform.position + new Vector3(0, meshOffset + 0.02f, 0); ;
+            }
+            else
+            {
+                positions[1] = mouseRaycast.GetPosition() + new Vector3(0, meshOffset + 0.02f, 0); ;
+            }
+
             lineRenderer.positionCount = positions.Length;
             lineRenderer.SetPositions(positions);
         }
+    }
+
+    void HandleMouseSnappedNode()
+    {
+        if (pathHelper.snappedMouseNode == null) return;
+
+        if (!pathHelper.pathBuildable) pathHelper.snappedMouseNode.GetComponent<Animator>().Play("SnapUnbuildablePathNode");
     }
 }

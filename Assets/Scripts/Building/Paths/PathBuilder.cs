@@ -250,6 +250,8 @@ public class PathBuilder : MonoBehaviour
             {
                 pathHelper.snappedInitialNode = pathHelper.snappedMouseNode;
                 pathHelper.pathPoints.Item1 = pathHelper.snappedMouseNode.transform.position;
+
+                pathHelper.snappedInitialNode.snappedNode = true;
             }
             // Set point at mouse raycast position
             else if(pathHelper.mouseBuildable)
@@ -267,20 +269,27 @@ public class PathBuilder : MonoBehaviour
             if (!pathHelper.pathBuildable) return;
             if (!pathHelper.mouseBuildable) return;
 
+            // Unsnap from initial node
+            if (pathHelper.snappedInitialNode != null)
+            {
+                pathHelper.snappedInitialNode.snappedNode = false;
+                pathHelper.snappedInitialNode.UnsnapNode();
+            }
+
             // Set point at snapped node
             if (pathHelper.snappedMouseNode != null)
             {
                 pathHelper.pathPoints.Item2 = pathHelper.snappedMouseNode.transform.position;
-                CreatePath();
-                ResetPathHelper();
             }
             // Set point at mouse raycast position
             else
             {
                 pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
-                CreatePath();
-                ResetPathHelper();
             }
+
+            // Create path
+            CreatePath();
+            ResetPathHelper();
         }
         #endregion
         // Set third point (curved path)
@@ -295,18 +304,20 @@ public class PathBuilder : MonoBehaviour
             // Set second point to complete path
             else if (pathHelper.pathBuildable)
             {
+                // Set point at snapped node
                 if (pathHelper.snappedMouseNode != null)
                 {
                     pathHelper.pathPoints.Item2 = pathHelper.snappedMouseNode.transform.position;
-                    CreatePath();
-                    ResetPathHelper();
                 }
+                // Set point at mouse raycast position
                 else if (pathHelper.mouseBuildable)
                 {
                     pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
-                    CreatePath();
-                    ResetPathHelper();
                 }
+
+                // Create path
+                CreatePath();
+                ResetPathHelper();
             }
         }
         #endregion
@@ -318,6 +329,11 @@ public class PathBuilder : MonoBehaviour
 
         if (pathHelper.pathPoints.Item1 != Vector3.zero)
         {
+            if (pathHelper.snappedInitialNode != null)
+            {
+                pathHelper.snappedInitialNode.snappedNode = false;
+                pathHelper.snappedInitialNode.UnsnapNode();
+            }
             ResetPathHelper();
         }   
     }
@@ -365,7 +381,7 @@ public class PathBuilder : MonoBehaviour
             }
             else
             {
-                if (currNode.gameObject.activeSelf)
+                if (currNode.gameObject.activeSelf && currNode != pathHelper.snappedInitialNode)
                 {
                     currNode.HideNode();
                 }
@@ -412,7 +428,7 @@ public class PathBuilder : MonoBehaviour
             if (pathHelper.curvedPath && pathHelper.pathPoints.Item1 != Vector3.zero && pathHelper.pathPoints.Item3 == Vector3.zero) return;
 
             // Snap only on nodes not previously snapped to
-            if (pathHelper.snappedInitialNode != closestNode.Item1)
+            if (pathHelper.snappedInitialNode != closestNode.Item1 && pathHelper.snappedMouseNode != closestNode.Item1)
             {
                 pathHelper.snappedMouseNode = closestNode.Item1;
                 pathHelper.snappedMouseNode.SnapNode();
