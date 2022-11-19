@@ -272,14 +272,14 @@ public class PathBuilder : MonoBehaviour
             {
                 pathHelper.pathPoints.Item2 = pathHelper.snappedMouseNode.transform.position;
                 CreatePath();
-                pathHelper = new PathHelper();
+                ResetPathHelper();
             }
             // Set point at mouse raycast position
             else
             {
                 pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
                 CreatePath();
-                pathHelper = new PathHelper();
+                ResetPathHelper();
             }
         }
         #endregion
@@ -299,13 +299,13 @@ public class PathBuilder : MonoBehaviour
                 {
                     pathHelper.pathPoints.Item2 = pathHelper.snappedMouseNode.transform.position;
                     CreatePath();
-                    pathHelper = new PathHelper();
+                    ResetPathHelper();
                 }
                 else if (pathHelper.mouseBuildable)
                 {
                     pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
                     CreatePath();
-                    pathHelper = new PathHelper();
+                    ResetPathHelper();
                 }
             }
         }
@@ -316,7 +316,10 @@ public class PathBuilder : MonoBehaviour
     {
         if (!Input.GetMouseButtonDown(1)) return;
 
-        if (pathHelper.pathPoints.Item1 != Vector3.zero) pathHelper = new PathHelper();
+        if (pathHelper.pathPoints.Item1 != Vector3.zero)
+        {
+            ResetPathHelper();
+        }   
     }
 
     void CreatePath()
@@ -421,6 +424,13 @@ public class PathBuilder : MonoBehaviour
             pathHelper.snappedMouseNode.UnsnapNode();
             pathHelper.snappedMouseNode = null;
         }
+    }
+
+    void ResetPathHelper()
+    {
+        bool curvedState = pathHelper.curvedPath;
+        pathHelper = new PathHelper();
+        pathHelper.curvedPath = curvedState;
     }
 
     public void ToggleCurvedPathing()
