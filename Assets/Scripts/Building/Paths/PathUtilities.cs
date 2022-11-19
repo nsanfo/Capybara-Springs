@@ -191,10 +191,10 @@ public static class PathUtilities
 
         // Add collision components
         collider.layer = LayerMask.NameToLayer("Ignore Raycast");
-        collider.AddComponent<SphereCollider>();
-        collider.GetComponent<SphereCollider>().isTrigger = isTrigger;
-        collider.AddComponent<Rigidbody>();
-        collider.GetComponent<Rigidbody>().isKinematic = true;
+        SphereCollider sphereCollider = collider.AddComponent<SphereCollider>();
+        sphereCollider.isTrigger = isTrigger;
+        Rigidbody rigidBody = collider.AddComponent<Rigidbody>();
+        rigidBody.isKinematic = true;
         collider.AddComponent<PathColliderTrigger>();
     }
 }

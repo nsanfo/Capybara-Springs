@@ -176,11 +176,11 @@ public class PathGuide : MonoBehaviour
 
             // Add collision components
             collider.layer = LayerMask.NameToLayer("Ignore Raycast");
-            collider.AddComponent<SphereCollider>();
-            collider.GetComponent<SphereCollider>().isTrigger = true;
-            collider.GetComponent<SphereCollider>().radius = 1.3f;
-            collider.AddComponent<Rigidbody>();
-            collider.GetComponent<Rigidbody>().isKinematic = true;
+            SphereCollider sphereCollider = collider.AddComponent<SphereCollider>();
+            sphereCollider.isTrigger = true;
+            sphereCollider.radius = 1.3f;
+            Rigidbody rigidBody = collider.AddComponent<Rigidbody>();
+            rigidBody.isKinematic = true;
             collider.AddComponent<PathColliderTrigger>();
 
             if (i == 2) currentSide *= -1;
@@ -367,8 +367,7 @@ public class PathGuide : MonoBehaviour
         guideDottedLineObject.transform.Rotate(new Vector3(90, 0, 0));
 
         // Add line renderer component
-        guideDottedLineObject.AddComponent<LineRenderer>();
-        LineRenderer lineRenderer = guideDottedLineObject.GetComponent<LineRenderer>();
+        LineRenderer lineRenderer = guideDottedLineObject.AddComponent<LineRenderer>();
         lineRenderer.alignment = LineAlignment.TransformZ;
         lineRenderer.textureMode = LineTextureMode.Tile;
         lineRenderer.textureScale = new Vector2(0.9f, 1);
@@ -435,6 +434,13 @@ public class PathGuide : MonoBehaviour
     {
         if (pathHelper.snappedMouseNode == null) return;
 
-        if (!pathHelper.pathBuildable) pathHelper.snappedMouseNode.GetComponent<Animator>().Play("SnapUnbuildablePathNode");
+        if (pathHelper.pathBuildable)
+        {
+            pathHelper.snappedMouseNode.GetComponent<Animator>().Play("SnapPathNode");
+        }
+        else
+        {
+            pathHelper.snappedMouseNode.GetComponent<Animator>().Play("SnapUnbuildablePathNode");
+        }
     }
 }

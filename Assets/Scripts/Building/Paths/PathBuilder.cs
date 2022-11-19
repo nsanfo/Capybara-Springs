@@ -252,6 +252,7 @@ public class PathBuilder : MonoBehaviour
                 pathHelper.pathPoints.Item1 = pathHelper.snappedMouseNode.transform.position;
 
                 pathHelper.snappedInitialNode.snappedNode = true;
+                pathHelper.snappedMouseNode = null;
             }
             // Set point at mouse raycast position
             else if(pathHelper.mouseBuildable)
@@ -350,8 +351,7 @@ public class PathBuilder : MonoBehaviour
         if (pathHelper.curvedPath) pathHelper.pathPoints.Item3 = new Vector3(pathHelper.pathPoints.Item3.x, meshOffset, pathHelper.pathPoints.Item3.z);
 
         // Add path component to handle mesh
-        path.AddComponent<Path>();
-        Path pathComponent = path.GetComponent<Path>();
+        Path pathComponent = path.AddComponent<Path>();
         pathComponent.UpdateVariables(this, pathHelper.pathPoints);
         pathComponent.InitializeMesh(false, nodeController);
 
