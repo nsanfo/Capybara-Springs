@@ -67,7 +67,7 @@ public class AmenitiesBuilder : MonoBehaviour
             var balanceScript = stats.GetComponent<Balance>();
             var balance = balanceScript.GetBalance();
             var cost = blueprintScript.GetCost();
-            if (Input.GetMouseButton(1))
+            if (Input.GetKey("r"))
             {
                 var mouseInput = Input.GetAxis("Mouse X");
                 var ray = new Ray(transform.position, transform.forward);
@@ -107,6 +107,11 @@ public class AmenitiesBuilder : MonoBehaviour
                         Destroy(blueprint);
                         balanceScript.AdjustBalance(cost * -1);
                     }
+                }
+
+                if (Input.GetMouseButtonDown(1))
+                {
+                    Destroy(blueprint);
                 }
             }
         }
