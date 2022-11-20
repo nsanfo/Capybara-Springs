@@ -443,4 +443,31 @@ public class PathGuide : MonoBehaviour
             pathHelper.snappedMouseNode.GetComponent<Animator>().Play("SnapUnbuildablePathNode");
         }
     }
+
+    public void ToggleGuides()
+    {
+        if (guidePathObject != null)
+        {
+            Destroy(guidePathObject);
+            guidePathObject = null;
+        }
+
+        if (guideDottedLineObject != null)
+        {
+            Destroy(guideDottedLineObject);
+            guideDottedLineObject = null;
+        }
+
+        if (guidePointObject != null)
+        {
+            Destroy(guidePointObject);
+            guidePointObject = null;
+        }
+
+        if (guideCurvedPointObject != null)
+        {
+            Destroy(guideCurvedPointObject);
+            guideCurvedPointObject = null;
+        }
+    }
 }

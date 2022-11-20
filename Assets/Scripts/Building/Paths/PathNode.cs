@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PathNode : MonoBehaviour
 {
+    private Path[] connectedPaths = new Path[0];
     public bool snappedNode = false;
 
     public void ShowNode()
@@ -40,5 +41,18 @@ public class PathNode : MonoBehaviour
     public Vector3 GetNodePosition()
     {
         return gameObject.transform.position;
+    }
+
+    public void AddPath(Path path)
+    {
+        List<Path> pathList = new List<Path>(connectedPaths);
+        pathList.Add(path);
+
+        connectedPaths = pathList.ToArray();
+    }
+
+    public Path[] GetPaths()
+    {
+        return connectedPaths;
     }
 }

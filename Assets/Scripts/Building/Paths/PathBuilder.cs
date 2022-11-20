@@ -79,7 +79,7 @@ public class PathBuilder : MonoBehaviour
     public float nodeSnapRange = 1.0f;
     public GameObject nodePrefab;
     public RuntimeAnimatorController nodeAnimatorController;
-    public NodeController nodeController;
+    public NodeGraph nodeGraph = new NodeGraph();
 
     // Mouse raycast
     public MouseRaycast mouseRaycast = new MouseRaycast();
@@ -108,9 +108,6 @@ public class PathBuilder : MonoBehaviour
         // Hide path panel at startup
         pathPanel.gameObject.SetActive(false);
         pathCurvedToggle = pathPanel.transform.GetChild(0).gameObject.GetComponent<Toggle>();
-
-        // Initialize node controller
-        nodeController = new NodeController();
     }
 
     void Update()
@@ -135,13 +132,13 @@ public class PathBuilder : MonoBehaviour
         if (!buildingModes.enablePath)
         {
             SetPathCurvePanel(false);
-            if (nodeController.nodesVisible) nodeController.SetNodesVisibility(false);
+            if (nodeGraph.nodesVisible) nodeGraph.SetNodesVisibility(false);
             return false;
         }
         else
         {
             SetPathCurvePanel(true);
-            if (!nodeController.nodesVisible) nodeController.SetNodesVisibility(true);
+            if (!nodeGraph.nodesVisible) nodeGraph.SetNodesVisibility(true);
         }
 
         // Check if pointer is over UI
@@ -305,6 +302,13 @@ public class PathBuilder : MonoBehaviour
             // Set second point to complete path
             else if (pathHelper.pathBuildable)
             {
+                // Unsnap from initial node
+                if (pathHelper.snappedInitialNode != null)
+                {
+                    pathHelper.snappedInitialNode.snappedNode = false;
+                    pathHelper.snappedInitialNode.UnsnapNode();
+                }
+
                 // Set point at snapped node
                 if (pathHelper.snappedMouseNode != null)
                 {
@@ -353,15 +357,15 @@ public class PathBuilder : MonoBehaviour
         // Add path component to handle mesh
         Path pathComponent = path.AddComponent<Path>();
         pathComponent.UpdateVariables(this, pathHelper.pathPoints);
-        pathComponent.InitializeMesh(false, nodeController);
+        pathComponent.InitializeMesh(false, nodeGraph);
 
-        // Add path to node controller
-        nodeController.AddPath(pathComponent);
+        // Add path to node graph
+        nodeGraph.AddPath(pathComponent);
     }
 
     void TrackNearbyNodes()
     {
-        PathNode[] nodes = nodeController.GetNodes();
+        PathNode[] nodes = nodeGraph.GetNodes();
         if (nodes == null) return;
 
         PathNode currNode;
@@ -392,7 +396,7 @@ public class PathBuilder : MonoBehaviour
 
     void SnapToNearbyNode()
     {
-        PathNode[] nodes = nodeController.GetNodes();
+        PathNode[] nodes = nodeGraph.GetNodes();
         if (nodes == null) return;
 
         PathNode currNode;
@@ -451,6 +455,14 @@ public class PathBuilder : MonoBehaviour
 
     public void ToggleCurvedPathing()
     {
+        if (pathHelper.snappedInitialNode != null)
+        {
+            pathHelper.snappedInitialNode.snappedNode = false;
+            pathHelper.snappedInitialNode.UnsnapNode();
+        }
+
+        gameObject.GetComponent<PathGuide>().ToggleGuides();
+
         pathHelper = new PathHelper();
         pathHelper.curvedPath = pathCurvedToggle.isOn;
     }

@@ -32,7 +32,6 @@ public class Path : MonoBehaviour
 
     // Node variables
     private GameObject nodePrefab;
-    private RuntimeAnimatorController nodeAnimatorController;
 
     public void UpdateVariables(PathBuilder pathBuilderScript, (Vector3, Vector3, Vector3) pathPoints)
     {
@@ -47,13 +46,12 @@ public class Path : MonoBehaviour
 
         // Get node variables
         nodePrefab = pathBuilderScript.nodePrefab;
-        nodeAnimatorController = pathBuilderScript.nodeAnimatorController;
 
         // Set points
         this.pathPoints = pathPoints;
 }
 
-    public void InitializeMesh(bool isGuide, NodeController nodeController)
+    public void InitializeMesh(bool isGuide, NodeGraph nodeGraph)
     {
         if (isGuide)
         {
@@ -69,7 +67,7 @@ public class Path : MonoBehaviour
         SetMesh();
         SetMaterialRendering(isGuide);
         CreateCollisions();
-        if (!isGuide) HandleNodes(nodeController);
+        if (!isGuide) HandleNodes(nodeGraph);
     }
 
     private void SetMesh()
@@ -188,7 +186,7 @@ public class Path : MonoBehaviour
         }
     }
 
-    private void HandleNodes(NodeController nodeController)
+    private void HandleNodes(NodeGraph nodeGraph)
     {
         // Create node holder object
         nodeHolder = new GameObject(PathBuilder.NodeNames.NodeHolder.ToString());
@@ -212,7 +210,7 @@ public class Path : MonoBehaviour
                 nodePoint = pathPoints.Item2;
             }
 
-            existingNode = nodeController.CheckExistingNode(nodePoint);
+            existingNode = nodeGraph.CheckExistingNode(nodePoint);
 
             GameObject node;
             if (existingNode != null)
@@ -230,6 +228,7 @@ public class Path : MonoBehaviour
             }
 
             nodes[i] = node.GetComponent<PathNode>();
+            nodes[i].AddPath(this);
         }
     }
 
