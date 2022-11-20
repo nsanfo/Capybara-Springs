@@ -204,11 +204,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
       propertyPath: m_Name
-      value: CapybaraModelNoFur
+      value: Toon Capybara
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
       propertyPath: m_LocalPosition.x
@@ -253,7 +253,16 @@ PrefabInstance:
     - target: {fileID: 9500000, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 61abca048c34b466a9c4255d4ff2a067, type: 2}
+      objectReference: {fileID: 9100000, guid: 2f6870a055cdb2946ac727edaf326e2d, type: 2}
+    - target: {fileID: 9500000, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'Finger.10_L'\n\tTransform 'Finger.20_L'\n\tTransform
+        'Root'\n\tTransform 'Pelvis'\n\tTransform 'Hand_R.001'\n\tTransform 'Spine.2'\n\tTransform
+        'Spine.1'\n\tTransform 'Hand_L'\n\tTransform 'Clavicle_R'\n\tTransform 'Hand_R'\n\tand
+        more ...\n\tFrom animation clip 'WalkForward'"
+      objectReference: {fileID: 0}
     - target: {fileID: 13700000, guid: a6916619251584a5da5eeac9c82e0f23, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
