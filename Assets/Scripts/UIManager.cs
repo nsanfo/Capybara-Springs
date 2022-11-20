@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
         funScript.info = target.GetComponent<CapybaraInfo>();
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (Input.GetMouseButtonDown(0))
         {
