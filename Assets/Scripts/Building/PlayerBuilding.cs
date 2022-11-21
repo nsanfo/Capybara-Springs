@@ -7,12 +7,13 @@ using UnityEngine.UI;
 
 public class BuildingModes
 {
-    public bool enableBuild, enablePath;
+    public bool enableBuild, enablePath, enableAmenities;
 
     public BuildingModes()
     {
         enableBuild = false;
         enablePath = false;
+        enableAmenities = false;
     }
 }
 
@@ -95,6 +96,10 @@ public class PlayerBuilding : MonoBehaviour
             {
                 TogglePathBuilding();
             }
+            if (buildingModes.enableAmenities)
+            {
+                ToggleAmenitiesBuilding();
+            }
         }
 
         // Animate build UI
@@ -108,6 +113,18 @@ public class PlayerBuilding : MonoBehaviour
         // Animate building tip and button
         AnimateBuildUI.AnimateBuildTip(interfacePanels.helpTextPanel, buildingModes.enableBuild);
         AnimateBuildUI.AnimateBuildButton(interfacePanels.buildPanel, buildButtonText, buildingModes.enableBuild);
+    }
+
+    public void ToggleAmenitiesBuilding()
+    {
+        buildingModes.enableAmenities = !buildingModes.enableAmenities;
+
+        var amenitiesObject = GameObject.Find("Canvas").transform.Find("AmenitiesOptions").gameObject;
+        bool activeState = amenitiesObject.activeSelf;
+        amenitiesObject.SetActive(!activeState);
+
+        // Animate amenities UI
+        AnimateBuildUI.AnimateSelectTypeButton2(buildTypeButtons, "AmenitiesButton", buildingModes.enableAmenities);
     }
 
     public void TogglePathBuilding()
