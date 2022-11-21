@@ -14,6 +14,22 @@ public class NodeGraph
     public bool[,] matrix = new bool[0, 0];
     private PathNode[] nodes = new PathNode[0];
 
+    public PathNode[] GetConnectedNodes(PathNode node)
+    {
+        int index = GetNodeIndex(node);
+
+        if (index == -1) return new PathNode[0];
+
+        PathNode[] connectedNodes = new PathNode[matrix.GetLength(1)];
+        
+        for (int i = 0; i < connectedNodes.Length; i++)
+        {
+            if (matrix[index, i]) connectedNodes[i] = nodes[i];
+        }
+
+        return connectedNodes;
+    }
+
     public void AddPath(Path path)
     {
         PathNode[] pathNodes = path.nodes;
