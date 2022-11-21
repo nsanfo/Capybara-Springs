@@ -124,7 +124,7 @@ public class PlayerBuilding : MonoBehaviour
         amenitiesObject.SetActive(!activeState);
 
         // Animate amenities UI
-        AnimateBuildUI.AnimateSelectTypeButton2(buildTypeButtons, "AmenitiesButton", buildingModes.enableAmenities);
+        AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "AmenitiesButton", buildingModes.enableAmenities);
     }
 
     public void TogglePathBuilding()
