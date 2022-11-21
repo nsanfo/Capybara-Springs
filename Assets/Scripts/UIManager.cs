@@ -46,12 +46,14 @@ public class UIManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
+            Physics.Raycast(ray, out hit);
+
             Destroy(detailsInstance);
 
             if (lastSelected != null)
                 selectionScript.deactivateSelection();
 
-            if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.name.StartsWith("Capybara"))
+            if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.name.StartsWith("Toon Capybara"))
             {
                 setCDetailsWindow(hit.transform.gameObject);
                 lastSelected = hit.transform.gameObject;
