@@ -5,19 +5,7 @@ using UnityEngine.UI;
 
 public class AnimateBuildUI
 {
-    public static void AnimateSelectTypeButton(Button[] buildTypeButtons, string typeButtonName, string animationName)
-    {
-        for (int i = 0; i < buildTypeButtons.Length; i++)
-        {
-            if (buildTypeButtons[i].gameObject.name == typeButtonName)
-            {
-                buildTypeButtons[i].GetComponent<Animator>().Play(animationName);
-                return;
-            }
-        }
-    }
-
-    public static void AnimateSelectTypeButton2(Button[] buildTypeButtons, string typeButtonName, bool enableBuild)
+    public static void AnimateSelectTypeButton(Button[] buildTypeButtons, string typeButtonName, bool enableBuild)
     {
         for (int i = 0; i < buildTypeButtons.Length; i++)
         {

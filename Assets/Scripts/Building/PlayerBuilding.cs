@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class BuildingModes
@@ -34,7 +35,7 @@ public class MouseRaycast
 
     public Vector3 GetPosition()
     {
-        return new Vector3(hitInfo.point.x, hitInfo.point.y, hitInfo.point.z);
+        return new Vector3(hitInfo.point.x, 0, hitInfo.point.z);
     }
 }
 
@@ -81,6 +82,7 @@ public class PlayerBuilding : MonoBehaviour
         bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
 
         // Update mouse raycast
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         mouseRaycast.UpdateRaycast(hitInfo, hit);
     }
 
@@ -122,7 +124,7 @@ public class PlayerBuilding : MonoBehaviour
         amenitiesObject.SetActive(!activeState);
 
         // Animate amenities UI
-        AnimateBuildUI.AnimateSelectTypeButton2(buildTypeButtons, "AmenitiesButton", buildingModes.enableAmenities);
+        AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "AmenitiesButton", buildingModes.enableAmenities);
     }
 
     public void TogglePathBuilding()
@@ -135,11 +137,11 @@ public class PlayerBuilding : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<PathBuilder>().HideAllNodes();
+            gameObject.GetComponent<PathBuilder>().pathHelper = new PathHelper();
             Destroy(gameObject.GetComponent<PathGuide>());
         }
 
         // Animate path UI
-        AnimateBuildUI.AnimateSelectTypeButton2(buildTypeButtons, "PathsButton", buildingModes.enablePath);
+        AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PathsButton", buildingModes.enablePath);
     }
 }

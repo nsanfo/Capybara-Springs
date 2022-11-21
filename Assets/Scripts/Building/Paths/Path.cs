@@ -1,116 +1,95 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using System.Net;
 using UnityEngine;
 
 public class Path : MonoBehaviour
 {
-    // Path mesh
-    private Mesh mesh;
-
     // Path settings
-    private float meshOffset;
     private float meshWidth;
     private float meshSpacing;
     private float pointSpacing;
     private float pointResolution;
 
-    // Guide materials
-    private Material guideDefaultMaterial;
-    private Material guideEnabledMaterial;
-    private Material guideDisabledMaterial;
-
     // Path material
     private Material pathMaterial;
 
     // Path variables
-    private (Vector3, Vector3) endpoints;
+    private (Vector3, Vector3, Vector3) pathPoints;
     private Vector3[] spacedPoints;
     private Vector3[] collisionPoints;
 
     // Collision holder
     private GameObject collisionHolder;
-    private GameObject[] colliders;
 
-    // Colider variables
-    string colliderName;
-    bool setColliderTrigger;
+    // Collider variables
+    private string colliderName;
+    private bool setColliderTrigger;
 
     // Node holder
     private GameObject nodeHolder;
-    private GameObject[] nodes;
+    public PathNode[] nodes;
 
     // Node variables
     private GameObject nodePrefab;
-    private RuntimeAnimatorController nodeAnimatorController;
 
-    public void UpdateVariables(PathBuilder pathBuilderScript)
+    public void UpdateVariables(PathBuilder pathBuilderScript, (Vector3, Vector3, Vector3) pathPoints)
     {
-        // Get variables from path builder script
-        meshOffset = pathBuilderScript.meshOffset;
+        // Set path settings
         meshWidth = pathBuilderScript.meshWidth;
         meshSpacing = pathBuilderScript.meshSpacing;
         pointSpacing = pathBuilderScript.pointSpacing;
         pointResolution = pathBuilderScript.pointResolution;
 
-        // Get guide material from path builder script
-        guideDefaultMaterial = pathBuilderScript.guideDefaultMaterial;
-        guideEnabledMaterial = pathBuilderScript.guideEnabledMaterial;
-        guideDisabledMaterial = pathBuilderScript.guideDisabledMaterial;
-
         // Get material from path builder script
         pathMaterial = pathBuilderScript.pathMaterial;
 
-        // Get node variables from path builder script
+        // Get node variables
         nodePrefab = pathBuilderScript.nodePrefab;
-        nodeAnimatorController = pathBuilderScript.nodeAnimatorController;
 
-        // Get endpoints from path builder script
-        endpoints = pathBuilderScript.endpoints;
+        // Set points
+        this.pathPoints = pathPoints;
+}
 
-        // Get evenly spaced points between endpoints
-        Vector3 offsetVector = new Vector3(0, meshOffset, 0);
-        (Vector3, Vector3) offsetEndpoints = (endpoints.Item1 + offsetVector, endpoints.Item2 + offsetVector);
-        spacedPoints = PathUtilities.CalculateEvenlySpacedPoints(offsetEndpoints, pointSpacing, pointResolution);
-
-    }
-
-    public void InitializeMesh(string inputColliderName, bool isGuide)
+    public void InitializeMesh(bool isGuide, NodeGraph nodeGraph)
     {
-        colliderName = inputColliderName;
-        if (isGuide) setColliderTrigger = true;
+        if (isGuide)
+        {
+            colliderName = PathBuilder.GuideNames.GuideCollider.ToString();
+        }
+        else
+        {
+            colliderName = PathBuilder.PathNames.PathCollider.ToString();
+        }
+
+        setColliderTrigger = isGuide;
 
         SetMesh();
         SetMaterialRendering(isGuide);
         CreateCollisions();
-        if (!isGuide) InitializeNodes();
+        if (!isGuide) HandleNodes(nodeGraph);
     }
 
     private void SetMesh()
     {
+        SetPathSpacedPoints();
+
         // Add mesh components
         gameObject.AddComponent<MeshFilter>();
         gameObject.AddComponent<MeshRenderer>();
 
-        mesh = PathUtilities.CreateMesh(spacedPoints, meshWidth);
-        gameObject.GetComponent<MeshFilter>().sharedMesh = mesh;
+        // Set mesh
+        gameObject.GetComponent<MeshFilter>().sharedMesh = PathUtilities.CreateMesh(spacedPoints, meshWidth);
     }
 
-    public void UpdateMesh((Vector3, Vector3) newEndpoints)
+    public void UpdateMesh()
     {
-        // Get evenly spaced points between endpoints
-        Vector3 offsetVector = new Vector3(0, meshOffset, 0);
-        (Vector3, Vector3) offsetEndpoints = (newEndpoints.Item1 + offsetVector, newEndpoints.Item2 + offsetVector);
-        spacedPoints = PathUtilities.CalculateEvenlySpacedPoints(offsetEndpoints, pointSpacing, pointResolution);
-
-        // Update mesh
-        mesh = PathUtilities.CreateMesh(spacedPoints, meshWidth);
-        gameObject.GetComponent<MeshFilter>().sharedMesh = mesh;
-
-        // Recalculate collision points
+        SetPathSpacedPoints();
         SetCollisionPoints();
-        Destroy(collisionHolder);
-        CreateCollisions();
+        UpdateCollisions();
+
+        // Set mesh
+        gameObject.GetComponent<MeshFilter>().sharedMesh = PathUtilities.CreateMesh(spacedPoints, meshWidth);
     }
 
     private void SetMaterialRendering(bool isGuide)
@@ -120,54 +99,14 @@ public class Path : MonoBehaviour
 
         // Update renderer
         Renderer renderer = gameObject.GetComponent<Renderer>();
-        if (isGuide)
-        {
-            renderer.material = guideDefaultMaterial;
-        }
-        else
-        {
-            renderer.material = pathMaterial;
-        }
-        
+        renderer.material = pathMaterial;
         renderer.material.mainTextureScale = new Vector2(1, tiling);
     }
 
     public void UpdateMaterial(Material material)
     {
-        // Update renderer
+        // Update renderer material
         gameObject.GetComponent<Renderer>().material = material;
-    }
-
-    private void CreateCollisions()
-    {
-        SetCollisionPoints();
-
-        List<GameObject> colliderList = new List<GameObject>();
-
-        // Create collision holder object
-        collisionHolder = new GameObject("Collisions");
-        collisionHolder.transform.SetParent(gameObject.transform);
-
-        // Create collision objects
-        for (int i = 0; i < collisionPoints.Length; i++)
-        {
-            // Create collider objects
-            GameObject collider = new GameObject(colliderName);
-            collider.transform.SetParent(collisionHolder.transform);
-            collider.transform.position = collisionPoints[i];
-
-            // Add collision components
-            collider.layer = LayerMask.NameToLayer("Ignore Raycast");
-            collider.AddComponent<SphereCollider>();
-            collider.GetComponent<SphereCollider>().isTrigger = setColliderTrigger;
-            collider.AddComponent<Rigidbody>();
-            collider.GetComponent<Rigidbody>().isKinematic = true;
-            collider.AddComponent<PathColliderTrigger>();
-
-            colliderList.Add(collider);
-        }
-
-        colliders = colliderList.ToArray();
     }
 
     private void SetCollisionPoints()
@@ -175,8 +114,8 @@ public class Path : MonoBehaviour
         List<Vector3> collisionPointsList = new List<Vector3>();
         for (int i = 0; i < spacedPoints.Length; i++)
         {
-            // Every 7 points, add collision
-            if ((i % 7) == 0)
+            // Every 5 points, add collision
+            if ((i % 5) == 0)
             {
                 collisionPointsList.Add(spacedPoints[i]);
             }
@@ -187,21 +126,75 @@ public class Path : MonoBehaviour
         collisionPoints = collisionPointsList.ToArray();
     }
 
-    public void DestroyCollision()
+    private void CreateCollisions()
     {
-        if (collisionHolder == null) return;
+        SetPathSpacedPoints();
+        SetCollisionPoints();
 
-        Destroy(collisionHolder);
-        collisionHolder = null;
+        // Create collision holder object
+        collisionHolder = new GameObject(PathBuilder.PathNames.Collisions.ToString());
+        collisionHolder.transform.SetParent(gameObject.transform);
+
+        // Create collision objects
+        for (int i = 0; i < collisionPoints.Length; i++)
+        {
+            PathUtilities.CreateCollider(colliderName, collisionHolder.transform, collisionPoints[i], setColliderTrigger);
+        }
     }
 
-    private void InitializeNodes()
+    private void UpdateCollisions()
+    {
+        Transform collisionsTransform = gameObject.transform.Find(PathBuilder.PathNames.Collisions.ToString());
+
+        // Add colliders to match points
+        if (collisionPoints.Length > collisionsTransform.childCount)
+        {
+            // Transform existing colliders
+            for (int i = 0; i < collisionsTransform.childCount; i++)
+            {
+                collisionsTransform.transform.GetChild(i).transform.position = collisionPoints[i];
+            }
+
+            // Create new colliders
+            for (int i = collisionsTransform.childCount; i < collisionPoints.Length; i++)
+            {
+                PathUtilities.CreateCollider(colliderName, collisionHolder.transform, collisionPoints[i], setColliderTrigger);
+            }
+        }
+        // Destroy colliders to match points
+        else if (collisionPoints.Length < collisionsTransform.childCount)
+        {
+            // Transform existing colliders
+            for (int i = 0; i < collisionPoints.Length; i++)
+            {
+                collisionsTransform.transform.GetChild(i).transform.position = collisionPoints[i];
+            }
+
+            // Destroy excess colliders
+            for (int i = collisionPoints.Length; i < collisionsTransform.childCount; i++)
+            {
+                Destroy(collisionsTransform.GetChild(i).gameObject);
+            }
+        }
+        // Set new position of existing colliders
+        else
+        {
+            for (int i = 0; i < collisionsTransform.childCount; i++)
+            {
+                collisionsTransform.transform.GetChild(i).transform.position = collisionPoints[i];
+            }
+        }
+    }
+
+    private void HandleNodes(NodeGraph nodeGraph)
     {
         // Create node holder object
-        nodeHolder = new GameObject("Nodes");
+        nodeHolder = new GameObject(PathBuilder.NodeNames.NodeHolder.ToString());
         nodeHolder.transform.SetParent(gameObject.transform);
 
-        nodes = new GameObject[2];
+        nodes = new PathNode[2];
+
+        PathNode existingNode;
 
         // Set nodes
         for (int i = 0; i < 2; i++)
@@ -209,27 +202,45 @@ public class Path : MonoBehaviour
             Vector3 nodePoint;
             if (i == 0)
             {
-                nodePoint = endpoints.Item1;
+                nodePoint = pathPoints.Item1;
+                
             }
             else
             {
-                nodePoint = endpoints.Item2;
+                nodePoint = pathPoints.Item2;
             }
 
-            GameObject node = Instantiate(nodePrefab, nodePoint, Quaternion.identity);
-            node.name = "PathNode";
-            node.transform.SetParent(nodeHolder.transform);
+            existingNode = nodeGraph.CheckExistingNode(nodePoint);
 
-            // Add node component
-            node.AddComponent<PathNode>();
-            node.GetComponent<PathNode>().InitializeAnimator(nodeAnimatorController);
+            GameObject node;
+            if (existingNode != null)
+            {
+                node = existingNode.gameObject;
+            }
+            else
+            {
+                node = Instantiate(nodePrefab, nodePoint, Quaternion.identity);
+                node.name = PathBuilder.NodeNames.Node.ToString();
+                node.transform.SetParent(nodeHolder.transform);
 
-            nodes[i] = node;
+                // Add node component
+                node.AddComponent<PathNode>();
+            }
+
+            nodes[i] = node.GetComponent<PathNode>();
+            nodes[i].AddPath(this);
         }
     }
 
-    public GameObject[] GetNodes()
+    private void SetPathSpacedPoints()
     {
-        return nodes;
+        if (pathPoints.Item3 != Vector3.zero)
+        {
+            spacedPoints = PathUtilities.CalculateSpacedPoints(pathPoints, true, pointSpacing, pointResolution);
+        }
+        else
+        {
+            spacedPoints = PathUtilities.CalculateSpacedPoints(pathPoints, false, pointSpacing, pointResolution);
+        }
     }
 }
