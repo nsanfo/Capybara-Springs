@@ -65,7 +65,7 @@ public class CameraControl : MonoBehaviour
         if (ground.Raycast(ray, out enter))
         {
             intersection = ray.GetPoint(enter);
-            transform.RotateAround(intersection, Vector3.up, mouseInput * 12);
+            transform.RotateAround(intersection, Vector3.up, mouseInput * Time.deltaTime * 1000);
         }
     }
 

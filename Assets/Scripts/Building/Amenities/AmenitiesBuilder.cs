@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 
 public class AmenitiesBuilder : MonoBehaviour
 {
@@ -12,7 +14,8 @@ public class AmenitiesBuilder : MonoBehaviour
 
     GameObject stats;
     GameObject blueprint;
-    bool red = false;
+    bool red = false, rotating = false;
+    Vector2 originalMousePos;
     
     // Start is called before the first frame update
     void Start()
@@ -69,12 +72,27 @@ public class AmenitiesBuilder : MonoBehaviour
             var cost = blueprintScript.GetCost();
             if (Input.GetKey("r"))
             {
+                if (!rotating)
+                {
+                    rotating = true;
+                    Cursor.visible = false;
+                    originalMousePos = Mouse.current.position.ReadValue();
+                }
+
                 var mouseInput = Input.GetAxis("Mouse X");
                 var ray = new Ray(transform.position, transform.forward);
-                blueprint.transform.Rotate(Vector3.up, mouseInput * 2);
+                blueprint.transform.Rotate(Vector3.up, mouseInput * Time.deltaTime * 250);
             }
             else
             {
+                if (rotating)
+                {
+                    rotating = false;
+                    Cursor.visible = true;
+                    Mouse.current.WarpCursorPosition(originalMousePos);
+                    InputState.Change(Mouse.current.position, originalMousePos);
+                }
+
                 RaycastHit hitInfo = new RaycastHit();
                 bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
 
