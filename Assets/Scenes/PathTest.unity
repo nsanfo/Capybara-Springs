@@ -1653,7 +1653,7 @@ MonoBehaviour:
   pointResolution: 1
   meshSpacing: 1
   meshWidth: 1
-  meshOffset: 0.01
+  meshOffset: 0.001
   pathPanel: {fileID: 1993131144}
   pathCurvedToggle: {fileID: 0}
   guideDefaultMaterials:
