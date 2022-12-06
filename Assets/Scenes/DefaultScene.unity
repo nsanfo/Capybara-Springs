@@ -2983,7 +2983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cad37c2c96d72343a453998d3d784a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hotspringBlueprint: {fileID: 232570355438386335, guid: aedd38a90b7564a4dbb8a96a366c68b6, type: 3}
+  hotspringBlueprint: {fileID: 7295815698910230546, guid: 39c74e273831d074ea05410fc441a3e8, type: 3}
   blueprintMat: {fileID: 2100000, guid: 1bd5c9d915e44e1479b19d685772db98, type: 2}
 --- !u!114 &1815235761
 MonoBehaviour:

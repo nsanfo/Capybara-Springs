@@ -118,6 +118,12 @@ public class PlayerBuilding : MonoBehaviour
     public void ToggleAmenitiesBuilding()
     {
         buildingModes.enableAmenities = !buildingModes.enableAmenities;
+        
+        if (buildingModes.enablePath)
+        {
+            buildingModes.enablePath = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PathsButton", buildingModes.enablePath);
+        }
 
         var amenitiesObject = GameObject.Find("Canvas").transform.Find("AmenitiesOptions").gameObject;
         bool activeState = amenitiesObject.activeSelf;
@@ -130,6 +136,14 @@ public class PlayerBuilding : MonoBehaviour
     public void TogglePathBuilding()
     {
         buildingModes.enablePath = !buildingModes.enablePath;
+        
+        if (buildingModes.enableAmenities)
+        {
+            buildingModes.enableAmenities = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "AmenitiesButton", buildingModes.enableAmenities);
+            var amenitiesObject = GameObject.Find("Canvas").transform.Find("AmenitiesOptions").gameObject;
+            amenitiesObject.SetActive(false);
+        }
 
         if (buildingModes.enablePath)
         {
