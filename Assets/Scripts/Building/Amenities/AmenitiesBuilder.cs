@@ -7,7 +7,9 @@ using UnityEngine.InputSystem.LowLevel;
 public class AmenitiesBuilder : MonoBehaviour
 {
     [Header("Amenity Blueprints")]
-    public GameObject hotspringBlueprint;
+    public GameObject smallOnsenBlueprint;
+    public GameObject mediumOnsenBlueprint;
+    public GameObject largeOnsenBlueprint;
 
     [Header("Blueprint Material")]
     public Material blueprintMat;
@@ -23,16 +25,16 @@ public class AmenitiesBuilder : MonoBehaviour
         stats = GameObject.Find("Stats");
     }
 
-    public void HotspringSelect()
+    public void SmallOnsenSelect()
     {
-        if (blueprint != null && blueprint.name.StartsWith("Hotspring"))
+        if (blueprint != null && blueprint.name.StartsWith("SmallOnsen"))
         {
             Destroy(blueprint);
         }
         else if (blueprint != null)
         {
             Destroy(blueprint);
-            blueprint = Instantiate(hotspringBlueprint);
+            blueprint = Instantiate(smallOnsenBlueprint);
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -47,7 +49,83 @@ public class AmenitiesBuilder : MonoBehaviour
         }
         else if (blueprint == null)
         {
-            blueprint = Instantiate(hotspringBlueprint);
+            blueprint = Instantiate(smallOnsenBlueprint);
+            if (red)
+            {
+                var redColor = new Color(1f, 0f, 0f, 0.27f);
+                blueprintMat.SetColor("_Color", redColor);
+            }
+            else
+            {
+                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
+                blueprintMat.SetColor("_Color", blueColor);
+            }
+        }
+    }
+
+    public void MediumOnsenSelect()
+    {
+        if (blueprint != null && blueprint.name.StartsWith("MediumOnsen"))
+        {
+            Destroy(blueprint);
+        }
+        else if (blueprint != null)
+        {
+            Destroy(blueprint);
+            blueprint = Instantiate(mediumOnsenBlueprint);
+            if (red)
+            {
+                var redColor = new Color(1f, 0f, 0f, 0.27f);
+                blueprintMat.SetColor("_Color", redColor);
+            }
+            else
+            {
+
+                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
+                blueprintMat.SetColor("_Color", blueColor);
+            }
+        }
+        else if (blueprint == null)
+        {
+            blueprint = Instantiate(mediumOnsenBlueprint);
+            if (red)
+            {
+                var redColor = new Color(1f, 0f, 0f, 0.27f);
+                blueprintMat.SetColor("_Color", redColor);
+            }
+            else
+            {
+                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
+                blueprintMat.SetColor("_Color", blueColor);
+            }
+        }
+    }
+
+    public void LargeOnsenSelect()
+    {
+        if (blueprint != null && blueprint.name.StartsWith("LargeOnsen"))
+        {
+            Destroy(blueprint);
+        }
+        else if (blueprint != null)
+        {
+            Destroy(blueprint);
+            blueprint = Instantiate(largeOnsenBlueprint);
+            if (red)
+            {
+                var redColor = new Color(1f, 0f, 0f, 0.27f);
+                blueprintMat.SetColor("_Color", redColor);
+            }
+            else
+            {
+
+                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
+                blueprintMat.SetColor("_Color", blueColor);
+            }
+        }
+        else if (blueprint == null)
+        {
+            blueprint = Instantiate(largeOnsenBlueprint);
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
