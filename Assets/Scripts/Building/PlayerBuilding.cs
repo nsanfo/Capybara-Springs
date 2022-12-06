@@ -123,6 +123,8 @@ public class PlayerBuilding : MonoBehaviour
         {
             buildingModes.enablePath = false;
             AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PathsButton", buildingModes.enablePath);
+            gameObject.GetComponent<PathBuilder>().pathHelper = new PathHelper();
+            Destroy(gameObject.GetComponent<PathGuide>());
         }
 
         var amenitiesObject = GameObject.Find("Canvas").transform.Find("AmenitiesOptions").gameObject;
