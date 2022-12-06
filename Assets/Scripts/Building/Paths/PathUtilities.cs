@@ -6,6 +6,51 @@ using UnityEngine;
 
 public static class PathUtilities
 {
+    public static Vector3[] CalculateSpacedPoints((Vector3, Vector3, Vector3) pathPoints, bool isCurved, float spacing, float resolution = 1)
+    {
+        List<Vector3> evenlySpacedPoints = new List<Vector3>();
+        evenlySpacedPoints.Add(pathPoints.Item1);
+        Vector3 previousPoint = pathPoints.Item1;
+
+        float distSinceLastEvenPoint = 0;
+
+        float controlNetLength = Vector3.Distance(pathPoints.Item1, pathPoints.Item2);
+        float estimatedLength = Vector3.Distance(pathPoints.Item1, pathPoints.Item2) + controlNetLength / 2f;
+        int divisions = Mathf.CeilToInt(estimatedLength * resolution * 10);
+        float t = 0;
+        while (t <= 1)
+        {
+            t += 0.1f / divisions;
+            Vector3 pointOnCurve;
+            if (isCurved)
+            {
+                pointOnCurve = Bezier.EvaluateQuadratic(pathPoints.Item1, pathPoints.Item3, pathPoints.Item2, t);
+            }
+            else
+            {
+                pointOnCurve = Bezier.EvaluateLinear(pathPoints.Item1, pathPoints.Item2, t);
+            }
+            distSinceLastEvenPoint += Vector3.Distance(previousPoint, pointOnCurve);
+
+            // Calculate overshoot
+            while (distSinceLastEvenPoint >= spacing)
+            {
+                float overshootDist = distSinceLastEvenPoint - spacing;
+                Vector3 newEvenlySpacedPoint = pointOnCurve + (previousPoint - pointOnCurve).normalized * overshootDist;
+                evenlySpacedPoints.Add(newEvenlySpacedPoint);
+                distSinceLastEvenPoint = overshootDist;
+                previousPoint = newEvenlySpacedPoint;
+            }
+
+            previousPoint = pointOnCurve;
+        }
+
+        // Adds the last point (clicked endpoint) to the array
+        evenlySpacedPoints.Add(pathPoints.Item2);
+
+        return evenlySpacedPoints.ToArray();
+    }
+
     public static Vector3[] CalculateEvenlySpacedPoints((Vector3, Vector3) pointTuple, float spacing, float resolution = 1)
     {
         List<Vector3> evenlySpacedPoints = new List<Vector3>();
@@ -131,9 +176,25 @@ public static class PathUtilities
 
         for (int i = skipTo; i < collisionsTransform.childCount - skipFromEnd; i++)
         {
-            if (collisionsTransform.GetChild(i).GetComponent<PathColliderTrigger>().GetCollision() == true) return true;
+            if (collisionsTransform.GetChild(i).GetComponent<PathColliderTrigger>().isPathCollision == true) return true;
         }
 
         return false;
+    }
+
+    public static void CreateCollider(string colliderName, Transform collisionHolder, Vector3 position, bool isTrigger)
+    {
+        // Create collider objects
+        GameObject collider = new GameObject(colliderName);
+        collider.transform.SetParent(collisionHolder.transform);
+        collider.transform.position = position;
+
+        // Add collision components
+        collider.layer = LayerMask.NameToLayer("Ignore Raycast");
+        SphereCollider sphereCollider = collider.AddComponent<SphereCollider>();
+        sphereCollider.isTrigger = isTrigger;
+        Rigidbody rigidBody = collider.AddComponent<Rigidbody>();
+        rigidBody.isKinematic = true;
+        collider.AddComponent<PathColliderTrigger>();
     }
 }

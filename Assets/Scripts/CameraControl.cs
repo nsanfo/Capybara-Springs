@@ -65,7 +65,7 @@ public class CameraControl : MonoBehaviour
         if (ground.Raycast(ray, out enter))
         {
             intersection = ray.GetPoint(enter);
-            transform.RotateAround(intersection, Vector3.up, mouseInput * 12);
+            transform.RotateAround(intersection, Vector3.up, mouseInput * Time.deltaTime * 1000);
         }
     }
 
@@ -78,10 +78,12 @@ public class CameraControl : MonoBehaviour
 
         KeyMove();
 
+        /*
         if (Input.mousePosition.y >= Screen.height * 0.995 || Input.mousePosition.y <= Screen.height * 0.005 || Input.mousePosition.x >= Screen.width * 0.995 || Input.mousePosition.x <= Screen.width * 0.005)
         {
             EdgeMove();
         }
+        */
 
         Zoom();
 

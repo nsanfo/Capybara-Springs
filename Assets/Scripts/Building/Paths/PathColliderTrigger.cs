@@ -5,11 +5,11 @@ using System;
 
 public class PathColliderTrigger : MonoBehaviour
 {
-    private bool isPathCollision;
+    public bool isPathCollision;
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.name == "PathCollider")
+        if (collider.gameObject.name == PathBuilder.PathNames.PathCollider.ToString())
         {
             isPathCollision = true;
         }
@@ -17,14 +17,9 @@ public class PathColliderTrigger : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
-        if (collider.gameObject.name == "PathCollider")
+        if (collider.gameObject.name == PathBuilder.PathNames.PathCollider.ToString())
         {
             isPathCollision = false;
         }
-    }
-
-    public bool GetCollision()
-    {
-        return isPathCollision;
     }
 }

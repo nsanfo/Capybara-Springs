@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class BuildingModes
 {
-    public bool enableBuild, enablePath;
+    public bool enableBuild, enablePath, enableAmenities;
 
     public BuildingModes()
     {
         enableBuild = false;
         enablePath = false;
+        enableAmenities = false;
     }
 }
 
@@ -33,7 +35,7 @@ public class MouseRaycast
 
     public Vector3 GetPosition()
     {
-        return new Vector3(hitInfo.point.x, hitInfo.point.y, hitInfo.point.z);
+        return new Vector3(hitInfo.point.x, 0, hitInfo.point.z);
     }
 }
 
@@ -80,6 +82,7 @@ public class PlayerBuilding : MonoBehaviour
         bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
 
         // Update mouse raycast
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         mouseRaycast.UpdateRaycast(hitInfo, hit);
     }
 
@@ -92,6 +95,10 @@ public class PlayerBuilding : MonoBehaviour
             if (buildingModes.enablePath)
             {
                 TogglePathBuilding();
+            }
+            if (buildingModes.enableAmenities)
+            {
+                ToggleAmenitiesBuilding();
             }
         }
 
@@ -108,9 +115,37 @@ public class PlayerBuilding : MonoBehaviour
         AnimateBuildUI.AnimateBuildButton(interfacePanels.buildPanel, buildButtonText, buildingModes.enableBuild);
     }
 
+    public void ToggleAmenitiesBuilding()
+    {
+        buildingModes.enableAmenities = !buildingModes.enableAmenities;
+        
+        if (buildingModes.enablePath)
+        {
+            buildingModes.enablePath = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PathsButton", buildingModes.enablePath);
+            gameObject.GetComponent<PathBuilder>().pathHelper = new PathHelper();
+            Destroy(gameObject.GetComponent<PathGuide>());
+        }
+
+        var amenitiesObject = GameObject.Find("Canvas").transform.Find("AmenitiesOptions").gameObject;
+        bool activeState = amenitiesObject.activeSelf;
+        amenitiesObject.SetActive(!activeState);
+
+        // Animate amenities UI
+        AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "AmenitiesButton", buildingModes.enableAmenities);
+    }
+
     public void TogglePathBuilding()
     {
         buildingModes.enablePath = !buildingModes.enablePath;
+        
+        if (buildingModes.enableAmenities)
+        {
+            buildingModes.enableAmenities = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "AmenitiesButton", buildingModes.enableAmenities);
+            var amenitiesObject = GameObject.Find("Canvas").transform.Find("AmenitiesOptions").gameObject;
+            amenitiesObject.SetActive(false);
+        }
 
         if (buildingModes.enablePath)
         {
@@ -118,11 +153,11 @@ public class PlayerBuilding : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<PathBuilder>().HideAllNodes();
+            gameObject.GetComponent<PathBuilder>().pathHelper = new PathHelper();
             Destroy(gameObject.GetComponent<PathGuide>());
         }
 
         // Animate path UI
-        AnimateBuildUI.AnimateSelectTypeButton2(buildTypeButtons, "PathsButton", buildingModes.enablePath);
+        AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PathsButton", buildingModes.enablePath);
     }
 }

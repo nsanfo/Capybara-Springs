@@ -4,23 +4,8 @@ using UnityEngine;
 
 public class PathNode : MonoBehaviour
 {
-    private bool isSelected = false;
-
-    void Start()
-    {
-        gameObject.SetActive(false);
-    }
-
-    public void InitializeAnimator(RuntimeAnimatorController animatorController)
-    {
-        gameObject.AddComponent<Animator>();
-        gameObject.GetComponent<Animator>().runtimeAnimatorController = animatorController;
-    }
-
-    public void UpdatePosition(Vector3 position)
-    {
-        gameObject.transform.position = position;
-    }
+    private Path[] connectedPaths = new Path[0];
+    public bool snappedNode = false;
 
     public void ShowNode()
     {
@@ -30,10 +15,7 @@ public class PathNode : MonoBehaviour
 
     public void HideNode()
     {
-        if (!isSelected)
-        {
-            gameObject.GetComponent<Animator>().Play("HidePathNode");
-        }
+        gameObject.GetComponent<Animator>().Play("HidePathNode");
     }
 
     public void SnapNode()
@@ -43,16 +25,34 @@ public class PathNode : MonoBehaviour
 
     public void UnsnapNode()
     {
-        gameObject.GetComponent<Animator>().Play("UnsnapPathNode");
+        if (!snappedNode) gameObject.GetComponent<Animator>().Play("UnsnapPathNode");
     }
 
-    public void SetOff()
+    public void SetInactive()
     {
         gameObject.SetActive(false);
     }
 
-    public void SetSelected(bool selection)
+    public GameObject GetNodeGameObject()
     {
-        isSelected = selection;
+        return gameObject;
+    }
+
+    public Vector3 GetNodePosition()
+    {
+        return gameObject.transform.position;
+    }
+
+    public void AddPath(Path path)
+    {
+        List<Path> pathList = new List<Path>(connectedPaths);
+        pathList.Add(path);
+
+        connectedPaths = pathList.ToArray();
+    }
+
+    public Path[] GetPaths()
+    {
+        return connectedPaths;
     }
 }

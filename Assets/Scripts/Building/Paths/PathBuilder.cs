@@ -2,28 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class PathingBuilder
+public class PathHelper
 {
-    public bool pathBuildable, point1Buildable, point2Buildable, point1Snapped;
-    public PathNode[] snappedNodePoints;
-    public PathNode currentSnappedNode;
+    public bool pathBuildable, mouseBuildable, curvedPath;
+    public PathNode snappedMouseNode;
+    public PathNode snappedInitialNode;
+    public  (Vector3, Vector3, Vector3) pathPoints;
 
-    public PathingBuilder()
+    public PathHelper()
     {
         pathBuildable = true;
-        point1Buildable = true;
-        point2Buildable = true;
-        point1Snapped = false;
-        currentSnappedNode = null;
-        snappedNodePoints = new PathNode[2];
+        mouseBuildable = true;
+        curvedPath = false;
+        snappedMouseNode = null;
+        snappedInitialNode = null;
+        pathPoints = (Vector3.zero, Vector3.zero, Vector3.zero);
     }
 }
 
 public class PathBuilder : MonoBehaviour
 {
-    [Header("Builder Variables")]
-    public GameObject buildingObject;
+    public enum GuideNames
+    {
+        GuideHandler, GuideMouse, GuidePoint, GuideCurvedPoint, GuidePath, GuideDottedLine, GuideCollider
+    }
+
+    public enum PathNames
+    {
+        PathHolder, Path, PathCollider, Collisions
+    }
+
+    public enum NodeNames
+    {
+        NodeHolder, Node
+    }
+
+    [Space(10)]
+    [Header("Path Variables")]
+    public float pathMinLength = 2.0f;
+    public int pathCollisionGrace = 3;
+    public float pathCurvedMinAngle = 35.0f;
 
     [Space(10)]
     [Header("Path Point Variables")]
@@ -39,10 +59,17 @@ public class PathBuilder : MonoBehaviour
     public float meshOffset = 0.01f;
 
     [Space(10)]
+    [Header("Path Setting UI")]
+    public CanvasRenderer pathPanel;
+    [HideInInspector]
+    public Toggle pathCurvedToggle;
+
+    [Space(10)]
     [Header("Textures")]
-    public Material guideDefaultMaterial;
-    public Material guideEnabledMaterial;
-    public Material guideDisabledMaterial;
+    public Material[] guideDefaultMaterials;
+    public Material[] guideOnMaterials;
+    public Material[] guideOffMaterials;
+    public Material[] guidePathMaterials;
     [Space(5)]
     public Material pathMaterial;
 
@@ -52,31 +79,18 @@ public class PathBuilder : MonoBehaviour
     public float nodeSnapRange = 1.0f;
     public GameObject nodePrefab;
     public RuntimeAnimatorController nodeAnimatorController;
-
-    // Building variables
-    private BuildingModes buildingModes;
-    public PathingBuilder pathingBuilder = new PathingBuilder();
+    public NodeGraph nodeGraph = new NodeGraph();
 
     // Mouse raycast
     public MouseRaycast mouseRaycast = new MouseRaycast();
 
-    // Path variables
-    public (Vector3, Vector3) endpoints;
+    // Building variables
+    private BuildingModes buildingModes;
+    public PathHelper pathHelper = new PathHelper();
+
+    // Path Variables
     private GameObject pathsHolder;
-    private GameObject[] paths;
 
-    // Node variables
-    //public (PathNode, Vector3) nodeSnapPosition;
-    private GameObject[] nodes;
-    private bool nodesHidden = true;
-
-    // Guide names
-    public string guideHandlerName = "GuideHandler";
-    public string guideMouseName = "GuideMouse";
-    public string guidePointName = "GuidePoint";
-    public string guidePathName = "GuidePath";
-
-    // Start is called before the first frame update
     void Start()
     {
         PlayerBuilding buildingScript = gameObject.GetComponent<PlayerBuilding>();
@@ -87,173 +101,277 @@ public class PathBuilder : MonoBehaviour
         // Get raycast from building script
         mouseRaycast = buildingScript.mouseRaycast;
 
-        // Create a paths object if one does not exist
-        pathsHolder = GameObject.Find("Paths");
-        if (pathsHolder == null) pathsHolder = new GameObject("Paths");
+        // Create path holder object
+        pathsHolder = GameObject.Find(PathNames.PathHolder.ToString());
+        if (pathsHolder == null) pathsHolder = new GameObject(PathNames.PathHolder.ToString());
+
+        // Hide path panel at startup
+        pathPanel.gameObject.SetActive(false);
+        pathCurvedToggle = pathPanel.transform.GetChild(0).gameObject.GetComponent<Toggle>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Check building
+        // Check to update
+        if (!CheckIfUpdate()) return;
+
+        // Update path helper
+        UpdatePathHelper();
+
+        // Track nodes
+        TrackNearbyNodes();
+
+        // Check mouse inputs
+        CheckLeftMouseInput();
+        CheckRightMouseInput();
+    }
+
+    bool CheckIfUpdate()
+    {
+        // Check if path is buildable
         if (!buildingModes.enablePath)
         {
-            //if (buildingModes.enablePath && (nodesHidden == false && nodes != null)) HideAllNodes();
-            return;
-        }
-
-        // Check if cursor is over UI, check for raycast hit
-        #region CursorAndRaycast
-
-        if (EventSystem.current.IsPointerOverGameObject()) return;
-
-        // Check for raycast hit
-        if (!mouseRaycast.CheckHit()) return;
-        #endregion
-
-        // Update path building depending on points snapped to
-        #region UpdatePathBuilding
-        if (pathingBuilder.point1Snapped && pathingBuilder.currentSnappedNode != null)
-        {
-            pathingBuilder.pathBuildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guidePathName + "/Collisions", 3, 3);
-        }
-        else if (!pathingBuilder.point1Snapped && pathingBuilder.currentSnappedNode != null)
-        {
-            pathingBuilder.pathBuildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guidePathName + "/Collisions", 0, 3);
-        }
-        else if (pathingBuilder.point1Snapped)
-        {
-            pathingBuilder.pathBuildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guidePathName + "/Collisions", 3);
+            SetPathCurvePanel(false);
+            if (nodeGraph.nodesVisible) nodeGraph.SetNodesVisibility(false);
+            return false;
         }
         else
         {
-            pathingBuilder.pathBuildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guidePathName + "/Collisions");
+            SetPathCurvePanel(true);
+            if (!nodeGraph.nodesVisible) nodeGraph.SetNodesVisibility(true);
+        }
+
+        // Check if pointer is over UI
+        if (EventSystem.current.IsPointerOverGameObject()) return false;
+
+        // Check for raycast hit
+        if (!mouseRaycast.CheckHit()) return false;
+
+        return true;
+    }
+
+    void SetPathCurvePanel(bool activeState)
+    {
+        if (activeState)
+        {
+            if (!pathPanel.gameObject.activeSelf) pathPanel.gameObject.SetActive(true);
+        }
+        else
+        {
+            if (pathPanel.gameObject.activeSelf) pathPanel.gameObject.SetActive(false);
+        }
+    }
+
+    void UpdatePathHelper()
+    {
+        // Check for snapping
+        SnapToNearbyNode();
+
+        // Check for path collision
+        #region CheckPathCollision
+        string pathDirectory = GuideNames.GuideHandler.ToString() + "/" + GuideNames.GuidePath.ToString() + "/" + PathNames.Collisions.ToString();
+        
+        // Grace on both sides snapped
+        if (pathHelper.snappedInitialNode != null && pathHelper.snappedMouseNode != null)
+        {
+            pathHelper.pathBuildable = !PathUtilities.CheckForCollision(gameObject, pathDirectory, pathCollisionGrace, pathCollisionGrace);
+        }
+        // Grace on mouse side snapped
+        else if (pathHelper.snappedInitialNode == null && pathHelper.snappedMouseNode != null)
+        {
+            pathHelper.pathBuildable = !PathUtilities.CheckForCollision(gameObject, pathDirectory, 0, pathCollisionGrace);
+        }
+        // Grace on first side snapped
+        else if (pathHelper.snappedInitialNode != null)
+        {
+            pathHelper.pathBuildable = !PathUtilities.CheckForCollision(gameObject, pathDirectory, pathCollisionGrace);
+        }
+        // No grace
+        else
+        {
+            pathHelper.pathBuildable = !PathUtilities.CheckForCollision(gameObject, pathDirectory);
         }
         #endregion
 
-        #region UpdatePointBuildables
-        if (endpoints.Item1 == Vector3.zero)
+        // Check for mouse collision
+        #region CheckMouseCollision
+        string mouseDirectory = GuideNames.GuideHandler.ToString() + "/" + GuideNames.GuideMouse.ToString() + "/" + PathNames.Collisions.ToString();
+        if (pathHelper.snappedMouseNode != null)
         {
-            // Check for collision 1
-            pathingBuilder.point1Buildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guideMouseName + "/Collisions");
+            pathHelper.mouseBuildable = true;
         }
-        else if (endpoints.Item2 == Vector3.zero)
+        else
         {
-            // Check for collision 2
-            pathingBuilder.point2Buildable = !PathUtilities.CheckForCollision(gameObject, guideHandlerName + "/" + guideMouseName + "/Collisions");
+            pathHelper.mouseBuildable = !PathUtilities.CheckForCollision(gameObject, mouseDirectory);
         }
         #endregion
 
-        // Placing points and building paths
-        #region InputLeftMouse
-        if (Input.GetMouseButtonDown(0))
+        // Check for path minimum length
+        #region CheckPathMinimumLength
+        if (pathHelper.pathPoints.Item1 != Vector3.zero && pathHelper.pathBuildable)
         {
-            // Set first points
-            if (endpoints.Item1 == Vector3.zero)
+            if ((pathHelper.pathPoints.Item1 - mouseRaycast.GetPosition()).sqrMagnitude < pathMinLength)
             {
-                // Check if cursor snapped to node
-                if (pathingBuilder.currentSnappedNode == null)
-                {
-                    if (pathingBuilder.point1Buildable) endpoints.Item1 = mouseRaycast.GetPosition();
-                }
-                else
-                {
-                    pathingBuilder.point1Snapped = true;
-                    pathingBuilder.snappedNodePoints[0] = pathingBuilder.currentSnappedNode;
-                    endpoints.Item1 = pathingBuilder.snappedNodePoints[0].transform.position;
-                }
+                pathHelper.pathBuildable = false;
             }
-            // Set second point
-            else if (endpoints.Item2 == Vector3.zero)
+        }
+        #endregion
+
+        // Check for curved pathing
+        #region CheckCurvedPathing
+        if (pathHelper.curvedPath)
+        {
+            // Check curved path angle
+            if (pathHelper.pathPoints.Item1 != Vector3.zero && pathHelper.pathPoints.Item3 != Vector3.zero)
             {
-                if (pathingBuilder.pathBuildable)
-                {
-                    if (pathingBuilder.point2Buildable)
-                    {
-                        endpoints.Item2 = mouseRaycast.GetPosition();
-                        CreatePath();
-                        endpoints.Item1 = Vector3.zero;
-                        endpoints.Item2 = Vector3.zero;
-                        ResetPathingBuilder();
-                    }
-                    else if (pathingBuilder.currentSnappedNode != null)
-                    {
-                        pathingBuilder.snappedNodePoints[1] = pathingBuilder.currentSnappedNode;
-                        endpoints.Item2 = pathingBuilder.snappedNodePoints[1].transform.position;
-                        CreatePath();
-                        endpoints.Item1 = Vector3.zero;
-                        endpoints.Item2 = Vector3.zero;
-                        ResetPathingBuilder();
-                    }
-                }
+                float angle = Vector3.Angle(pathHelper.pathPoints.Item1 - pathHelper.pathPoints.Item3, mouseRaycast.GetPosition() - pathHelper.pathPoints.Item3);
+                if (angle < pathCurvedMinAngle) pathHelper.pathBuildable = false;
+            }
+
+            // Check curve point building
+            if (pathHelper.pathPoints.Item3 == Vector3.zero) pathHelper.mouseBuildable = true;
+        }
+        #endregion
+    }
+
+    void CheckLeftMouseInput()
+    {
+        if (!Input.GetMouseButtonDown(0)) return;
+
+        // Set first point
+        #region SetFirstPoint
+        if (pathHelper.pathPoints.Item1 == Vector3.zero)
+        {
+            // Set point at snapped node
+            if (pathHelper.snappedMouseNode != null)
+            {
+                pathHelper.snappedInitialNode = pathHelper.snappedMouseNode;
+                pathHelper.pathPoints.Item1 = pathHelper.snappedMouseNode.transform.position;
+
+                pathHelper.snappedInitialNode.snappedNode = true;
+                pathHelper.snappedMouseNode = null;
+            }
+            // Set point at mouse raycast position
+            else if(pathHelper.mouseBuildable)
+            {
+                pathHelper.pathPoints.Item1 = mouseRaycast.GetPosition();
             }
         }
         #endregion
-
-        // Cancel building
-        #region InputRightMouse
-        else if (Input.GetMouseButtonDown(1))
+        // Set second point to complete path (linear path)
+        #region SetLinearSecondPoint
+        else if (!pathHelper.curvedPath)
         {
-            if (endpoints.Item1 != Vector3.zero) endpoints.Item1 = Vector3.zero;
-            ResetPathingBuilder();
+            // Check if second point and path can be created
+            if (pathHelper.pathPoints.Item2 != Vector3.zero) return;
+            if (!pathHelper.pathBuildable) return;
+            if (!pathHelper.mouseBuildable) return;
+
+            // Unsnap from initial node
+            if (pathHelper.snappedInitialNode != null)
+            {
+                pathHelper.snappedInitialNode.snappedNode = false;
+                pathHelper.snappedInitialNode.UnsnapNode();
+            }
+
+            // Set point at snapped node
+            if (pathHelper.snappedMouseNode != null)
+            {
+                pathHelper.pathPoints.Item2 = pathHelper.snappedMouseNode.transform.position;
+            }
+            // Set point at mouse raycast position
+            else
+            {
+                pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
+            }
+
+            // Create path
+            CreatePath();
+            ResetPathHelper();
         }
         #endregion
-
-        // Track path nodes near cursor
-        #region TrackNodes
-        if (nodes != null)
+        // Set third point (curved path)
+        #region SetCurvedThirdPoint
+        else if (pathHelper.curvedPath)
         {
-            TrackNearbyNodes();
-            SnapToNearbyNode();
+            // Set curved point
+            if (pathHelper.mouseBuildable && pathHelper.pathPoints.Item3 == Vector3.zero)
+            {
+                pathHelper.pathPoints.Item3 = mouseRaycast.GetPosition();
+            }
+            // Set second point to complete path
+            else if (pathHelper.pathBuildable)
+            {
+                // Unsnap from initial node
+                if (pathHelper.snappedInitialNode != null)
+                {
+                    pathHelper.snappedInitialNode.snappedNode = false;
+                    pathHelper.snappedInitialNode.UnsnapNode();
+                }
+
+                // Set point at snapped node
+                if (pathHelper.snappedMouseNode != null)
+                {
+                    pathHelper.pathPoints.Item2 = pathHelper.snappedMouseNode.transform.position;
+                }
+                // Set point at mouse raycast position
+                else if (pathHelper.mouseBuildable)
+                {
+                    pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
+                }
+
+                // Create path
+                CreatePath();
+                ResetPathHelper();
+            }
         }
         #endregion
+    }
+
+    void CheckRightMouseInput()
+    {
+        if (!Input.GetMouseButtonDown(1)) return;
+
+        if (pathHelper.pathPoints.Item1 != Vector3.zero)
+        {
+            if (pathHelper.snappedInitialNode != null)
+            {
+                pathHelper.snappedInitialNode.snappedNode = false;
+                pathHelper.snappedInitialNode.UnsnapNode();
+            }
+            ResetPathHelper();
+        }   
     }
 
     void CreatePath()
     {
         // Create new path object
-        GameObject path = new GameObject("Path");
+        GameObject path = new GameObject(PathNames.Path.ToString());
         path.transform.SetParent(pathsHolder.transform);
 
         // Get offset points (prevent z-axis fighting on terrain)
-        Vector3 offsetVector = new Vector3(0, meshOffset, 0);
-        (Vector3, Vector3) offsetEndpoints = (endpoints.Item1 + offsetVector, endpoints.Item2 + offsetVector);
-
-        // Calculate spaced points
-        Vector3[] spacedPoints = PathUtilities.CalculateEvenlySpacedPoints(offsetEndpoints, pointSpacing, pointResolution);
+        pathHelper.pathPoints.Item1 = new Vector3(pathHelper.pathPoints.Item1.x, meshOffset, pathHelper.pathPoints.Item1.z);
+        pathHelper.pathPoints.Item2 = new Vector3(pathHelper.pathPoints.Item2.x, meshOffset, pathHelper.pathPoints.Item2.z);
+        if (pathHelper.curvedPath) pathHelper.pathPoints.Item3 = new Vector3(pathHelper.pathPoints.Item3.x, meshOffset, pathHelper.pathPoints.Item3.z);
 
         // Add path component to handle mesh
-        path.AddComponent<Path>();
-        Path pathComponent = path.GetComponent<Path>();
-        pathComponent.UpdateVariables(this);
-        pathComponent.InitializeMesh("PathCollider", false);
+        Path pathComponent = path.AddComponent<Path>();
+        pathComponent.UpdateVariables(this, pathHelper.pathPoints);
+        pathComponent.InitializeMesh(false, nodeGraph);
 
-        // Add new path to list
-        List<GameObject> pathList = new List<GameObject>();
-        if (paths != null) pathList.AddRange(paths);
-        pathList.Add(path);
-        paths = pathList.ToArray();
-        UpdateNodes();
-    }
-
-    void UpdateNodes()
-    {
-        List<GameObject> currNodes = new List<GameObject>();
-
-        for (int i = 0; i < paths.Length; i++)
-        {
-            currNodes.AddRange(paths[i].GetComponent<Path>().GetNodes());
-        }
-
-        nodes = currNodes.ToArray();
+        // Add path to node graph
+        nodeGraph.AddPath(pathComponent);
     }
 
     void TrackNearbyNodes()
     {
+        PathNode[] nodes = nodeGraph.GetNodes();
+        if (nodes == null) return;
+
         PathNode currNode;
         for (int i = 0; i < nodes.Length; i++)
         {
-            currNode = nodes[i].GetComponent<PathNode>();
+            currNode = nodes[i];
 
             Vector3 offset = currNode.transform.position - mouseRaycast.GetPosition();
             float sqrLen = offset.sqrMagnitude;
@@ -267,51 +385,39 @@ public class PathBuilder : MonoBehaviour
             }
             else
             {
-                if (currNode.gameObject.activeSelf)
+                if (currNode.gameObject.activeSelf && currNode != pathHelper.snappedInitialNode)
                 {
                     currNode.HideNode();
                 }
             }
         }
 
-        nodesHidden = false;
-    }
-
-    public void HideAllNodes()
-    {
-        PathNode currNode;
-        for (int i = 0; i < nodes.Length; i++)
-        {
-            currNode = nodes[i].GetComponent<PathNode>();
-
-            if (currNode.gameObject.activeSelf) currNode.HideNode();
-        }
-
-        nodesHidden = true;
     }
 
     void SnapToNearbyNode()
     {
+        PathNode[] nodes = nodeGraph.GetNodes();
+        if (nodes == null) return;
+
         PathNode currNode;
         (PathNode, float) closestNode;
         closestNode.Item1 = null;
         closestNode.Item2 = 0.0f;
-
         int numNodesInRange = 0;
         for (int i = 0; i < nodes.Length; i++)
         {
-            currNode = nodes[i].GetComponent<PathNode>();
+            currNode = nodes[i];
 
             // Get distance
             Vector3 offset = currNode.transform.position - mouseRaycast.GetPosition();
             float sqrLen = offset.sqrMagnitude;
 
-            // Gets node in snap range
+            // Get node in snap range
             if (sqrLen < nodeSnapRange * nodeSnapRange)
             {
                 numNodesInRange++;
 
-                // Check for closest node in snap range
+                // Track closest node in snap range
                 if (closestNode.Item1 == null || sqrLen < closestNode.Item2)
                 {
                     closestNode.Item1 = currNode;
@@ -322,30 +428,42 @@ public class PathBuilder : MonoBehaviour
 
         if (numNodesInRange > 0)
         {
-            for (int i = 0; i < 2; i++)
+            // Disable snapping on curved point placement
+            if (pathHelper.curvedPath && pathHelper.pathPoints.Item1 != Vector3.zero && pathHelper.pathPoints.Item3 == Vector3.zero) return;
+
+            // Snap only on nodes not previously snapped to
+            if (pathHelper.snappedInitialNode != closestNode.Item1 && pathHelper.snappedMouseNode != closestNode.Item1)
             {
-                if (pathingBuilder.snappedNodePoints[i] != closestNode.Item1)
-                {
-                    pathingBuilder.currentSnappedNode = closestNode.Item1;
-                    pathingBuilder.currentSnappedNode.SnapNode();
-                    return;
-                }
+                pathHelper.snappedMouseNode = closestNode.Item1;
+                pathHelper.snappedMouseNode.SnapNode();
+                return;
             }
         }
-        else if (pathingBuilder.currentSnappedNode != null)
+        else if (pathHelper.snappedMouseNode != null)
         {
-            pathingBuilder.currentSnappedNode.UnsnapNode();
-            pathingBuilder.currentSnappedNode = null;
+            pathHelper.snappedMouseNode.UnsnapNode();
+            pathHelper.snappedMouseNode = null;
         }
     }
 
-    void ResetPathingBuilder()
+    void ResetPathHelper()
     {
-        pathingBuilder.pathBuildable = true;
-        pathingBuilder.point1Buildable = true;
-        pathingBuilder.point2Buildable = true;
-        pathingBuilder.point1Snapped = false;
-        pathingBuilder.currentSnappedNode = null;
-        pathingBuilder.snappedNodePoints = new PathNode[2];
+        bool curvedState = pathHelper.curvedPath;
+        pathHelper = new PathHelper();
+        pathHelper.curvedPath = curvedState;
+    }
+
+    public void ToggleCurvedPathing()
+    {
+        if (pathHelper.snappedInitialNode != null)
+        {
+            pathHelper.snappedInitialNode.snappedNode = false;
+            pathHelper.snappedInitialNode.UnsnapNode();
+        }
+
+        gameObject.GetComponent<PathGuide>().ToggleGuides();
+
+        pathHelper = new PathHelper();
+        pathHelper.curvedPath = pathCurvedToggle.isOn;
     }
 }
