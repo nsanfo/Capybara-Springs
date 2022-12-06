@@ -115,7 +115,7 @@ Transform:
   - {fileID: 8341868876000205468}
   - {fileID: 5069449225107999979}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &824457606472021003
 MonoBehaviour:
@@ -130,7 +130,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   concrete: {fileID: 7711686270612941741, guid: ccaa94401099a2a40b5adee9227f6604, type: 3}
-  redprint: {fileID: 5774793350030287559, guid: 3be6d605628f801418dcee8930110a9a, type: 3}
   cost: 5000
 --- !u!1 &2656002094313084001
 GameObject:
@@ -473,6 +472,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8341868876000205468}
+  - component: {fileID: 7465789989238929694}
   m_Layer: 0
   m_Name: Rocks
   m_TagString: Untagged
@@ -501,6 +501,19 @@ Transform:
   m_Father: {fileID: 6081195018161868524}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7465789989238929694
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6555651081512014023}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 15.63, y: 4.14, z: 15.51}
+  m_Center: {x: 2.87, y: 5.879186, z: 0.55}
 --- !u!1 &8238077190852740250
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,9 +608,9 @@ GameObject:
   - component: {fileID: 5069449225107999979}
   - component: {fileID: 8008736032631962505}
   - component: {fileID: 4630263222032835945}
-  - component: {fileID: 1138047830637965435}
+  - component: {fileID: 6272602359947301903}
   m_Layer: 0
-  m_Name: Quad
+  m_Name: Entrance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -611,7 +624,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8472085345816701297}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.038, y: 0.01, z: 0}
+  m_LocalPosition: {x: -1.117, y: 0.01, z: 0}
   m_LocalScale: {x: 0.45199, y: 0.45199, z: 0.45199}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -668,17 +681,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1138047830637965435
-MeshCollider:
+--- !u!65 &6272602359947301903
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8472085345816701297}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 2
+  m_Size: {x: 0.9, y: 0.64, z: 6.123235e-17}
+  m_Center: {x: -0.00000047683716, y: 0, z: 0}
