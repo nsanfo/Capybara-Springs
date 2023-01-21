@@ -3529,7 +3529,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smallOnsenBlueprint: {fileID: 4247958983374117989, guid: 5ecd193afff5a514bb368b9fa0038950, type: 3}
   mediumOnsenBlueprint: {fileID: 6786340071291408935, guid: fc5668aa66ae6f4408ca43cb3b6571f1, type: 3}
-  largeOnsenBlueprint: {fileID: 8938637415691130482, guid: 3f79cd1ace7021d48845acc817ef653a, type: 3}
+  largeOnsenBlueprint: {fileID: 7071271868903205791, guid: 9e89b61b18340e345b81c362bffb9b40, type: 3}
   blueprintMat: {fileID: 2100000, guid: 1bd5c9d915e44e1479b19d685772db98, type: 2}
 --- !u!114 &1815235761
 MonoBehaviour:

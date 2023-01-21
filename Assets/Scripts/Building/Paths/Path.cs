@@ -49,7 +49,7 @@ public class Path : MonoBehaviour
 
         // Set points
         this.pathPoints = pathPoints;
-}
+    }
 
     public void InitializeMesh(bool isGuide, NodeGraph nodeGraph)
     {
