@@ -6,6 +6,11 @@ public class PathNode : MonoBehaviour
 {
     private Path[] connectedPaths = new Path[0];
     public bool snappedNode = false;
+    public Material nodeMaterial;
+    public void SetMaterial(Material nodeMaterial)
+    {
+        this.nodeMaterial = nodeMaterial;
+    }
 
     public void ShowNode()
     {
