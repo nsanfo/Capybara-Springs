@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/ToonScene.unity
+    guid: a0f2c27ca81ffb246b3e0405f49332e2
   m_configObjects: {}
