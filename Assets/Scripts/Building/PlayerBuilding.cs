@@ -123,6 +123,13 @@ public class PlayerBuilding : MonoBehaviour
         {
             buildingModes.enablePath = false;
             AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PathsButton", buildingModes.enablePath);
+            gameObject.GetComponent<PathBuilder>().pathHelper = new PathHelper();
+            Destroy(gameObject.GetComponent<PathGuide>());
+        }
+        else
+        {
+            var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+            Destroy(blueprint);
         }
 
         var amenitiesObject = GameObject.Find("Canvas").transform.Find("AmenitiesOptions").gameObject;
@@ -143,6 +150,9 @@ public class PlayerBuilding : MonoBehaviour
             AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "AmenitiesButton", buildingModes.enableAmenities);
             var amenitiesObject = GameObject.Find("Canvas").transform.Find("AmenitiesOptions").gameObject;
             amenitiesObject.SetActive(false);
+            var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+            if(blueprint != null)
+                Destroy(blueprint);
         }
 
         if (buildingModes.enablePath)

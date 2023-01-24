@@ -6,6 +6,16 @@ using System;
 public class PathColliderTrigger : MonoBehaviour
 {
     public bool isPathCollision;
+    public Vector3 pathForward;
+
+    private void Start()
+    {
+        if (gameObject.name == "PathCollider")
+        {
+            var pathScript = this.gameObject.transform.parent.parent.gameObject.GetComponent<Path>();
+            pathForward = pathScript.spacedPoints[0] - pathScript.spacedPoints[1];
+        }
+    }
 
     void OnTriggerEnter(Collider collider)
     {

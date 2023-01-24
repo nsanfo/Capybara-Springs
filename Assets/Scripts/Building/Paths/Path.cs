@@ -16,7 +16,7 @@ public class Path : MonoBehaviour
 
     // Path variables
     private (Vector3, Vector3, Vector3) pathPoints;
-    private Vector3[] spacedPoints;
+    public Vector3[] spacedPoints;
     private Vector3[] collisionPoints;
 
     // Collision holder
@@ -49,7 +49,7 @@ public class Path : MonoBehaviour
 
         // Set points
         this.pathPoints = pathPoints;
-}
+    }
 
     public void InitializeMesh(bool isGuide, NodeGraph nodeGraph)
     {
