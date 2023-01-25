@@ -73,7 +73,7 @@ public class NodeGraph
 
         GameObject imageObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
         imageObject.transform.SetParent(nodeObject.transform);
-        imageObject.transform.position = nodeObject.transform.position + new Vector3(0, 0.00005f, 0);
+        imageObject.transform.position = new Vector3(nodeObject.transform.position.x, 0.0002f, nodeObject.transform.position.z);
         imageObject.transform.localScale = new Vector3(0.12f, 0.12f, 0.12f);
         imageObject.GetComponent<MeshRenderer>().material = node.nodeMaterial;
     }
