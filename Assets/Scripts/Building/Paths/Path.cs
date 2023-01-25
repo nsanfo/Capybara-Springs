@@ -32,6 +32,7 @@ public class Path : MonoBehaviour
 
     // Node variables
     private GameObject nodePrefab;
+    private Material nodeMaterial;
 
     public void UpdateVariables(PathBuilder pathBuilderScript, (Vector3, Vector3, Vector3) pathPoints)
     {
@@ -46,6 +47,7 @@ public class Path : MonoBehaviour
 
         // Get node variables
         nodePrefab = pathBuilderScript.nodePrefab;
+        nodeMaterial = pathBuilderScript.nodeMaterial;
 
         // Set points
         this.pathPoints = pathPoints;
@@ -228,6 +230,7 @@ public class Path : MonoBehaviour
             }
 
             nodes[i] = node.GetComponent<PathNode>();
+            nodes[i].SetMaterial(nodeMaterial);
             nodes[i].AddPath(this);
         }
     }

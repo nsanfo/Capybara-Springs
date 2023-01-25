@@ -36,7 +36,7 @@ public class PathBuilder : MonoBehaviour
 
     public enum NodeNames
     {
-        NodeHolder, Node
+        NodeHolder, Node, ImageHolder, NodeImage
     }
 
     [Space(10)]
@@ -56,7 +56,7 @@ public class PathBuilder : MonoBehaviour
     [Range(0.5f, 1.5f)]
     public float meshSpacing = 1;
     public float meshWidth = 1.0f;
-    public float meshOffset = 0.01f;
+    public float meshOffset = 0.000001f;
 
     [Space(10)]
     [Header("Path Setting UI")]
@@ -80,6 +80,7 @@ public class PathBuilder : MonoBehaviour
     public GameObject nodePrefab;
     public RuntimeAnimatorController nodeAnimatorController;
     public NodeGraph nodeGraph = new NodeGraph();
+    public Material nodeMaterial;
 
     // Mouse raycast
     public MouseRaycast mouseRaycast = new MouseRaycast();
