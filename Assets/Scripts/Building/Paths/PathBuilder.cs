@@ -36,7 +36,7 @@ public class PathBuilder : MonoBehaviour
 
     public enum NodeNames
     {
-        NodeHolder, Node
+        NodeHolder, Node, ImageHolder, NodeImage
     }
 
     [Space(10)]
@@ -56,7 +56,7 @@ public class PathBuilder : MonoBehaviour
     [Range(0.5f, 1.5f)]
     public float meshSpacing = 1;
     public float meshWidth = 1.0f;
-    public float meshOffset = 0.01f;
+    public float meshOffset = 0.000001f;
 
     [Space(10)]
     [Header("Path Setting UI")]
@@ -80,6 +80,7 @@ public class PathBuilder : MonoBehaviour
     public GameObject nodePrefab;
     public RuntimeAnimatorController nodeAnimatorController;
     public NodeGraph nodeGraph = new NodeGraph();
+    public Material nodeMaterial;
 
     // Mouse raycast
     public MouseRaycast mouseRaycast = new MouseRaycast();
@@ -90,6 +91,10 @@ public class PathBuilder : MonoBehaviour
 
     // Path Variables
     private GameObject pathsHolder;
+
+    // Entrance Variables
+    public Vector3 enterVector1 = new Vector3(0, 0, 0);
+    public Vector3 enterVector2 = new Vector3(1, 0, 0);
 
     void Start()
     {
@@ -108,6 +113,13 @@ public class PathBuilder : MonoBehaviour
         // Hide path panel at startup
         pathPanel.gameObject.SetActive(false);
         pathCurvedToggle = pathPanel.transform.GetChild(0).gameObject.GetComponent<Toggle>();
+
+        // Initialize the node graph with entrance
+        pathHelper.pathPoints.Item1 = new Vector3(enterVector1.x, meshOffset, enterVector1.z);
+        pathHelper.pathPoints.Item2 = new Vector3(enterVector2.x, meshOffset, enterVector2.x);
+        CreatePath();
+        nodeGraph.SetNodesVisibility(false);
+        pathHelper = new PathHelper();
     }
 
     void Update()
@@ -366,10 +378,15 @@ public class PathBuilder : MonoBehaviour
     void TrackNearbyNodes()
     {
         PathNode[] nodes = nodeGraph.GetNodes();
-        if (nodes == null) return;
+        if (nodes == null || nodes.Length == 0) return;
+
+        if (nodes[0].isActiveAndEnabled)
+        {
+            nodes[0].SetInactive();
+        }
 
         PathNode currNode;
-        for (int i = 0; i < nodes.Length; i++)
+        for (int i = 1; i < nodes.Length; i++)
         {
             currNode = nodes[i];
 
@@ -397,14 +414,14 @@ public class PathBuilder : MonoBehaviour
     void SnapToNearbyNode()
     {
         PathNode[] nodes = nodeGraph.GetNodes();
-        if (nodes == null) return;
+        if (nodes == null || nodes.Length == 0) return;
 
         PathNode currNode;
         (PathNode, float) closestNode;
         closestNode.Item1 = null;
         closestNode.Item2 = 0.0f;
         int numNodesInRange = 0;
-        for (int i = 0; i < nodes.Length; i++)
+        for (int i = 1; i < nodes.Length; i++)
         {
             currNode = nodes[i];
 
