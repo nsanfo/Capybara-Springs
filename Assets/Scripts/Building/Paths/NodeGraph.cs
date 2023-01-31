@@ -1,13 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Networking.Types;
-using static PathBuilder;
-using Debug = UnityEngine.Debug;
 
 public class NodeGraph
 {
@@ -58,24 +50,6 @@ public class NodeGraph
 
         nodes = nodeList.ToArray();
         ExpandMatrix();
-        AddNodeMaterial(node);
-    }
-
-    void AddNodeMaterial(PathNode node)
-    {
-        GameObject imageHolder = GameObject.Find(NodeNames.Node.ToString() + NodeNames.ImageHolder.ToString());
-        if (imageHolder == null) imageHolder = new GameObject(NodeNames.Node.ToString() + NodeNames.ImageHolder.ToString());
-
-        // Create new node sprite object
-        GameObject nodeObject = new GameObject(NodeNames.Node.ToString() + NodeNames.ImageHolder.ToString() + "Container");
-        nodeObject.transform.SetParent(imageHolder.transform);
-        nodeObject.transform.position = node.transform.position;
-
-        GameObject imageObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
-        imageObject.transform.SetParent(nodeObject.transform);
-        imageObject.transform.position = new Vector3(nodeObject.transform.position.x, 0.0002f, nodeObject.transform.position.z);
-        imageObject.transform.localScale = new Vector3(0.12f, 0.12f, 0.12f);
-        imageObject.GetComponent<MeshRenderer>().material = node.nodeMaterial;
     }
 
     void ExpandMatrix()

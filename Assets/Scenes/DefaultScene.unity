@@ -3571,6 +3571,8 @@ MonoBehaviour:
   nodePrefab: {fileID: 7239379327034081532, guid: af79f1a6679c8714f882ede7e677ca3a, type: 3}
   nodeAnimatorController: {fileID: 9100000, guid: c2d29960a3013d54c9d17bb339450acf, type: 2}
   nodeMaterial: {fileID: 2100000, guid: 8ed022eec51e01c4eb493b72c9451e8f, type: 2}
+  enterVector1: {x: 0, y: 0, z: 0}
+  enterVector2: {x: 2, y: 0, z: 0}
 --- !u!1 &1932376455
 GameObject:
   m_ObjectHideFlags: 0
