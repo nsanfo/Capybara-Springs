@@ -58,9 +58,10 @@ public class NodeGraph
 
         nodes = nodeList.ToArray();
         ExpandMatrix();
-        AddNodeMaterial(node);
+        //AddNodeMaterial(node);
     }
 
+    /*
     void AddNodeMaterial(PathNode node)
     {
         GameObject imageHolder = GameObject.Find(NodeNames.Node.ToString() + NodeNames.ImageHolder.ToString());
@@ -77,6 +78,7 @@ public class NodeGraph
         imageObject.transform.localScale = new Vector3(0.12f, 0.12f, 0.12f);
         imageObject.GetComponent<MeshRenderer>().material = node.nodeMaterial;
     }
+    */
 
     void ExpandMatrix()
     {
