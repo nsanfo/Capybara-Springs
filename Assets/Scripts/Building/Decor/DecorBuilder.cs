@@ -8,6 +8,7 @@ public class DecorBuilder : MonoBehaviour
 {
     [Header("Decor Blueprints")]
 		public GameObject toriiBlueprint;
+		public GameObject lampBlueprint;
 
     [Header("Blueprint Material")]
     public Material blueprintMat;
@@ -69,7 +70,7 @@ public class DecorBuilder : MonoBehaviour
             var blueprintScript = blueprint.GetComponent<Blueprint>();
             var balanceScript = stats.GetComponent<Balance>();
             var balance = balanceScript.GetBalance();
-            var cost = blueprintScript.GetCost();
+            var cost = blueprintScript.cost;
             if (Input.GetKey("r"))
             {
                 if (!rotating)
