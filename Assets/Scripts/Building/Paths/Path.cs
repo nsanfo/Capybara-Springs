@@ -32,6 +32,7 @@ public class Path : MonoBehaviour
 
     // Node variables
     private GameObject nodePrefab;
+    private Material nodeMaterial;
 
     // Amenity variables
     private List<Amenity> amenities = new List<Amenity>();
@@ -50,6 +51,7 @@ public class Path : MonoBehaviour
 
         // Get node variables
         nodePrefab = pathBuilderScript.nodePrefab;
+        nodeMaterial = pathBuilderScript.nodeMaterial;
 
         // Set points
         this.pathPoints = pathPoints;
@@ -217,21 +219,32 @@ public class Path : MonoBehaviour
             existingNode = nodeGraph.CheckExistingNode(nodePoint);
 
             GameObject node;
+            PathNode newNode = null;
             if (existingNode != null)
             {
                 node = existingNode.gameObject;
             }
             else
             {
-                node = Instantiate(nodePrefab, nodePoint, Quaternion.identity);
-                node.name = PathBuilder.NodeNames.Node.ToString();
+                node = new GameObject(PathBuilder.NodeNames.Node.ToString());
                 node.transform.SetParent(nodeHolder.transform);
 
-                // Add node component
-                node.AddComponent<PathNode>();
+                GameObject nodeObject = Instantiate(nodePrefab, nodePoint, Quaternion.identity);
+                nodeObject.name = PathBuilder.NodeNames.Node.ToString() + "Object";
+                nodeObject.transform.SetParent(node.transform);
+                newNode = nodeObject.AddComponent<PathNode>();
             }
 
-            nodes[i] = node.GetComponent<PathNode>();
+            if (newNode == null)
+            {
+                nodes[i] = node.GetComponent<PathNode>();
+            }
+            else
+            {
+                nodes[i] = newNode;
+            }
+
+            nodes[i].SetMaterial(nodeMaterial, node.transform);
             nodes[i].AddPath(this);
         }
     }
