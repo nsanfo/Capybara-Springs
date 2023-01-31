@@ -358,7 +358,16 @@ public class PathBuilder : MonoBehaviour
     void CreatePath()
     {
         // Create new path object
-        GameObject path = new GameObject(PathNames.Path.ToString());
+        GameObject path;
+        // First path will always be entrance
+        if (pathsHolder.transform.childCount == 0)
+        {
+            path = new GameObject("Entrance" + PathNames.Path.ToString());
+        } else
+        {
+            path = new GameObject(PathNames.Path.ToString());
+        }
+
         path.transform.SetParent(pathsHolder.transform);
 
         // Get offset points (prevent z-axis fighting on terrain)
