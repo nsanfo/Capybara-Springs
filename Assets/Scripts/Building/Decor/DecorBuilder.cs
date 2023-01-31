@@ -62,6 +62,44 @@ public class DecorBuilder : MonoBehaviour
         }
     }
 
+		public void lampObjectSelect()
+    {
+        if (blueprint != null && blueprint.name.StartsWith("Lamp"))
+        {
+            Destroy(blueprint);
+        }
+        else if (blueprint != null)
+        {
+            Destroy(blueprint);
+            blueprint = Instantiate(lampBlueprint);
+            if (red)
+            {
+                var redColor = new Color(1f, 0f, 0f, 0.27f);
+                blueprintMat.SetColor("_Color", redColor);
+            }
+            else
+            {
+
+                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
+                blueprintMat.SetColor("_Color", blueColor);
+            }
+        }
+        else if (blueprint == null)
+        {
+            blueprint = Instantiate(lampBlueprint);
+            if (red)
+            {
+                var redColor = new Color(1f, 0f, 0f, 0.27f);
+                blueprintMat.SetColor("_Color", redColor);
+            }
+            else
+            {
+                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
+                blueprintMat.SetColor("_Color", blueColor);
+            }
+        }
+    }
+
 		// Update is called once per frame
     void LateUpdate()
     {

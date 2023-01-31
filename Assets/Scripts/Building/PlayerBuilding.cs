@@ -130,7 +130,8 @@ public class PlayerBuilding : MonoBehaviour
             AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PathsButton", buildingModes.enablePath);
             gameObject.GetComponent<PathBuilder>().pathHelper = new PathHelper();
             Destroy(gameObject.GetComponent<PathGuide>());
-        } else if (buildingModes.enableDecor)
+        }
+				else if (buildingModes.enableDecor)
         {
             buildingModes.enableDecor = false;
             AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorButton", buildingModes.enableDecor);
@@ -167,7 +168,8 @@ public class PlayerBuilding : MonoBehaviour
             var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
             if(blueprint != null)
                 Destroy(blueprint);
-        }  else if (buildingModes.enableDecor)
+        }
+				else if (buildingModes.enableDecor)
         {
             buildingModes.enableDecor = false;
             AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorButton", buildingModes.enableDecor);
@@ -202,7 +204,8 @@ public class PlayerBuilding : MonoBehaviour
             AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PathsButton", buildingModes.enablePath);
             gameObject.GetComponent<PathBuilder>().pathHelper = new PathHelper();
             Destroy(gameObject.GetComponent<PathGuide>());
-        } else if (buildingModes.enableAmenities)
+        }
+				else if (buildingModes.enableAmenities)
         {
             buildingModes.enableAmenities = false;
             AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "AmenitiesButton", buildingModes.enableAmenities);
