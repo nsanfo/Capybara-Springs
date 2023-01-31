@@ -13,6 +13,7 @@ public class NodeGraph
     public bool nodesVisible = false;
     public bool[,] matrix = new bool[0, 0];
     private PathNode[] nodes = new PathNode[0];
+    public PathNode[] Nodes { get => nodes; }
 
     public PathNode[] GetConnectedNodes(PathNode node)
     {
@@ -50,6 +51,24 @@ public class NodeGraph
         matrix[index2, index1] = true;
     }
 
+    // Returns path between two specified nodes
+    public Path GetPath(int nodeIndex1, int nodeIndex2)
+    {
+        var node1 = nodes[nodeIndex1];
+        var node2 = nodes[nodeIndex2];
+        if (matrix[nodeIndex1, nodeIndex2] == true)
+        {
+            var paths = node1.GetPaths();
+            for (int i = 0; i < paths.Length; i++)
+            {
+                var pathNodes = paths[i].nodes;
+                if ((nodes[0] == node1 && nodes[1] == node2) || nodes[0] == node2 && nodes[1] == node1)
+                    return paths[i];
+            }
+        }
+        return null;
+    }
+
     void AddNode(PathNode node)
     {
         List<PathNode> nodeList = new List<PathNode>(nodes);
@@ -74,7 +93,7 @@ public class NodeGraph
         matrix = newMatrix;
     }
 
-    int GetNodeIndex(PathNode node)
+    public int GetNodeIndex(PathNode node)
     {
         return new List<PathNode>(nodes).IndexOf(node);
     }
@@ -106,10 +125,5 @@ public class NodeGraph
                 nodes[i].HideNode();
             }
         }
-    }
-
-    public PathNode[] GetNodes()
-    {
-        return nodes;
     }
 }
