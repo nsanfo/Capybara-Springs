@@ -7,13 +7,14 @@ using UnityEngine.UI;
 
 public class BuildingModes
 {
-    public bool enableBuild, enablePath, enableAmenities;
+    public bool enableBuild, enablePath, enableAmenities, enableDecor;
 
     public BuildingModes()
     {
         enableBuild = false;
         enablePath = false;
         enableAmenities = false;
+				enableDecor = false;
     }
 }
 
@@ -100,6 +101,10 @@ public class PlayerBuilding : MonoBehaviour
             {
                 ToggleAmenitiesBuilding();
             }
+						if (buildingModes.enableDecor)
+            {
+                ToggleDecorBuilding();
+            }
         }
 
         // Animate build UI
@@ -125,6 +130,16 @@ public class PlayerBuilding : MonoBehaviour
             AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PathsButton", buildingModes.enablePath);
             gameObject.GetComponent<PathBuilder>().pathHelper = new PathHelper();
             Destroy(gameObject.GetComponent<PathGuide>());
+        }
+				else if (buildingModes.enableDecor)
+        {
+            buildingModes.enableDecor = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorButton", buildingModes.enableDecor);
+            var decorObject = GameObject.Find("Canvas").transform.Find("DecorOptions").gameObject;
+            decorObject.SetActive(false);
+            var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+            if(blueprint != null)
+                Destroy(blueprint);
         }
         else
         {
@@ -154,6 +169,16 @@ public class PlayerBuilding : MonoBehaviour
             if(blueprint != null)
                 Destroy(blueprint);
         }
+				else if (buildingModes.enableDecor)
+        {
+            buildingModes.enableDecor = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorButton", buildingModes.enableDecor);
+            var decorObject = GameObject.Find("Canvas").transform.Find("DecorOptions").gameObject;
+            decorObject.SetActive(false);
+            var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+            if(blueprint != null)
+                Destroy(blueprint);
+        }
 
         if (buildingModes.enablePath)
         {
@@ -167,5 +192,40 @@ public class PlayerBuilding : MonoBehaviour
 
         // Animate path UI
         AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PathsButton", buildingModes.enablePath);
+    }
+
+		public void ToggleDecorBuilding()
+    {
+        buildingModes.enableDecor = !buildingModes.enableDecor;
+        
+        if (buildingModes.enablePath)
+        {
+            buildingModes.enablePath = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PathsButton", buildingModes.enablePath);
+            gameObject.GetComponent<PathBuilder>().pathHelper = new PathHelper();
+            Destroy(gameObject.GetComponent<PathGuide>());
+        }
+				else if (buildingModes.enableAmenities)
+        {
+            buildingModes.enableAmenities = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "AmenitiesButton", buildingModes.enableAmenities);
+            var amenitiesObject = GameObject.Find("Canvas").transform.Find("AmenitiesOptions").gameObject;
+            amenitiesObject.SetActive(false);
+            var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+            if(blueprint != null)
+                Destroy(blueprint);
+        }
+        else
+        {
+            var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+            Destroy(blueprint);
+        }
+
+        var decorObject = GameObject.Find("Canvas").transform.Find("DecorOptions").gameObject;
+        bool activeState = decorObject.activeSelf;
+        decorObject.SetActive(!activeState);
+
+        // Animate decor UI
+        AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorButton", buildingModes.enableDecor);
     }
 }
