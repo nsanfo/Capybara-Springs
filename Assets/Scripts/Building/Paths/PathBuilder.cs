@@ -377,7 +377,7 @@ public class PathBuilder : MonoBehaviour
 
     void TrackNearbyNodes()
     {
-        PathNode[] nodes = nodeGraph.GetNodes();
+        PathNode[] nodes = nodeGraph.Nodes;
         if (nodes == null || nodes.Length == 0) return;
 
         if (nodes[0].isActiveAndEnabled)
@@ -413,7 +413,7 @@ public class PathBuilder : MonoBehaviour
 
     void SnapToNearbyNode()
     {
-        PathNode[] nodes = nodeGraph.GetNodes();
+        PathNode[] nodes = nodeGraph.Nodes;
         if (nodes == null || nodes.Length == 0) return;
 
         PathNode currNode;
