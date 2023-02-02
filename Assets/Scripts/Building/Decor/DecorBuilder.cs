@@ -105,7 +105,7 @@ public class DecorBuilder : MonoBehaviour
     {
         if(blueprint != null)
         {
-            var blueprintScript = blueprint.GetComponent<Blueprint>();
+            var blueprintScript = blueprint.GetComponent<DecorBlueprint>();
             var balanceScript = stats.GetComponent<Balance>();
             var balance = balanceScript.GetBalance();
             var cost = blueprintScript.cost;
