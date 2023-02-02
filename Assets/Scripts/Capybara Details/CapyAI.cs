@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class CapyAI : MonoBehaviour
 {
+    private Animator capyAnimator;
+
     private Pathfinder pathfinder;
+
+    private Path currentPath;
 
     private NodeGraph nodeGraph;
     private PathNode[] nodes;
@@ -17,10 +21,13 @@ public class CapyAI : MonoBehaviour
 
     bool travelling;
     bool usingAmenity;
+    bool waiting = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        capyAnimator = gameObject.GetComponent<Animator>();
+
         pathfinder = gameObject.GetComponent<Pathfinder>();
 
         var playerBuilding = GameObject.Find("PlayerBuilding");
@@ -31,49 +38,60 @@ public class CapyAI : MonoBehaviour
 
         travelling = false;
         usingAmenity = false;
+
+        var entrancePath = GameObject.Find("EntrancePath");
+        currentPath = entrancePath.GetComponent<Path>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (waiting)
+            return;
+        nodes = nodeGraph.Nodes;
         if (!usingAmenity && !travelling)
         {
             travelling = true;
-            destinationRoute = pathfinder.FindAmenityDestination();
-            nodeRoute = destinationRoute.NodeRoute;
+            destinationRoute = pathfinder.FindAmenityDestination(currentPath);
             if (this.destinationRoute == null)
             {
                 travelling = false;
                 StartCoroutine(Wait(2));
             }
-            else if(nodeRoute.Count == 0)
-                gameObject.transform.LookAt(this.destinationRoute.Amenity.PathCollider.gameObject.transform.position);
             else
             {
-                nextNodeIndex = nodeRoute.Peek();
-                nextNode = nodes[nextNodeIndex];
-                gameObject.transform.LookAt(nextNode.gameObject.transform.position);
+                capyAnimator.SetBool("Travelling", true);
+                nodeRoute = destinationRoute.NodeRoute;
+                if (nodeRoute.Count == 0)
+                    gameObject.transform.LookAt(this.destinationRoute.Amenity.PathCollider.gameObject.transform.position);
+                else
+                {
+                    nextNodeIndex = nodeRoute.Peek();
+                    nextNode = nodes[nextNodeIndex];
+                    gameObject.transform.LookAt(nextNode.gameObject.transform.position);
+                }
             }
         }
         else if (travelling)
         {
             if(nodeRoute.Count == 0)
             {
-                if (Vector3.Distance(gameObject.transform.position, destinationRoute.Amenity.gameObject.transform.position) > 0.1)
-                    gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
-                else
+                if (Vector3.Distance(gameObject.transform.position, destinationRoute.Amenity.PathCollider.gameObject.transform.position) <= 0.1)
                 {
                     travelling = false;
+                    capyAnimator.SetBool("Travelling", false);
                     StartCoroutine(Wait(10));
                 }
             }
             else
             {
-                if (Vector3.Distance(gameObject.transform.position, nextNode.gameObject.transform.position) > 0.1)
-                    gameObject.transform.Translate(Vector3.forward * Time.deltaTime);
-                else
+                if (Vector3.Distance(gameObject.transform.position, nextNode.gameObject.transform.position) <= 0.1)
                 {
-                    nodeRoute.Pop();
+                    var previousNodeIndex = nodeRoute.Pop();
+                    if (nodeRoute.Count > 0)
+                        currentPath = nodeGraph.GetPath(previousNodeIndex, nodeRoute.Peek());
+                    else
+                        currentPath = destinationRoute.Path;
                     if (nodeRoute.Count == 0)
                         gameObject.transform.LookAt(destinationRoute.Amenity.PathCollider.gameObject.transform.position);
                     else
@@ -89,6 +107,8 @@ public class CapyAI : MonoBehaviour
 
     private IEnumerator Wait(float seconds)
     {
+        waiting = true;
         yield return new WaitForSeconds(seconds);
+        waiting = false;
     }
 }

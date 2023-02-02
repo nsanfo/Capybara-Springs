@@ -19,8 +19,7 @@ public class NodeGraph
         for (int i = 0; i < connectedNodes.Length; i++)
         {
             if (matrix[index, i]) connectedNodes[i] = nodes[i];
-        }
-
+            }
         return connectedNodes;
     }
 
@@ -55,7 +54,7 @@ public class NodeGraph
             for (int i = 0; i < paths.Length; i++)
             {
                 var pathNodes = paths[i].nodes;
-                if ((nodes[0] == node1 && nodes[1] == node2) || nodes[0] == node2 && nodes[1] == node1)
+                if ((pathNodes[0] == node1 && pathNodes[1] == node2) || pathNodes[0] == node2 && pathNodes[1] == node1)
                     return paths[i];
             }
         }
@@ -75,9 +74,9 @@ public class NodeGraph
     {
         bool[,] newMatrix = new bool[matrix.GetLength(0) + 1, matrix.GetLength(1) + 1];
 
-        for (int i = 0; i < matrix.GetLength(0) - 1; i++)
+        for (int i = 0; i < matrix.GetLength(0); i++)
         {
-            for (int j = 0; j < matrix.GetLength(1) - 1; j++)
+            for (int j = 0; j < matrix.GetLength(1); j++)
             {
                 newMatrix[i, j] = matrix[i, j];
             }

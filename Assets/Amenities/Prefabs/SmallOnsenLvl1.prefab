@@ -276,6 +276,7 @@ GameObject:
   - component: {fileID: 8546174319686084792}
   - component: {fileID: 8273893926371007718}
   - component: {fileID: -4144582598061678976}
+  - component: {fileID: 3894059343096895471}
   m_Layer: 0
   m_Name: SmallOnsenLvl1
   m_TagString: Untagged
@@ -382,6 +383,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3894059343096895471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7897871408743303533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2508c4cbe1907d04db46d756fa0177ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hungerFill: 0
+  comfortFill: 1
+  funFill: 0
 --- !u!1 &8282057903527431359
 GameObject:
   m_ObjectHideFlags: 0

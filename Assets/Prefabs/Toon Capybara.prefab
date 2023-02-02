@@ -417,6 +417,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicator: {fileID: 767792751}
+--- !u!114 &2638168307437096894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6843940063343857778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c15dc4633637ac74cb58fd9c34392953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3399437851249722949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,18 +446,6 @@ MonoBehaviour:
   hunger: 75
   comfort: 75
   fun: 75
---- !u!114 &2638168307437096894
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6843940063343857778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c15dc4633637ac74cb58fd9c34392953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5426687681776413429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,4 +458,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2002090df16810342aba3d610e974ea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPath: {fileID: 0}

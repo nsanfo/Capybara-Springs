@@ -8,19 +8,22 @@ public class AmenityRoute
     private readonly Amenity amenity;
     private readonly int previous; // The index of the previous PathNode on the route to this amenity, -1 if the amenity is located on the starting path
     private readonly float previousDistance;
-    private readonly Stack<int> nodeRoute; // A stack containing indices for PathNodes in the NodeGraph's nodes[] array, representing the path leading to an amenity
+    private readonly Path path;
+    private Stack<int> nodeRoute = new Stack<int>(); // A stack containing indices for PathNodes in the NodeGraph's nodes[] array, representing the path leading to an amenity
 
-    public AmenityRoute(Amenity amenity, int previous, float previousDistance)
+    public AmenityRoute(Amenity amenity, int previous, float previousDistance, Path path)
     {
         this.amenity = amenity;
         this.previous = previous;
         this.previousDistance = previousDistance;
+        this.path = path;
     }
 
     public Amenity Amenity { get => amenity; }
     public int Previous { get => previous; }
     public float PreviousDistance { get => previousDistance; }
     public Stack<int> NodeRoute { get => nodeRoute; }
+    public Path Path { get => path; }
 
     public void RoutePush(int input)
     {
@@ -33,8 +36,6 @@ public class Pathfinder : MonoBehaviour
     private NodeGraph nodeGraph;
     private PathNode[] nodes;
 
-    public Path currentPath;
-
     private bool[] visited;
     private float[] cost;
     private int[] previous;
@@ -45,8 +46,7 @@ public class Pathfinder : MonoBehaviour
 
     private CapybaraInfo capyInfo;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         var playerBuilding = GameObject.Find("PlayerBuilding");
         var pathBuilder = playerBuilding.GetComponent<PathBuilder>();
@@ -57,23 +57,17 @@ public class Pathfinder : MonoBehaviour
         capyInfo = this.gameObject.GetComponent<CapybaraInfo>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // Assigns a numerical rating to an amenity based on the needs of the capybara, the speed at which the amenity will fill those needs, and the distance from the capybara
     // to the amenity. The capybara will choose the amenity with the highest rating as its next destination.
-    private float rateAmenity(Amenity amenity, float distance)
+    private float RateAmenity(Amenity amenity, float distance)
     {
         CapybaraInfo capyInfo = this.gameObject.GetComponent<CapybaraInfo>();;
         float hungerFill = amenity.hungerFill;
         float comfortFill = amenity.comfortFill;
         float funFill = amenity.funFill;
 
-        float hungerRating = (1 / 10) * Mathf.Pow(capyInfo.hunger - 100, 2) * hungerFill / distance; // the rating algorithm gives an exponentially greater priority to needs that are lower than others
-        float comfortRating = (1 / 10) * Mathf.Pow(capyInfo.comfort - 100, 2) * comfortFill / distance;
+        float hungerRating = (1f / 10f) * Mathf.Pow(capyInfo.hunger - 100, 2) * hungerFill / distance; // the rating algorithm gives an exponentially greater priority to needs that are lower than others
+        float comfortRating = (1f / 10f) * Mathf.Pow(capyInfo.comfort - 100, 2) * comfortFill / distance;
         float funRating = (1 / 10) * Mathf.Pow(capyInfo.fun - 100, 2) * funFill / distance;
         float bestRating;
 
@@ -86,8 +80,8 @@ public class Pathfinder : MonoBehaviour
         return bestRating;
     }
 
-    // Rates all amenities on a specified path, from a specified point. Updates the global bestAmenity variable if a better amenity is found.
-    private void ratePathAmenities(Path path, Vector3 position)
+    // Rates all amenities on a specified path, from a specified position. Updates the global bestAmenity variable if a better amenity is found. Used when checking the capybara's current path.
+    private void RatePathAmenities(Path path, Vector3 position)
     {
         var pathAmenities = path.Amenities;
         if (pathAmenities.Count > 0)
@@ -95,9 +89,32 @@ public class Pathfinder : MonoBehaviour
             for (int i = 0; i < pathAmenities.Count; i++)
             {
                 var distance = Vector3.Distance(pathAmenities[i].PathCollider.gameObject.transform.position, position);
-                var amenityRating = rateAmenity(pathAmenities[i], distance);
+                var amenityRating = RateAmenity(pathAmenities[i], distance);
                 if (amenityRating > bestRating)
-                    bestDestination = new AmenityRoute(pathAmenities[i], -1, distance);
+                {
+                    bestDestination = new AmenityRoute(pathAmenities[i], -1, distance, path);
+                    bestRating = amenityRating;
+                }
+            }
+        }
+    }
+
+    // Rates all amenities on a specified path, from a specified PathNode. Updates the global bestAmenity variable if a better amenity is found.
+    private void RatePathAmenities(Path path, PathNode node)
+    {
+        var pathAmenities = path.Amenities;
+        if (pathAmenities.Count > 0)
+        {
+            for (int i = 0; i < pathAmenities.Count; i++)
+            {
+                var nodeIndex = nodeGraph.GetNodeIndex(node);
+                var distance = cost[nodeIndex] + Vector3.Distance(pathAmenities[i].PathCollider.gameObject.transform.position, node.gameObject.transform.position);
+                var amenityRating = RateAmenity(pathAmenities[i], distance);
+                if (amenityRating > bestRating)
+                {
+                    bestDestination = new AmenityRoute(pathAmenities[i], nodeIndex, distance, path);
+                    bestRating = amenityRating;
+                }
             }
         }
     }
@@ -117,8 +134,9 @@ public class Pathfinder : MonoBehaviour
 
     // Uses Dijkstra's Algorithm to find the path distances from the capybara to all PathNodes connected to the capybara's current path and find the next amenity that the
     // capybara should travel to based on its needs. Returns an AmenityRoute for the destination amenity.
-    public AmenityRoute FindAmenityDestination()
+    public AmenityRoute FindAmenityDestination(Path startingPath)
     {
+        nodes = nodeGraph.Nodes;
         bestDestination = null;
         bestRating = 0;
         visited = new bool[nodes.Length];
@@ -136,13 +154,14 @@ public class Pathfinder : MonoBehaviour
             cost[i] = float.PositiveInfinity;
         }
 
-        var nodeDistances = PathNodeDistances(currentPath);
+        var nodeDistances = PathNodeDistances(startingPath);
         cost[nodeDistances.Item1.Item1] = nodeDistances.Item1.Item2;
         cost[nodeDistances.Item2.Item1] = nodeDistances.Item2.Item2;
         previous[nodeDistances.Item1.Item1] = -1;
         previous[nodeDistances.Item2.Item1] = -1;
 
-        ratePathAmenities(currentPath, gameObject.transform.position);
+        RatePathAmenities(startingPath, gameObject.transform.position);
+        var currentPath = startingPath;
 
         bool keepGoing = true;
         while (remainingUnvisited > 0 && keepGoing)
@@ -151,7 +170,7 @@ public class Pathfinder : MonoBehaviour
             float lowestCost = float.PositiveInfinity;
             int lowestCostIndex = -1;
 
-            for (int i = 0; i < remainingUnvisited; i++)
+            for (int i = 0; i < nodes.Length; i++)
             {
                 if (visited[i] == false && cost[i] < lowestCost)
                 {
@@ -169,21 +188,25 @@ public class Pathfinder : MonoBehaviour
                 var connectedNodes = nodeGraph.GetConnectedNodes(nodes[lowestCostIndex]);
                 for (int i = 0; i < connectedNodes.Length; i++)
                 {
-                    var nodeIndex = nodeGraph.GetNodeIndex(connectedNodes[i]);
-                    if (visited[nodeIndex] == false)
+                    if (connectedNodes[i] != null)
                     {
-                        var newDistance = cost[lowestCostIndex] + Vector3.Distance(connectedNodes[i].gameObject.transform.position, lowestCostNode.gameObject.transform.position);
-                        if (newDistance < cost[nodeIndex])
+                        var nodeIndex = nodeGraph.GetNodeIndex(connectedNodes[i]);
+                        if (nodeIndex != -1 && visited[nodeIndex] == false)
                         {
-                            cost[nodeIndex] = newDistance;
-                            previous[nodeIndex] = lowestCostIndex;
+                            var newDistance = cost[lowestCostIndex] + Vector3.Distance(connectedNodes[i].gameObject.transform.position, lowestCostNode.gameObject.transform.position);
+                            if (newDistance < cost[nodeIndex])
+                            {
+                                cost[nodeIndex] = newDistance;
+                                previous[nodeIndex] = lowestCostIndex;
+                            }
                         }
                     }
                 }
                 if (previous[lowestCostIndex] != -1)
                 {
                     currentPath = nodeGraph.GetPath(lowestCostIndex, previous[lowestCostIndex]);
-                    ratePathAmenities(currentPath, lowestCostNode.gameObject.transform.position);
+                    RatePathAmenities(currentPath, nodes[previous[lowestCostIndex]]);
+                    RatePathAmenities(currentPath, lowestCostNode);
                 }
             }
         }
@@ -202,5 +225,10 @@ public class Pathfinder : MonoBehaviour
                 previousIndex = previous[previousIndex];
             }
         }
+    }
+
+    private IEnumerator Wait(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
     }
 }
