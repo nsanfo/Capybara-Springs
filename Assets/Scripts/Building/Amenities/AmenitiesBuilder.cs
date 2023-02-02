@@ -153,13 +153,14 @@ public class AmenitiesBuilder : MonoBehaviour
 
     public void SnapPlace(Vector3 hitVector)
     {
-        var blueprintScript = blueprint.GetComponent<Blueprint>();
+        var blueprintScript = blueprint.GetComponent<AmenityBlueprint>();
         var balanceScript = stats.GetComponent<Balance>();
         var balance = balanceScript.GetBalance();
         var cost = blueprintScript.cost;
         var pathTuple = blueprintScript.FindClosestCollider(hitVector);
         var closestForward = pathTuple.Item1;
-        var closestPosition = pathTuple.Item2;
+        var closestPathCollider = pathTuple.Item2;
+        var closestPosition = closestPathCollider.transform.position;
         var rightSide = pathTuple.Item3;
         var shortestDistance = pathTuple.Item4;
         var pathRight = Vector3.Cross(closestForward.normalized, Vector3.up);
@@ -204,6 +205,9 @@ public class AmenitiesBuilder : MonoBehaviour
                 var newAmenity = Instantiate(blueprintScript.GetConcrete());
                 newAmenity.transform.position = new Vector3(blueprint.transform.position.x, blueprint.transform.position.y, blueprint.transform.position.z);
                 newAmenity.transform.eulerAngles = new Vector3(newAmenity.transform.eulerAngles.x, angle, newAmenity.transform.eulerAngles.z);
+                var amenityScript = newAmenity.GetComponent<Amenity>();
+                amenityScript.PathCollider = closestPathCollider;
+                amenityScript.PathSetup();
                 Destroy(blueprint);
                 balanceScript.AdjustBalance(cost * -1);
             }
@@ -219,7 +223,7 @@ public class AmenitiesBuilder : MonoBehaviour
     {
         if(blueprint != null)
         {
-            var blueprintScript = blueprint.GetComponent<Blueprint>();
+            var blueprintScript = blueprint.GetComponent<AmenityBlueprint>();
             RaycastHit hitInfo = new RaycastHit();
             bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
             var hitVector = new Vector3(hitInfo.point.x, hitInfo.point.y, hitInfo.point.z);

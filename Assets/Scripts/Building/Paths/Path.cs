@@ -34,6 +34,10 @@ public class Path : MonoBehaviour
     private GameObject nodePrefab;
     private Material nodeMaterial;
 
+    // Amenity variables
+    private List<Amenity> amenities = new List<Amenity>();
+    public List<Amenity> Amenities { get => amenities; }
+
     public void UpdateVariables(PathBuilder pathBuilderScript, (Vector3, Vector3, Vector3) pathPoints)
     {
         // Set path settings
@@ -255,5 +259,10 @@ public class Path : MonoBehaviour
         {
             spacedPoints = PathUtilities.CalculateSpacedPoints(pathPoints, false, pointSpacing, pointResolution);
         }
+    }
+
+    public void AddAmenity(Amenity param)
+    {
+        amenities.Add(param);
     }
 }
