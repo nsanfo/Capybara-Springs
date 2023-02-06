@@ -9,7 +9,7 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         var newCapy = GameObject.Instantiate(capybara);
         newCapy.transform.position = new Vector3(0, 0, 0);
         var capyInfo = newCapy.GetComponent<CapybaraInfo>();
