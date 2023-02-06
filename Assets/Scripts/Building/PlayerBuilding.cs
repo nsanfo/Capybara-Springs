@@ -134,7 +134,7 @@ public class PlayerBuilding : MonoBehaviour
 				else if (buildingModes.enableDecor)
         {
             buildingModes.enableDecor = false;
-            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorButton", buildingModes.enableDecor);
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorsButton", buildingModes.enableDecor);
             var decorObject = GameObject.Find("Canvas").transform.Find("DecorOptions").gameObject;
             decorObject.SetActive(false);
             var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
@@ -172,7 +172,7 @@ public class PlayerBuilding : MonoBehaviour
 				else if (buildingModes.enableDecor)
         {
             buildingModes.enableDecor = false;
-            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorButton", buildingModes.enableDecor);
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorsButton", buildingModes.enableDecor);
             var decorObject = GameObject.Find("Canvas").transform.Find("DecorOptions").gameObject;
             decorObject.SetActive(false);
             var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
@@ -226,6 +226,6 @@ public class PlayerBuilding : MonoBehaviour
         decorObject.SetActive(!activeState);
 
         // Animate decor UI
-        AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorButton", buildingModes.enableDecor);
+        AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorsButton", buildingModes.enableDecor);
     }
 }
