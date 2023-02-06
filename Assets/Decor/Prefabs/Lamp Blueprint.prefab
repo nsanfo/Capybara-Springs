@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1298281455561247726}
   - component: {fileID: 2714465028303193163}
   - component: {fileID: 166422931946827905}
+  - component: {fileID: 6897055442613103930}
   m_Layer: 0
   m_Name: Lamp Blueprint
   m_TagString: Untagged
@@ -84,3 +85,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6897055442613103930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823883865782276436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92ca7bfa5bb9694caeed46d33f3e31f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  concrete: {fileID: 1823883865782276436, guid: 099da64810b96d54a83e0db57619c863, type: 3}
+  cost: 100
