@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5241160266090556437}
   - component: {fileID: 9156817410353210288}
   - component: {fileID: 6410728532768970618}
-  - component: {fileID: 4279937211058758133}
+  - component: {fileID: 8876054147199262148}
   m_Layer: 0
   m_Name: LampBlueprint
   m_TagString: Untagged
@@ -169,7 +169,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4279937211058758133
+--- !u!114 &8876054147199262148
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4897532458578769583}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9485a48375a85b4ab0acbfb8376d76d, type: 3}
+  m_Script: {fileID: 11500000, guid: d92ca7bfa5bb9694caeed46d33f3e31f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   concrete: {fileID: 645376207562191461, guid: 02d19d7fbd4a28345813610047fec8c2, type: 3}

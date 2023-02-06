@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 940091491870502595}
   - component: {fileID: 4225567970555978086}
   - component: {fileID: 2107909920422696364}
-  - component: {fileID: 2723277836751601414}
+  - component: {fileID: 7762297953296924497}
   m_Layer: 0
   m_Name: ToriiGateBlueprint
   m_TagString: Untagged
@@ -86,7 +86,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2723277836751601414
+--- !u!114 &7762297953296924497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 450413391056385145}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9485a48375a85b4ab0acbfb8376d76d, type: 3}
+  m_Script: {fileID: 11500000, guid: d92ca7bfa5bb9694caeed46d33f3e31f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   concrete: {fileID: 469535767358864577, guid: deb5e49fd1ed1044b88bcb3b561b9843, type: 3}

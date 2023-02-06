@@ -226,6 +226,6 @@ public class PlayerBuilding : MonoBehaviour
         decorObject.SetActive(!activeState);
 
         // Animate decor UI
-        AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorButton", buildingModes.enableDecor);
+        AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorsButton", buildingModes.enableDecor);
     }
 }
