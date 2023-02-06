@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2714465028303193163}
   - component: {fileID: 166422931946827905}
   m_Layer: 0
-  m_Name: Lamp
+  m_Name: Lamp Blueprint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,8 +61,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f053f42e322403f4b8ce851806ef64cd, type: 2}
-  - {fileID: 2100000, guid: 3417968fe0c0577499b163d98017dff7, type: 2}
+  - {fileID: 2100000, guid: 1bd5c9d915e44e1479b19d685772db98, type: 2}
+  - {fileID: 2100000, guid: 1bd5c9d915e44e1479b19d685772db98, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
