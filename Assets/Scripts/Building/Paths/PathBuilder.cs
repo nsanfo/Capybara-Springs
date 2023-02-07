@@ -56,7 +56,7 @@ public class PathBuilder : MonoBehaviour
     [Range(0.5f, 1.5f)]
     public float meshSpacing = 1;
     public float meshWidth = 1.0f;
-    public float meshOffset = 0.000001f;
+    public float meshOffset = 0.0001f;
 
     [Space(10)]
     [Header("Path Setting UI")]
@@ -114,12 +114,16 @@ public class PathBuilder : MonoBehaviour
         pathPanel.gameObject.SetActive(false);
         pathCurvedToggle = pathPanel.transform.GetChild(0).gameObject.GetComponent<Toggle>();
 
-        // Initialize the node graph with entrance
-        pathHelper.pathPoints.Item1 = new Vector3(enterVector1.x, meshOffset, enterVector1.z);
-        pathHelper.pathPoints.Item2 = new Vector3(enterVector2.x, meshOffset, enterVector2.x);
-        CreatePath();
-        nodeGraph.SetNodesVisibility(false);
-        pathHelper = new PathHelper();
+        // Initialize node graph with entrance
+        GameObject entranceObject = GameObject.Find("EntrancePath");
+        if (entranceObject == null) return;
+
+        Path entrancePath = entranceObject.GetComponent<Path>();
+        if (entrancePath == null) return;
+
+        nodeGraph.AddPath(entrancePath);
+        nodeGraph.GetNodes()[0].AddPath(entrancePath);
+        nodeGraph.GetNodes()[0].SetInactive();
     }
 
     void Update()
@@ -357,17 +361,7 @@ public class PathBuilder : MonoBehaviour
 
     void CreatePath()
     {
-        // Create new path object
-        GameObject path;
-        // First path will always be entrance
-        if (pathsHolder.transform.childCount == 0)
-        {
-            path = new GameObject("Entrance" + PathNames.Path.ToString());
-        } else
-        {
-            path = new GameObject(PathNames.Path.ToString());
-        }
-
+        GameObject path = new GameObject(PathNames.Path.ToString());
         path.transform.SetParent(pathsHolder.transform);
 
         // Get offset points (prevent z-axis fighting on terrain)
