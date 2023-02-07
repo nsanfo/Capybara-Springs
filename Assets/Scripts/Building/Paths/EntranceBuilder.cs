@@ -9,13 +9,20 @@ public class EntranceBuilder : MonoBehaviour
 {
     [SerializeField]
     public Boolean updatePath;
+    public Material exitMaterial;
+    public Material nodeMaterial;
 
     void Update()
     {
-        if (Application.isPlaying) return;
+        if (Application.isPlaying)
+        {
+            RemoveSpheres();
+            return;
+        }
 
         // Handle initializing needed components
         InitializePathHolder();
+        InitializeControllerSpheres();
         InitializeEntrancePath();
 
         // Handle node selections
@@ -23,6 +30,7 @@ public class EntranceBuilder : MonoBehaviour
 
         if (updatePath)
         {
+            UpdateSpheres();
             UpdatePath();
         }
     }
@@ -42,6 +50,36 @@ public class EntranceBuilder : MonoBehaviour
 
         CreatePath();
     }
+    
+    void InitializeControllerSpheres()
+    {
+        GameObject entranceControllers = GameObject.Find("PathHolder/EntranceControllers");
+        if (entranceControllers != null) return;
+
+        GameObject pathHolder = GameObject.Find(PathBuilder.PathNames.PathHolder.ToString());
+        entranceControllers = new GameObject("EntranceControllers");
+        entranceControllers.transform.SetParent(pathHolder.transform);
+
+        GameObject exitSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        exitSphere.name = "ExitSphere";
+        exitSphere.transform.SetParent(entranceControllers.transform);
+        exitSphere.transform.position = new Vector3(0, 2, 0);
+        exitSphere.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        MeshRenderer exitRenderer = exitSphere.GetComponent<MeshRenderer>();
+        exitRenderer.material = exitMaterial;
+        exitRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        exitRenderer.receiveShadows = false;
+
+        GameObject nodeSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        nodeSphere.name = "NodeSphere";
+        nodeSphere.transform.SetParent(entranceControllers.transform);
+        nodeSphere.transform.position = new Vector3(0, 2, 3);
+        nodeSphere.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        MeshRenderer nodeMeshRenderer = nodeSphere.GetComponent<MeshRenderer>();
+        nodeMeshRenderer.material = nodeMaterial;
+        nodeMeshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        nodeMeshRenderer.receiveShadows = false;
+    }
 
     void CreatePath()
     {
@@ -50,12 +88,15 @@ public class EntranceBuilder : MonoBehaviour
 
         // Create new path object
         GameObject path = new GameObject("EntrancePath");
-
         path.transform.SetParent(pathsHolder.transform);
 
-        // Get offset points (prevent z-axis fighting on terrain)
-        Vector3 initialPoint1 = new Vector3(0, pathBuilder.meshOffset, 0);
-        Vector3 initialPoint2 = new Vector3(0, pathBuilder.meshOffset, 2);
+        // Get offset points (prevent z-axis fighting on terrain) from controller spheres
+        GameObject exitSphere = GameObject.Find("PathHolder/EntranceControllers/ExitSphere");
+        GameObject nodeSphere = GameObject.Find("PathHolder/EntranceControllers/NodeSphere");
+        if (exitSphere == null || nodeSphere == null) return;
+
+        Vector3 initialPoint1 = new Vector3(exitSphere.transform.position.x, pathBuilder.meshOffset, exitSphere.transform.position.z);
+        Vector3 initialPoint2 = new Vector3(nodeSphere.transform.position.x, pathBuilder.meshOffset, nodeSphere.transform.position.z);
 
         // Add path component to handle mesh
         Path pathComponent = path.AddComponent<Path>();
@@ -64,7 +105,7 @@ public class EntranceBuilder : MonoBehaviour
         pathBuilder.nodeGraph = new NodeGraph();
 
         // Set first node as disabled
-        GameObject entranceNodeHolder = GameObject.Find("EntrancePath/NodeHolder");
+        GameObject entranceNodeHolder = GameObject.Find("PathHolder/EntrancePath/NodeHolder");
         if (entranceNodeHolder == null) return;
 
         GameObject nodeObject = entranceNodeHolder.transform.GetChild(0).Find("NodeObject").gameObject;
@@ -95,41 +136,30 @@ public class EntranceBuilder : MonoBehaviour
 
     void UpdatePath()
     {
-        GameObject entrancePath = GameObject.Find("EntrancePath");
+        GameObject entrancePath = GameObject.Find("PathHolder/EntrancePath");
         Path path = entrancePath.GetComponent<Path>();
         if (path == null) return;
 
-        GameObject entranceNodeHolder = GameObject.Find("EntrancePath/NodeHolder");
-        if (entranceNodeHolder == null) return;
+        DestroyImmediate(entrancePath);
+        CreatePath();
+    }
 
-        Vector3 initialPoint1 = Vector3.zero;
-        Vector3 initialPoint2 = Vector3.zero;
-        Boolean setPoint1 = false;
-        Boolean setPoint2 = false;
-        for (int i = 0; i < entranceNodeHolder.transform.childCount; i++)
+    void UpdateSpheres()
+    {
+        GameObject selected = Selection.activeGameObject;
+        if (selected == null) return;
+
+        if (selected.name.Equals("ExitSphere") || selected.name.Equals("NodeSphere"))
         {
-            Vector3 position = entranceNodeHolder.transform.GetChild(i).Find("NodeObject").GetComponent<PathNode>().transform.position;
-            switch (i)
-            {
-                case 0:
-                    initialPoint1 = position;
-                    setPoint1 = true;
-                    break;
-
-                case 1:
-                    initialPoint2 = position;
-                    setPoint2 = true;
-                    break;
-            }
+            selected.transform.position = new Vector3(selected.transform.position.x, 2, selected.transform.position.z);
         }
+    }
 
-        if (!setPoint1 || !setPoint2) return;
+    void RemoveSpheres()
+    {
+        GameObject controllers = GameObject.Find("PathHolder/EntranceControllers");
+        if (controllers == null) return;
 
-        PathBuilder pathBuilder = GameObject.Find("PlayerBuilding").GetComponent<PathBuilder>();
-        initialPoint1 = new Vector3(initialPoint1.x, pathBuilder.meshOffset, initialPoint1.z);
-        initialPoint2 = new Vector3(initialPoint2.x, pathBuilder.meshOffset, initialPoint2.z);
-
-        path.UpdateVariables(pathBuilder, (initialPoint1, initialPoint2, Vector3.zero));
-        path.UpdateMesh();
+        Destroy(controllers);
     }
 }
