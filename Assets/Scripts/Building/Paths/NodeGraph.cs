@@ -106,7 +106,12 @@ public class NodeGraph
 
         if (nodes == null) return;
 
-        for (int i = 0; i < nodes.Length; i++)
+        if (nodes[0].gameObject.activeSelf)
+        {
+            nodes[0].gameObject.SetActive(false);
+        }
+
+        for (int i = 1; i < nodes.Length; i++)
         {
             if (nodesVisible)
             {

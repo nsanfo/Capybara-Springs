@@ -8,20 +8,22 @@ public static class PathUtilities
 {
     public static Vector3[] CalculateSpacedPoints((Vector3, Vector3, Vector3) pathPoints, bool isCurved, float spacing, float resolution = 1)
     {
+        /*
         if (pathPoints.Item1 != Vector3.zero)
         {
-            pathPoints.Item1 = new Vector3(pathPoints.Item1.x, 0.0001f, pathPoints.Item1.z);
+            pathPoints.Item1 = new Vector3(pathPoints.Item1.x, meshOffset, pathPoints.Item1.z);
         }
 
         if (pathPoints.Item2 != Vector3.zero)
         {
-            pathPoints.Item2 = new Vector3(pathPoints.Item2.x, 0.0001f, pathPoints.Item2.z);
+            pathPoints.Item2 = new Vector3(pathPoints.Item2.x, meshOffset, pathPoints.Item2.z);
         }
 
         if (pathPoints.Item3 != Vector3.zero)
         {
-            pathPoints.Item3 = new Vector3(pathPoints.Item3.x, 0.0001f, pathPoints.Item3.z);
+            pathPoints.Item3 = new Vector3(pathPoints.Item3.x, meshOffset, pathPoints.Item3.z);
         }
+        */
 
         List<Vector3> evenlySpacedPoints = new List<Vector3>();
         evenlySpacedPoints.Add(pathPoints.Item1);
@@ -117,6 +119,18 @@ public static class PathUtilities
             // Check if point is not the last point
             if (i < spacedPoints.Length - 1)
             {
+                // Create triangles CW
+                // Get first triangle vertex indices
+                triangles[triIndex + 2] = vertIndex + 2;
+                triangles[triIndex + 1] = vertIndex + 1;
+                triangles[triIndex] = vertIndex;
+
+                // Get second triangle vertex indices
+                triangles[triIndex + 5] = vertIndex + 1;
+                triangles[triIndex + 4] = vertIndex + 2;
+                triangles[triIndex + 3] = vertIndex + 3;
+                
+                /*
                 // Create triangles CCW
                 // Get first triangle vertex indices
                 triangles[triIndex] = vertIndex;
@@ -127,6 +141,7 @@ public static class PathUtilities
                 triangles[triIndex + 3] = vertIndex + 3;
                 triangles[triIndex + 4] = vertIndex + 2;
                 triangles[triIndex + 5] = vertIndex + 1;
+                */
             }
 
             vertIndex += 2;

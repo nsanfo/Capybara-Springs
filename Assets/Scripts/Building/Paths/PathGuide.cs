@@ -42,7 +42,7 @@ public class PathGuide : MonoBehaviour
         PlayerBuilding buildingScript = gameObject.GetComponent<PlayerBuilding>();
 
         // Get guide settings from building script
-        meshOffset = pathBuilderScript.meshOffset;
+        meshOffset = pathBuilderScript.meshOffset * 10;
 
         // Get guide materials from building script
         guideDefaultMaterials = pathBuilderScript.guideDefaultMaterials;
@@ -286,15 +286,17 @@ public class PathGuide : MonoBehaviour
 
     void InitializeGuidePath()
     {
+        float localMeshOffset = meshOffset * 2;
+
         // Create guide path object
         guidePathObject = new GameObject(PathBuilder.GuideNames.GuidePath.ToString());
         guidePathObject.transform.SetParent(guideHandlerObject.transform);
 
         // Get offset points (prevent z-axis fighting on terrain)
-        Vector3 point1 = new Vector3(pathHelper.pathPoints.Item1.x, meshOffset * 2, pathHelper.pathPoints.Item1.z);
-        Vector3 point2 = new Vector3(mouseRaycast.GetPosition().x, meshOffset * 2, mouseRaycast.GetPosition().z);
+        Vector3 point1 = new Vector3(pathHelper.pathPoints.Item1.x, localMeshOffset, pathHelper.pathPoints.Item1.z);
+        Vector3 point2 = new Vector3(mouseRaycast.GetPosition().x, localMeshOffset, mouseRaycast.GetPosition().z);
         Vector3 point3 = Vector3.zero;
-        if (pathHelper.curvedPath) point3 = new Vector3(pathHelper.pathPoints.Item3.x, meshOffset * 2, pathHelper.pathPoints.Item3.z);
+        if (pathHelper.curvedPath) point3 = new Vector3(pathHelper.pathPoints.Item3.x, localMeshOffset, pathHelper.pathPoints.Item3.z);
 
         // Add path component to handle mesh
         guidePathObject.AddComponent<Path>();
@@ -305,21 +307,23 @@ public class PathGuide : MonoBehaviour
 
     void UpdateGuidePath()
     {
+        float localMeshOffset = meshOffset * 2;
+
         // Get offset points (prevent z-axis fighting on terrain)
-        Vector3 point1 = new Vector3(pathHelper.pathPoints.Item1.x, meshOffset * 2, pathHelper.pathPoints.Item1.z);
+        Vector3 point1 = new Vector3(pathHelper.pathPoints.Item1.x, localMeshOffset, pathHelper.pathPoints.Item1.z);
 
         Vector3 point2;
         if (pathHelper.snappedMouseNode != null)
         {
-            point2 = new Vector3(pathHelper.snappedMouseNode.transform.position.x, meshOffset * 2, pathHelper.snappedMouseNode.transform.position.z);
+            point2 = new Vector3(pathHelper.snappedMouseNode.transform.position.x, localMeshOffset, pathHelper.snappedMouseNode.transform.position.z);
         }
         else
         {
-            point2 = new Vector3(mouseRaycast.GetPosition().x, meshOffset * 2, mouseRaycast.GetPosition().z);
+            point2 = new Vector3(mouseRaycast.GetPosition().x, localMeshOffset, mouseRaycast.GetPosition().z);
         }
         
         Vector3 point3 = Vector3.zero;
-        if (pathHelper.curvedPath) point3 = new Vector3(pathHelper.pathPoints.Item3.x, meshOffset * 2, pathHelper.pathPoints.Item3.z);
+        if (pathHelper.curvedPath) point3 = new Vector3(pathHelper.pathPoints.Item3.x, localMeshOffset, pathHelper.pathPoints.Item3.z);
 
         // Update path component to handle mesh
         Path pathComponent = guidePathObject.GetComponent<Path>();
@@ -359,6 +363,8 @@ public class PathGuide : MonoBehaviour
 
     void InitializeGuideDottedLine()
     {
+        float localMeshOffset = meshOffset * 3;
+
         // Create guide dotted line object
         guideDottedLineObject = new GameObject(PathBuilder.GuideNames.GuideDottedLine.ToString());
         guideDottedLineObject.transform.SetParent(guideHandlerObject.transform);
@@ -380,30 +386,32 @@ public class PathGuide : MonoBehaviour
 
         // Set position of points for line renderer
         Vector3[] positions = new Vector3[2];
-        positions[0] = pathHelper.pathPoints.Item1 + new Vector3(0, meshOffset * 3, 0);
-        positions[1] = mouseRaycast.GetPosition() + new Vector3(0, meshOffset * 3, 0); ;
+        positions[0] = pathHelper.pathPoints.Item1 + new Vector3(0, localMeshOffset, 0);
+        positions[1] = mouseRaycast.GetPosition() + new Vector3(0, localMeshOffset, 0); ;
         lineRenderer.positionCount = positions.Length;
         lineRenderer.SetPositions(positions);
     }
 
     void UpdateGuideDottedLine()
     {
+        float localMeshOffset = meshOffset * 3;
+
         LineRenderer lineRenderer = guideDottedLineObject.GetComponent<LineRenderer>();
 
         // Add point to line renderer on curved paths
         if (pathHelper.curvedPath && pathHelper.pathPoints.Item3 != Vector3.zero)
         {
             Vector3[] positions = new Vector3[3];
-            positions[0] = pathHelper.pathPoints.Item1 + new Vector3(0, meshOffset * 3, 0); ;
-            positions[1] = pathHelper.pathPoints.Item3 + new Vector3(0, meshOffset * 3, 0); ;
+            positions[0] = pathHelper.pathPoints.Item1 + new Vector3(0, localMeshOffset, 0); ;
+            positions[1] = pathHelper.pathPoints.Item3 + new Vector3(0, localMeshOffset, 0); ;
 
             if (pathHelper.snappedMouseNode != null)
             {
-                positions[2] = pathHelper.snappedMouseNode.transform.position + new Vector3(0, meshOffset * 3, 0); ;
+                positions[2] = pathHelper.snappedMouseNode.transform.position + new Vector3(0, localMeshOffset, 0); ;
             }
             else
             {
-                positions[2] = mouseRaycast.GetPosition() + new Vector3(0, meshOffset * 3, 0); ;
+                positions[2] = mouseRaycast.GetPosition() + new Vector3(0, localMeshOffset, 0); ;
             }
             
             lineRenderer.positionCount = positions.Length;
@@ -414,15 +422,15 @@ public class PathGuide : MonoBehaviour
         {
             // Set position of points for line renderer
             Vector3[] positions = new Vector3[2];
-            positions[0] = pathHelper.pathPoints.Item1 + new Vector3(0, meshOffset * 3, 0); ;
+            positions[0] = pathHelper.pathPoints.Item1 + new Vector3(0, localMeshOffset, 0); ;
 
             if (pathHelper.snappedMouseNode != null)
             {
-                positions[1] = pathHelper.snappedMouseNode.transform.position + new Vector3(0, meshOffset * 3, 0); ;
+                positions[1] = pathHelper.snappedMouseNode.transform.position + new Vector3(0, localMeshOffset, 0); ;
             }
             else
             {
-                positions[1] = mouseRaycast.GetPosition() + new Vector3(0, meshOffset * 3, 0); ;
+                positions[1] = mouseRaycast.GetPosition() + new Vector3(0, localMeshOffset, 0); ;
             }
 
             lineRenderer.positionCount = positions.Length;

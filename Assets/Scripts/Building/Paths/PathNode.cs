@@ -8,11 +8,11 @@ public class PathNode : MonoBehaviour
     private Path[] connectedPaths = new Path[0];
     public bool snappedNode = false;
     
-    public void SetMaterial(Material nodeMaterial, Transform nodeHolder)
-    {   
+    public void SetMaterial(Material nodeMaterial, Transform nodeHolder, float meshOffset)
+    {
         GameObject nodeMatObj = GameObject.CreatePrimitive(PrimitiveType.Plane);
         nodeMatObj.transform.SetParent(nodeHolder.transform);
-        nodeMatObj.transform.position = new Vector3(this.transform.position.x, 0.0002f, this.transform.position.z);
+        nodeMatObj.transform.position = new Vector3(this.transform.position.x, meshOffset, this.transform.position.z);
         nodeMatObj.transform.localScale = new Vector3(0.12f, 0.12f, 0.12f);
         nodeMatObj.GetComponent<MeshRenderer>().material = nodeMaterial;
     }
