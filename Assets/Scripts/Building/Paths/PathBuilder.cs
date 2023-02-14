@@ -122,8 +122,7 @@ public class PathBuilder : MonoBehaviour
         if (entrancePath == null) return;
 
         nodeGraph.AddPath(entrancePath);
-        nodeGraph.GetNodes()[0].AddPath(entrancePath);
-        nodeGraph.GetNodes()[0].SetInactive();
+        nodeGraph.SetNodesVisibility(false);
     }
 
     void Update()
