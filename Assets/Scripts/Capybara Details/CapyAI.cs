@@ -118,7 +118,7 @@ public class CapyAI : MonoBehaviour
     public void CompletedAmenityInteraction()
     {
         AmenityInteraction interaction = gameObject.GetComponent<AmenityInteraction>();
-        if (interaction == null)
+        if (interaction != null)
             Destroy(interaction);
 
         usingAmenity = false;
