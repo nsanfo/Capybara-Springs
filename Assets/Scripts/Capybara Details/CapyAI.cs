@@ -82,8 +82,7 @@ public class CapyAI : MonoBehaviour
                     capyAnimator.SetBool("Travelling", false);
                     StartCoroutine(Wait(10));
                     usingAmenity = true;
-                    AmenityInteraction interaction = gameObject.AddComponent<AmenityInteraction>();
-                    interaction.HandleInteraction(destinationRoute.Amenity);
+                    GetComponent<AmenityInteraction>().HandleInteraction(destinationRoute.Amenity);
                 }
             }
             else
@@ -117,9 +116,11 @@ public class CapyAI : MonoBehaviour
 
     public void CompletedAmenityInteraction()
     {
+        /*
         AmenityInteraction interaction = gameObject.GetComponent<AmenityInteraction>();
         if (interaction != null)
             Destroy(interaction);
+        */
 
         usingAmenity = false;
     }

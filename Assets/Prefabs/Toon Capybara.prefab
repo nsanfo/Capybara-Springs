@@ -417,6 +417,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicator: {fileID: 767792751}
+--- !u!114 &713569630500592008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6843940063343857778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6725d18609c47c645a97f2496b335c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smokeParticleEmitter: {fileID: 2026139171341548177, guid: 249074cec8a6de8408d82e35071608cf, type: 3}
 --- !u!114 &2638168307437096894
 MonoBehaviour:
   m_ObjectHideFlags: 0

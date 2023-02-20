@@ -25,13 +25,17 @@ public class AmenityInteraction : MonoBehaviour
 
     private Vector3 amenityFront;
 
-    void Update()
+    public GameObject smokeParticleEmitter;
+    private GameObject emitterObject;
+    private Renderer[] capybaraRenderer = new Renderer[2];
+
+    private void Update()
     {
         if (amenity == null) return;
 
-        PositionToFront();
-        EnterAnimation();
-        HandleAmenityCentering();
+        PositionForTeleport();
+        EnterAmenity();
+        ExitAmenity();
     }
 
     public void HandleInteraction(Amenity amenity)
@@ -41,18 +45,42 @@ public class AmenityInteraction : MonoBehaviour
         if (animationData == null)
             return;
 
+        emitterObject = new GameObject("SmokeEmitter");
+        emitterObject.transform.SetParent(this.transform);
+
+        // Position capybara in place for teleport
         amenityFront = Vector3.Lerp(amenity.transform.position, amenity.PathCollider.transform.position, animationData.forwardMultiplier);
-        gameObject.transform.LookAt(amenityFront);
+        transform.LookAt(amenityFront);
         capyAnimator = gameObject.GetComponent<Animator>();
         capyAnimator.SetBool("Travelling", true);
 
-        currentState = 0;
+        // Get renderers for capybara
+        List<Renderer> renderList = new List<Renderer>();
+        GameObject capybara = transform.Find("Capybara").gameObject;
+        if (capybara != null)
+        {
+            renderList.Add(capybara.GetComponent<Renderer>());
+        }
 
-        DebugAnimation(false);
+        string path = "Root/Pelvis/Spine.1/Spine.2/Neck.1/Neck.2/Head/";
+        GameObject eyeL = transform.Find(path + "EyeL").gameObject;
+        if (eyeL != null)
+        {
+            renderList.Add(eyeL.GetComponent<Renderer>());
+        }
+
+        GameObject eyeR = transform.Find(path + "EyeR").gameObject;
+        if (eyeR != null)
+        {
+            renderList.Add(eyeR.GetComponent<Renderer>());
+        }
+
+        capybaraRenderer = renderList.ToArray();
+
+        currentState = 0;
     }
 
-    // Handles positioning the capybara in place for the animation
-    private void PositionToFront()
+    private void PositionForTeleport()
     {
         // Approach amenity front
         if (currentState == 0 && Vector3.Distance(transform.position, amenityFront) <= 0.1)
@@ -67,47 +95,71 @@ public class AmenityInteraction : MonoBehaviour
         RotateCapybara(2);
     }
 
-    private void EnterAnimation()
+    private void EnterAmenity()
     {
         if (currentState == 3)
         {
-            capyAnimator.Play(animationData.animation.ToString() + "Enter");
+            CreateSmoke();
+            HandleHiding(false);
+            StartCoroutine(AppearInAmenity(1));
             currentState = 4;
         }
     }
 
-    public void EnableCentering()
+    private IEnumerator AppearInAmenity(int numSeconds)
     {
-        centeringElapsedTime = 0;
-        centeringStartPosition = transform.position;
+        yield return new WaitForSeconds(numSeconds);
         Vector3 amenityPos = amenity.transform.position;
-        centeringEndPosition = new Vector3(amenityPos.x, amenityPos.y + animationData.enteredCenteringHeight, amenityPos.z);
+        transform.position = new Vector3(amenityPos.x, amenityPos.y + animationData.enteredCenteringHeight, amenityPos.z);
+        transform.LookAt(new Vector3(amenityFront.x, amenityFront.y + animationData.enteredCenteringHeight, amenityFront.z));
+        HandleHiding(true);
+        emitterObject.GetComponent<ParticleSystem>().Play();
+        StartCoroutine(UpdateCapybaraStats());
+        
+    }
+
+    private IEnumerator UpdateCapybaraStats()
+    {
+        yield return new WaitForSeconds(Random.Range(3, 5));
+
+        CapybaraInfo capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
+        capybaraInfo.hunger += amenity.hungerFill;
+        capybaraInfo.comfort += amenity.comfortFill;
+        capybaraInfo.fun += amenity.funFill;
+
+        yield return new WaitForSeconds(Random.Range(3, 5));
         currentState = 5;
     }
 
-    private void HandleAmenityCentering()
+    private void ExitAmenity()
     {
-        CenterCapybara(5, amenityFront + new Vector3(0, animationData.enteredCenteringHeight, 0));
-        RotateCapybara(6);
-
-        if (currentState == 7)
+        if (currentState == 5)
         {
-            currentState = 8;
-            StartCoroutine(WaitInAmenity());
+            emitterObject.GetComponent<ParticleSystem>().Play();
+            HandleHiding(false);
+            StartCoroutine(AppearInFront(1));
+            currentState = 6;
         }
     }
 
-    private IEnumerator WaitInAmenity()
+    private IEnumerator AppearInFront(int numSeconds)
     {
-        // Wait allotted time
-        yield return new WaitForSeconds(Random.Range(3, 5));
+        yield return new WaitForSeconds(numSeconds);
+        transform.position = amenityFront;
+        HandleHiding(true);
+        emitterObject.GetComponent<ParticleSystem>().Play();
+        currentState = -1;
+        amenity = null;
+        capybaraRenderer = new Renderer[2];
+        GetComponent<CapyAI>().CompletedAmenityInteraction();
+    }
 
-        UpdateCapybaraInfo();
-
-        yield return new WaitForSeconds(Random.Range(3, 5));
-
-        capyAnimator.Play(animationData.animation.ToString() + "Exit");
-        currentState = 9;
+    private void CreateSmoke()
+    {
+        emitterObject = Instantiate(smokeParticleEmitter);
+        emitterObject.transform.SetParent(transform);
+        emitterObject.transform.position = transform.position;
+        emitterObject.GetComponent<ParticleSystem>().Play();
     }
 
     private void CenterCapybara(int startState, Vector3 lookPos)
@@ -144,36 +196,11 @@ public class AmenityInteraction : MonoBehaviour
         }
     }
 
-    private void UpdateCapybaraInfo()
+    private void HandleHiding(bool hide)
     {
-        CapybaraInfo capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
-        capybaraInfo.hunger += amenity.hungerFill;
-        capybaraInfo.comfort += amenity.comfortFill;
-        capybaraInfo.fun += amenity.funFill;
-    }
-
-    private void DebugAnimation(bool debug)
-    {
-        if (!debug) return;
-
-        if (GameObject.Find("AnimDebugCollider") != null)
+        for (int i = 0; i < capybaraRenderer.Length; i++)
         {
-            Destroy(GameObject.Find("AnimDebugCollider"));
+            capybaraRenderer[i].enabled = hide;
         }
-        GameObject newObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        newObject.name = "AnimDebugCollider";
-        newObject.transform.position = amenity.PathCollider.transform.position;
-        newObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-
-        if (GameObject.Find("AnimDebugPositioner") != null)
-        {
-            Destroy(GameObject.Find("AnimDebugPositioner"));
-        }
-        GameObject targetObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        targetObject.name = "AnimDebugPositioner";
-
-        // Get area between collider and amenity
-        targetObject.transform.position = amenityFront;
-        targetObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
     }
 }
