@@ -35,7 +35,7 @@ public class AmenityAnimationHandler
                 AmenityNames.LargeOnsenLvl1,
                 AmenityAnimNames.LargeOnsen,
                 0.9f,
-                1f
+                0.4f
                 ),
         };
 

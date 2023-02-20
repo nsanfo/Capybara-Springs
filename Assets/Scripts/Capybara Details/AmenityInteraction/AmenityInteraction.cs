@@ -41,33 +41,14 @@ public class AmenityInteraction : MonoBehaviour
         if (animationData == null)
             return;
 
-        if (GameObject.Find("TESTER") != null)
-        {
-            Destroy(GameObject.Find("TESTER"));
-        }
-        GameObject newObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        newObject.name = "TESTER";
-        newObject.transform.position = amenity.PathCollider.transform.position;
-        newObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-
-        if (GameObject.Find("TARGETPOS") != null)
-        {
-            Destroy(GameObject.Find("TARGETPOS"));
-        }
-        GameObject targetObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        targetObject.name = "TARGETPOS";
-
-        // Get area between collider and amenity
-        Vector3 newPoint = Vector3.Lerp(amenity.transform.position, amenity.PathCollider.transform.position, animationData.forwardMultiplier);
-        targetObject.transform.position = newPoint;
-        targetObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-
         amenityFront = Vector3.Lerp(amenity.transform.position, amenity.PathCollider.transform.position, animationData.forwardMultiplier);
         gameObject.transform.LookAt(amenityFront);
         capyAnimator = gameObject.GetComponent<Animator>();
         capyAnimator.SetBool("Travelling", true);
 
         currentState = 0;
+
+        DebugAnimation(false);
     }
 
     // Handles positioning the capybara in place for the animation
@@ -102,7 +83,6 @@ public class AmenityInteraction : MonoBehaviour
         Vector3 amenityPos = amenity.transform.position;
         centeringEndPosition = new Vector3(amenityPos.x, amenityPos.y + animationData.enteredCenteringHeight, amenityPos.z);
         currentState = 5;
-        Debug.Log("CENTERING");
     }
 
     private void HandleAmenityCentering()
@@ -170,5 +150,30 @@ public class AmenityInteraction : MonoBehaviour
         capybaraInfo.hunger += amenity.hungerFill;
         capybaraInfo.comfort += amenity.comfortFill;
         capybaraInfo.fun += amenity.funFill;
+    }
+
+    private void DebugAnimation(bool debug)
+    {
+        if (!debug) return;
+
+        if (GameObject.Find("AnimDebugCollider") != null)
+        {
+            Destroy(GameObject.Find("AnimDebugCollider"));
+        }
+        GameObject newObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        newObject.name = "AnimDebugCollider";
+        newObject.transform.position = amenity.PathCollider.transform.position;
+        newObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+
+        if (GameObject.Find("AnimDebugPositioner") != null)
+        {
+            Destroy(GameObject.Find("AnimDebugPositioner"));
+        }
+        GameObject targetObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        targetObject.name = "AnimDebugPositioner";
+
+        // Get area between collider and amenity
+        targetObject.transform.position = amenityFront;
+        targetObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
     }
 }
