@@ -12,7 +12,7 @@ public class CapyAI : MonoBehaviour
     private Pathfinder pathfinder;
 
     private Path currentPath;
-    public float PathPosition { get; set; }
+    public Vector3 PathPosition { get; set; } // A vector representing the capybara's distance from the center axis of the path
 
     private int collisions;
     public int Collisions { get => collisions; }
@@ -27,7 +27,7 @@ public class CapyAI : MonoBehaviour
     private PathNode nextNode;
 
     float startingDirection, endDirection;
-    float turnAmount;
+    //float turnAmount;
 
     // Start is called before the first frame update
     void Start()
@@ -118,12 +118,11 @@ public class CapyAI : MonoBehaviour
                 }
             case States.turning:
                 {
-                    gameObject.transform.Rotate(Vector3.up, turnAmount);
-                    gameObject.transform.Translate(Vector3.forward * 0.4f * Time.deltaTime);
-                    if (Mathf.Abs(endDirection - gameObject.transform.eulerAngles.y) <= 0.3f)
+                    if (Mathf.Abs(endDirection - gameObject.transform.eulerAngles.y) <= 1f)
                     {
                         state = States.travelling;
-                        gameObject.transform.eulerAngles = new Vector3(gameObject.transform.rotation.x, endDirection, gameObject.transform.rotation.z);
+                        capyAnimator.SetBool("Turning", false);
+                        StartCoroutine(TurnWait(0.25f));
                     }
                 }
                 break;
@@ -137,6 +136,13 @@ public class CapyAI : MonoBehaviour
         state = States.ready;
     }
 
+    // Waits to align the capybara to its destination after the turn animation exit blending has completed
+    private IEnumerator TurnWait(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        gameObject.transform.eulerAngles = new Vector3(gameObject.transform.rotation.x, endDirection, gameObject.transform.rotation.z);
+    }
+
     private void CalculateTurn(float startingDirection, float endDirection)
     {
         var difference = startingDirection - endDirection;
@@ -146,10 +152,18 @@ public class CapyAI : MonoBehaviour
         else if (difference < -180)
             difference = (360 - endDirection + startingDirection);
 
+        capyAnimator.SetBool("Turning", true);
+
         if (difference >= 0)
-            turnAmount = Mathf.Min(-0.013f * Mathf.Pow(difference, 2), -difference, -1) * 0.45f * Time.deltaTime;
+        {
+            capyAnimator.SetFloat("Turn", (-difference) * (1f / 90f));
+            Debug.Log("Turn amount: " + capyAnimator.GetFloat("Turn"));
+        }
         else
-            turnAmount = Mathf.Max(0.013f * Mathf.Pow(difference, 2), -difference, 1) * 0.45f * Time.deltaTime;
+        {
+            capyAnimator.SetFloat("Turn", (-difference) * (1f / 90f));
+            Debug.Log("Turn amount: " + capyAnimator.GetFloat("Turn"));
+        }
         state = States.turning;
     }
 
