@@ -56,6 +56,7 @@ public class PathBuilder : MonoBehaviour
     [Range(0.5f, 1.5f)]
     public float meshSpacing = 1;
     public float meshWidth = 1.0f;
+    [HideInInspector]
     public float meshOffset = 0.0001f;
 
     [Space(10)]
@@ -123,6 +124,8 @@ public class PathBuilder : MonoBehaviour
 
         nodeGraph.AddPath(entrancePath);
         nodeGraph.SetNodesVisibility(false);
+
+        meshOffset = 0.0001f;
     }
 
     void Update()

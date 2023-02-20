@@ -23,19 +23,19 @@ public class AmenityAnimationHandler
                 AmenityNames.SmallOnsenLvl1,
                 AmenityAnimNames.SmallOnsen,
                 0.7f,
-                0
+                0.04f
                 ),
             new AmenityAnimationData(
                 AmenityNames.MediumOnsenLvl1,
                 AmenityAnimNames.MediumOnsen,
-                1f,
-                0
+                0.9f,
+                0.14f
                 ),
             new AmenityAnimationData(
                 AmenityNames.LargeOnsenLvl1,
                 AmenityAnimNames.LargeOnsen,
-                1f,
-                0
+                0.9f,
+                1f
                 ),
         };
 

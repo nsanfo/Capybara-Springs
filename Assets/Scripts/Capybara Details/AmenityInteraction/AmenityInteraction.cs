@@ -41,9 +41,28 @@ public class AmenityInteraction : MonoBehaviour
         if (animationData == null)
             return;
 
-        Vector3 forwardMulti = new Vector3(0, 0, animationData.forwardMultiplier);
-        amenityFront = amenity.transform.position + Vector3.Scale(amenity.transform.forward, forwardMulti);
+        if (GameObject.Find("TESTER") != null)
+        {
+            Destroy(GameObject.Find("TESTER"));
+        }
+        GameObject newObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        newObject.name = "TESTER";
+        newObject.transform.position = amenity.PathCollider.transform.position;
+        newObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
 
+        if (GameObject.Find("TARGETPOS") != null)
+        {
+            Destroy(GameObject.Find("TARGETPOS"));
+        }
+        GameObject targetObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        targetObject.name = "TARGETPOS";
+
+        // Get area between collider and amenity
+        Vector3 newPoint = Vector3.Lerp(amenity.transform.position, amenity.PathCollider.transform.position, animationData.forwardMultiplier);
+        targetObject.transform.position = newPoint;
+        targetObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+        amenityFront = Vector3.Lerp(amenity.transform.position, amenity.PathCollider.transform.position, animationData.forwardMultiplier);
         gameObject.transform.LookAt(amenityFront);
         capyAnimator = gameObject.GetComponent<Animator>();
         capyAnimator.SetBool("Travelling", true);
@@ -83,11 +102,12 @@ public class AmenityInteraction : MonoBehaviour
         Vector3 amenityPos = amenity.transform.position;
         centeringEndPosition = new Vector3(amenityPos.x, amenityPos.y + animationData.enteredCenteringHeight, amenityPos.z);
         currentState = 5;
+        Debug.Log("CENTERING");
     }
 
     private void HandleAmenityCentering()
     {
-        CenterCapybara(5, amenityFront);
+        CenterCapybara(5, amenityFront + new Vector3(0, animationData.enteredCenteringHeight, 0));
         RotateCapybara(6);
 
         if (currentState == 7)
