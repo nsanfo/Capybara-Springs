@@ -82,7 +82,6 @@ public class CapyAI : MonoBehaviour
                     {
                         if (Vector3.Distance(gameObject.transform.position, destinationRoute.Amenity.PathCollider.gameObject.transform.position) <= 0.1)
                         {
-                            state = States.waiting;
                             capyAnimator.SetBool("Travelling", false);
                             state = States.usingAmenity;
                             GetComponent<AmenityInteraction>().HandleInteraction(destinationRoute.Amenity);
@@ -158,12 +157,10 @@ public class CapyAI : MonoBehaviour
         if (difference >= 0)
         {
             capyAnimator.SetFloat("Turn", (-difference) * (1f / 90f));
-            Debug.Log("Turn amount: " + capyAnimator.GetFloat("Turn"));
         }
         else
         {
             capyAnimator.SetFloat("Turn", (-difference) * (1f / 90f));
-            Debug.Log("Turn amount: " + capyAnimator.GetFloat("Turn"));
         }
         state = States.turning;
     }

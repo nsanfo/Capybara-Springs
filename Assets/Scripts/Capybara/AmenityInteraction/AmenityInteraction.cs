@@ -33,7 +33,8 @@ public class AmenityInteraction : MonoBehaviour
     {
         if (amenity == null) return;
 
-        PositionForTeleport();
+        //PositionForTeleport();
+        RotateCapybara(2);
         EnterAmenity();
         ExitAmenity();
     }
@@ -50,9 +51,9 @@ public class AmenityInteraction : MonoBehaviour
 
         // Position capybara in place for teleport
         amenityFront = Vector3.Lerp(amenity.transform.position, amenity.PathCollider.transform.position, animationData.forwardMultiplier);
-        transform.LookAt(amenityFront);
+        //transform.LookAt(amenityFront);
         capyAnimator = gameObject.GetComponent<Animator>();
-        capyAnimator.SetBool("Travelling", true);
+        //capyAnimator.SetBool("Travelling", true);
 
         // Get renderers for capybara
         List<Renderer> renderList = new List<Renderer>();
@@ -77,7 +78,16 @@ public class AmenityInteraction : MonoBehaviour
 
         capybaraRenderer = renderList.ToArray();
 
-        currentState = 0;
+        //currentState = 0;
+
+        currentState = 2;
+        rotationEndPosition = Quaternion.LookRotation(amenity.transform.position - transform.position);
+        capyAnimator.SetBool("Turning", true);
+
+        if((amenity.transform.position - gameObject.transform.right).magnitude <= (amenity.transform.position - -gameObject.transform.right).magnitude)
+            capyAnimator.SetFloat("Turn", 1f);
+        else
+            capyAnimator.SetFloat("Turn", -1f);
     }
 
     private void PositionForTeleport()
@@ -124,7 +134,7 @@ public class AmenityInteraction : MonoBehaviour
 
         CapybaraInfo capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
         capybaraInfo.hunger += amenity.hungerFill;
-        capybaraInfo.comfort += amenity.comfortFill;
+        capybaraInfo.comfort += amenity.comfortFill * 25;
         capybaraInfo.fun += amenity.funFill;
 
         yield return new WaitForSeconds(Random.Range(3, 5));
@@ -179,6 +189,7 @@ public class AmenityInteraction : MonoBehaviour
         }
     }
 
+    /*
     private void RotateCapybara(int startState)
     {
         if (currentState == startState && (rotationCompleted <= 1))
@@ -195,6 +206,19 @@ public class AmenityInteraction : MonoBehaviour
             currentState++;
         }
     }
+    */
+
+    private void RotateCapybara(int startState)
+    {
+        if (currentState == startState && (Mathf.Abs(rotationEndPosition.eulerAngles.y - gameObject.transform.eulerAngles.y) <= 1f))
+        {
+            capyAnimator.SetBool("Turning", false);
+            rotationCompleted = 0;
+            rotationElapsedTime = 0;
+            currentState = 1;
+            StartCoroutine(Wait(1));
+        }
+    }
 
     private void HandleHiding(bool hide)
     {
@@ -202,5 +226,11 @@ public class AmenityInteraction : MonoBehaviour
         {
             capybaraRenderer[i].enabled = hide;
         }
+    }
+
+    private IEnumerator Wait(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        currentState = 3;
     }
 }
