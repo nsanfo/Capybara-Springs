@@ -82,7 +82,7 @@ public class SpawnManager : MonoBehaviour
             }
             else
             {
-                capyAI.PathPosition = Intersection.calculatePathPosition(newCapy.transform.position, newCapy.transform.forward, new Vector3(0, 0, 0), entranceForward);
+                capyAI.PathPosition = Intersection.CalculatePathPosition(newCapy.transform.position, newCapy.transform.forward, new Vector3(0, 0, 0), entranceForward);
                 break;
             }
         }

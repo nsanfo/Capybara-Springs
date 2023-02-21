@@ -30,11 +30,12 @@ public class Intersection : MonoBehaviour
         }
     }
 
-    public static Vector3 calculatePathPosition(Vector3 capyPosition, Vector3 capyVector, Vector3 pathPosition, Vector3 pathVector)
+    public static Vector3 CalculatePathPosition(Vector3 capyPosition, Vector3 capyVector, Vector3 pathPosition, Vector3 pathVector)
     {
         Vector3 intersection;
         LineLineIntersection(out intersection, capyPosition, capyVector, pathPosition, pathVector);
         Vector3 result = capyVector - intersection;
+        Debug.Log("Path Position: " + result);
         return result;
     }
 }
