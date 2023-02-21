@@ -84,7 +84,8 @@ public class CapyAI : MonoBehaviour
                         {
                             state = States.waiting;
                             capyAnimator.SetBool("Travelling", false);
-                            StartCoroutine(Wait(10));
+                            state = States.usingAmenity;
+                            GetComponent<AmenityInteraction>().HandleInteraction(destinationRoute.Amenity);
                         }
                     }
                     else
@@ -177,5 +178,10 @@ public class CapyAI : MonoBehaviour
     {
         if (other.gameObject.tag == "Capybara")
             collisions--;
+    }
+
+    public void CompletedAmenityInteraction()
+    {
+        state = States.travelling;
     }
 }

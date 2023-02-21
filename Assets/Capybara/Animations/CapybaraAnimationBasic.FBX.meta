@@ -1,169 +1,461 @@
 fileFormatVersion: 2
 guid: a791ace7940bb49e6a216aa5bd2b8ab3
-timeCreated: 1465090356
-licenseType: Store
 ModelImporter:
-  serializedVersion: 18
-  fileIDToRecycleName:
-    100000: Belly_L
-    100002: Belly_R
-    100004: Calf_L
-    100006: Calf_R
-    100008: //RootNode
-    100010: CapybaraDummy
-    100012: Clavicle_L
-    100014: Clavicle_R
-    100016: Ear_L
-    100018: Ear_R
-    100020: Eye_L
-    100022: Eye_R
-    100024: Finger.00_L
-    100026: Finger.00_R
-    100028: Finger.01_L
-    100030: Finger.01_R
-    100032: Finger.10_L
-    100034: Finger.10_R
-    100036: Finger.11_L
-    100038: Finger.11_R
-    100040: Finger.20_L
-    100042: Finger.20_R
-    100044: Finger.21_L
-    100046: Finger.21_R
-    100048: Finger.3_L
-    100050: Finger.3_R
-    100052: Foot_L
-    100054: Foot_R
-    100056: Forearm_L
-    100058: Forearm_R
-    100060: Hand_L
-    100062: Hand_L.001
-    100064: Hand_R
-    100066: Hand_R.001
-    100068: Head
-    100070: HorseLink_L
-    100072: HorseLink_R
-    100074: Joe
-    100076: LowerEyelid_L
-    100078: LowerEyelid_R
-    100080: Mouth_L
-    100082: Mouth_R
-    100084: Neck.1
-    100086: Neck.2
-    100088: Nose_L
-    100090: Nose_R
-    100092: Pelvis
-    100094: Root
-    100096: Spine.1
-    100098: Spine.2
-    100100: Tail
-    100102: Thigh_L
-    100104: Thigh_R
-    100106: Toe.0_L
-    100108: Toe.0_R
-    100110: Toe.1_L
-    100112: Toe.1_R
-    100114: Toe.2_L
-    100116: Toe.2_R
-    100118: Tongue.1
-    100120: Tongue.2
-    100122: UpperArm_L
-    100124: UpperArm_R
-    100126: UpperEyelid_L
-    100128: UpperEyelid_R
-    400000: Belly_L
-    400002: Belly_R
-    400004: Calf_L
-    400006: Calf_R
-    400008: //RootNode
-    400010: CapybaraDummy
-    400012: Clavicle_L
-    400014: Clavicle_R
-    400016: Ear_L
-    400018: Ear_R
-    400020: Eye_L
-    400022: Eye_R
-    400024: Finger.00_L
-    400026: Finger.00_R
-    400028: Finger.01_L
-    400030: Finger.01_R
-    400032: Finger.10_L
-    400034: Finger.10_R
-    400036: Finger.11_L
-    400038: Finger.11_R
-    400040: Finger.20_L
-    400042: Finger.20_R
-    400044: Finger.21_L
-    400046: Finger.21_R
-    400048: Finger.3_L
-    400050: Finger.3_R
-    400052: Foot_L
-    400054: Foot_R
-    400056: Forearm_L
-    400058: Forearm_R
-    400060: Hand_L
-    400062: Hand_L.001
-    400064: Hand_R
-    400066: Hand_R.001
-    400068: Head
-    400070: HorseLink_L
-    400072: HorseLink_R
-    400074: Joe
-    400076: LowerEyelid_L
-    400078: LowerEyelid_R
-    400080: Mouth_L
-    400082: Mouth_R
-    400084: Neck.1
-    400086: Neck.2
-    400088: Nose_L
-    400090: Nose_R
-    400092: Pelvis
-    400094: Root
-    400096: Spine.1
-    400098: Spine.2
-    400100: Tail
-    400102: Thigh_L
-    400104: Thigh_R
-    400106: Toe.0_L
-    400108: Toe.0_R
-    400110: Toe.1_L
-    400112: Toe.1_R
-    400114: Toe.2_L
-    400116: Toe.2_R
-    400118: Tongue.1
-    400120: Tongue.2
-    400122: UpperArm_L
-    400124: UpperArm_R
-    400126: UpperEyelid_L
-    400128: UpperEyelid_R
-    7400000: WalkForward
-    7400002: WalkRight
-    7400004: WalkLeft
-    7400006: WalkBack
-    7400008: RunForward
-    7400010: RunRight
-    7400012: RunLeft
-    7400014: Hit
-    7400016: Attack
-    9500000: //RootNode
+  serializedVersion: 22103
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Belly_L
+  - first:
+      1: 100002
+    second: Belly_R
+  - first:
+      1: 100004
+    second: Calf_L
+  - first:
+      1: 100006
+    second: Calf_R
+  - first:
+      1: 100008
+    second: //RootNode
+  - first:
+      1: 100010
+    second: CapybaraDummy
+  - first:
+      1: 100012
+    second: Clavicle_L
+  - first:
+      1: 100014
+    second: Clavicle_R
+  - first:
+      1: 100016
+    second: Ear_L
+  - first:
+      1: 100018
+    second: Ear_R
+  - first:
+      1: 100020
+    second: Eye_L
+  - first:
+      1: 100022
+    second: Eye_R
+  - first:
+      1: 100024
+    second: Finger.00_L
+  - first:
+      1: 100026
+    second: Finger.00_R
+  - first:
+      1: 100028
+    second: Finger.01_L
+  - first:
+      1: 100030
+    second: Finger.01_R
+  - first:
+      1: 100032
+    second: Finger.10_L
+  - first:
+      1: 100034
+    second: Finger.10_R
+  - first:
+      1: 100036
+    second: Finger.11_L
+  - first:
+      1: 100038
+    second: Finger.11_R
+  - first:
+      1: 100040
+    second: Finger.20_L
+  - first:
+      1: 100042
+    second: Finger.20_R
+  - first:
+      1: 100044
+    second: Finger.21_L
+  - first:
+      1: 100046
+    second: Finger.21_R
+  - first:
+      1: 100048
+    second: Finger.3_L
+  - first:
+      1: 100050
+    second: Finger.3_R
+  - first:
+      1: 100052
+    second: Foot_L
+  - first:
+      1: 100054
+    second: Foot_R
+  - first:
+      1: 100056
+    second: Forearm_L
+  - first:
+      1: 100058
+    second: Forearm_R
+  - first:
+      1: 100060
+    second: Hand_L
+  - first:
+      1: 100062
+    second: Hand_L.001
+  - first:
+      1: 100064
+    second: Hand_R
+  - first:
+      1: 100066
+    second: Hand_R.001
+  - first:
+      1: 100068
+    second: Head
+  - first:
+      1: 100070
+    second: HorseLink_L
+  - first:
+      1: 100072
+    second: HorseLink_R
+  - first:
+      1: 100074
+    second: Joe
+  - first:
+      1: 100076
+    second: LowerEyelid_L
+  - first:
+      1: 100078
+    second: LowerEyelid_R
+  - first:
+      1: 100080
+    second: Mouth_L
+  - first:
+      1: 100082
+    second: Mouth_R
+  - first:
+      1: 100084
+    second: Neck.1
+  - first:
+      1: 100086
+    second: Neck.2
+  - first:
+      1: 100088
+    second: Nose_L
+  - first:
+      1: 100090
+    second: Nose_R
+  - first:
+      1: 100092
+    second: Pelvis
+  - first:
+      1: 100094
+    second: Root
+  - first:
+      1: 100096
+    second: Spine.1
+  - first:
+      1: 100098
+    second: Spine.2
+  - first:
+      1: 100100
+    second: Tail
+  - first:
+      1: 100102
+    second: Thigh_L
+  - first:
+      1: 100104
+    second: Thigh_R
+  - first:
+      1: 100106
+    second: Toe.0_L
+  - first:
+      1: 100108
+    second: Toe.0_R
+  - first:
+      1: 100110
+    second: Toe.1_L
+  - first:
+      1: 100112
+    second: Toe.1_R
+  - first:
+      1: 100114
+    second: Toe.2_L
+  - first:
+      1: 100116
+    second: Toe.2_R
+  - first:
+      1: 100118
+    second: Tongue.1
+  - first:
+      1: 100120
+    second: Tongue.2
+  - first:
+      1: 100122
+    second: UpperArm_L
+  - first:
+      1: 100124
+    second: UpperArm_R
+  - first:
+      1: 100126
+    second: UpperEyelid_L
+  - first:
+      1: 100128
+    second: UpperEyelid_R
+  - first:
+      4: 400000
+    second: Belly_L
+  - first:
+      4: 400002
+    second: Belly_R
+  - first:
+      4: 400004
+    second: Calf_L
+  - first:
+      4: 400006
+    second: Calf_R
+  - first:
+      4: 400008
+    second: //RootNode
+  - first:
+      4: 400010
+    second: CapybaraDummy
+  - first:
+      4: 400012
+    second: Clavicle_L
+  - first:
+      4: 400014
+    second: Clavicle_R
+  - first:
+      4: 400016
+    second: Ear_L
+  - first:
+      4: 400018
+    second: Ear_R
+  - first:
+      4: 400020
+    second: Eye_L
+  - first:
+      4: 400022
+    second: Eye_R
+  - first:
+      4: 400024
+    second: Finger.00_L
+  - first:
+      4: 400026
+    second: Finger.00_R
+  - first:
+      4: 400028
+    second: Finger.01_L
+  - first:
+      4: 400030
+    second: Finger.01_R
+  - first:
+      4: 400032
+    second: Finger.10_L
+  - first:
+      4: 400034
+    second: Finger.10_R
+  - first:
+      4: 400036
+    second: Finger.11_L
+  - first:
+      4: 400038
+    second: Finger.11_R
+  - first:
+      4: 400040
+    second: Finger.20_L
+  - first:
+      4: 400042
+    second: Finger.20_R
+  - first:
+      4: 400044
+    second: Finger.21_L
+  - first:
+      4: 400046
+    second: Finger.21_R
+  - first:
+      4: 400048
+    second: Finger.3_L
+  - first:
+      4: 400050
+    second: Finger.3_R
+  - first:
+      4: 400052
+    second: Foot_L
+  - first:
+      4: 400054
+    second: Foot_R
+  - first:
+      4: 400056
+    second: Forearm_L
+  - first:
+      4: 400058
+    second: Forearm_R
+  - first:
+      4: 400060
+    second: Hand_L
+  - first:
+      4: 400062
+    second: Hand_L.001
+  - first:
+      4: 400064
+    second: Hand_R
+  - first:
+      4: 400066
+    second: Hand_R.001
+  - first:
+      4: 400068
+    second: Head
+  - first:
+      4: 400070
+    second: HorseLink_L
+  - first:
+      4: 400072
+    second: HorseLink_R
+  - first:
+      4: 400074
+    second: Joe
+  - first:
+      4: 400076
+    second: LowerEyelid_L
+  - first:
+      4: 400078
+    second: LowerEyelid_R
+  - first:
+      4: 400080
+    second: Mouth_L
+  - first:
+      4: 400082
+    second: Mouth_R
+  - first:
+      4: 400084
+    second: Neck.1
+  - first:
+      4: 400086
+    second: Neck.2
+  - first:
+      4: 400088
+    second: Nose_L
+  - first:
+      4: 400090
+    second: Nose_R
+  - first:
+      4: 400092
+    second: Pelvis
+  - first:
+      4: 400094
+    second: Root
+  - first:
+      4: 400096
+    second: Spine.1
+  - first:
+      4: 400098
+    second: Spine.2
+  - first:
+      4: 400100
+    second: Tail
+  - first:
+      4: 400102
+    second: Thigh_L
+  - first:
+      4: 400104
+    second: Thigh_R
+  - first:
+      4: 400106
+    second: Toe.0_L
+  - first:
+      4: 400108
+    second: Toe.0_R
+  - first:
+      4: 400110
+    second: Toe.1_L
+  - first:
+      4: 400112
+    second: Toe.1_R
+  - first:
+      4: 400114
+    second: Toe.2_L
+  - first:
+      4: 400116
+    second: Toe.2_R
+  - first:
+      4: 400118
+    second: Tongue.1
+  - first:
+      4: 400120
+    second: Tongue.2
+  - first:
+      4: 400122
+    second: UpperArm_L
+  - first:
+      4: 400124
+    second: UpperArm_R
+  - first:
+      4: 400126
+    second: UpperEyelid_L
+  - first:
+      4: 400128
+    second: UpperEyelid_R
+  - first:
+      74: 7400000
+    second: WalkForward
+  - first:
+      74: 7400002
+    second: WalkRight
+  - first:
+      74: 7400004
+    second: WalkLeft
+  - first:
+      74: 7400006
+    second: WalkBack
+  - first:
+      74: 7400008
+    second: RunForward
+  - first:
+      74: 7400010
+    second: RunRight
+  - first:
+      74: 7400012
+    second: RunLeft
+  - first:
+      74: 7400014
+    second: Hit
+  - first:
+      74: 7400016
+    second: Attack
+  - first:
+      95: 9500000
+    second: //RootNode
+  externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
+    resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
-    animationRotationError: .5
-    animationPositionError: .5
-    animationScaleError: .5
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: WalkForward
       takeName: Take 001
+      internalID: 0
       firstFrame: 10
       lastFrame: 40
       wrapMode: 0
@@ -171,6 +463,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 1
       loopBlendOrientation: 0
@@ -317,9 +610,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: WalkRight
       takeName: Take 001
+      internalID: 0
       firstFrame: 50
       lastFrame: 80
       wrapMode: 0
@@ -327,6 +622,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 1
       loopBlendOrientation: 0
@@ -473,9 +769,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: WalkLeft
       takeName: Take 001
+      internalID: 0
       firstFrame: 90
       lastFrame: 120
       wrapMode: 0
@@ -483,6 +781,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 1
       loopBlendOrientation: 0
@@ -629,9 +928,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: WalkBack
       takeName: Take 001
+      internalID: 0
       firstFrame: 130
       lastFrame: 160
       wrapMode: 0
@@ -639,6 +940,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 1
       loopBlendOrientation: 0
@@ -785,9 +1087,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: RunForward
       takeName: Take 001
+      internalID: 0
       firstFrame: 170
       lastFrame: 200
       wrapMode: 0
@@ -795,6 +1099,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 1
       loopBlendOrientation: 0
@@ -941,9 +1246,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: RunRight
       takeName: Take 001
+      internalID: 0
       firstFrame: 210
       lastFrame: 240
       wrapMode: 0
@@ -951,6 +1258,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 1
       loopBlendOrientation: 0
@@ -1097,9 +1405,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: RunLeft
       takeName: Take 001
+      internalID: 0
       firstFrame: 250
       lastFrame: 280
       wrapMode: 0
@@ -1107,6 +1417,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 1
       loopBlendOrientation: 0
@@ -1253,9 +1564,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Hit
       takeName: Take 001
+      internalID: 0
       firstFrame: 290
       lastFrame: 320
       wrapMode: 0
@@ -1263,6 +1576,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1409,9 +1723,11 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: Attack
       takeName: Take 001
+      internalID: 0
       firstFrame: 330
       lastFrame: 360
       wrapMode: 0
@@ -1419,6 +1735,7 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+      hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
@@ -1565,44 +1882,77 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
-    splitTangentsAcrossUV: 1
     normalImportMode: 0
-    tangentImportMode: 1
+    tangentImportMode: 4
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
+    serializedVersion: 3
     human: []
     skeleton: []
-    armTwist: .5
-    foreArmTwist: .5
-    upperLegTwist: .5
-    legTwist: .5
-    armStretch: .0500000007
-    legStretch: .0500000007
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: Root
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

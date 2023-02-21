@@ -11,6 +11,7 @@ public class EntranceBuilder : MonoBehaviour
     public Boolean updatePath;
     public Material exitMaterial;
     public Material nodeMaterial;
+    private float meshOffset = 0.0001f;
 
     void Update()
     {
@@ -95,8 +96,8 @@ public class EntranceBuilder : MonoBehaviour
         GameObject nodeSphere = GameObject.Find("PathHolder/EntranceControllers/NodeSphere");
         if (exitSphere == null || nodeSphere == null) return;
 
-        Vector3 initialPoint1 = new Vector3(exitSphere.transform.position.x, pathBuilder.meshOffset, exitSphere.transform.position.z);
-        Vector3 initialPoint2 = new Vector3(nodeSphere.transform.position.x, pathBuilder.meshOffset, nodeSphere.transform.position.z);
+        Vector3 initialPoint1 = new Vector3(exitSphere.transform.position.x, meshOffset, exitSphere.transform.position.z);
+        Vector3 initialPoint2 = new Vector3(nodeSphere.transform.position.x, meshOffset, nodeSphere.transform.position.z);
 
         // Add path component to handle mesh
         Path pathComponent = path.AddComponent<Path>();

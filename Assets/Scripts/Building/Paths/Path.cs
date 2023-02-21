@@ -8,7 +8,7 @@ public class Path : MonoBehaviour
     // Path settings
     private float meshWidth;
     private float meshSpacing;
-    private float meshOffset;
+    private float meshOffset = 0.0001f;
     private float pointSpacing;
     private float pointResolution;
 
@@ -44,7 +44,6 @@ public class Path : MonoBehaviour
         // Set path settings
         meshWidth = pathBuilderScript.meshWidth;
         meshSpacing = pathBuilderScript.meshSpacing;
-        meshOffset = pathBuilderScript.meshOffset;
         pointSpacing = pathBuilderScript.pointSpacing;
         pointResolution = pathBuilderScript.pointResolution;
 
