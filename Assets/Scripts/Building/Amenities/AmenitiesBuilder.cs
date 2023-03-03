@@ -208,6 +208,7 @@ public class AmenitiesBuilder : MonoBehaviour
                 var amenityScript = newAmenity.GetComponent<Amenity>();
                 amenityScript.PathCollider = closestPathCollider;
                 amenityScript.PathSetup();
+                amenityScript.SlotSetup();
                 Destroy(blueprint);
                 balanceScript.AdjustBalance(cost * -1);
             }

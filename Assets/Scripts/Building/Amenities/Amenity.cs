@@ -6,10 +6,12 @@ public class Amenity : MonoBehaviour
 {
     private (float, PathNode) nodeDistance1;
     private (float, PathNode) nodeDistance2;
+    public GameObject[] amenitySlots;
 
     public GameObject PathCollider { get; set; }
 
     public float hungerFill, comfortFill, funFill;
+    public int numSlots;
 
     public ((float, PathNode), (float, PathNode)) GetDistances()
     {
@@ -26,5 +28,35 @@ public class Amenity : MonoBehaviour
         nodeDistance1 = (distance1, node1);
         nodeDistance2 = (distance2, node2);
         pathScript.AddAmenity(this);
+    }
+
+    public void SlotSetup()
+    {
+        if (numSlots == 0)
+            numSlots = 1;
+
+        amenitySlots = new GameObject[numSlots];
+    }
+
+    public void AddCapybara(GameObject capybara)
+    {
+        for (int i = 0; i < amenitySlots.Length; i++)
+        {
+            if (amenitySlots[i] == null)
+            {
+                amenitySlots[i] = capybara;
+            }
+        }
+    }
+
+    public void RemoveCapybara(GameObject capybara)
+    {
+        for (int i = 0; i < amenitySlots.Length; i++)
+        {
+            if (amenitySlots[i] == capybara)
+            {
+                amenitySlots[i] = null;
+            }
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,9 @@ public class AmenityInteraction : MonoBehaviour
     public void HandleInteraction(Amenity amenity)
     {
         this.amenity = amenity;
+
+        amenity.AddCapybara(gameObject);
+
         animationData = AmenityAnimationHandler.GetInstance().GetAnimationData(amenity.gameObject);
         if (animationData == null)
             return;
@@ -90,6 +94,7 @@ public class AmenityInteraction : MonoBehaviour
             capyAnimator.SetFloat("Turn", -1f);
     }
 
+    /*
     private void PositionForTeleport()
     {
         // Approach amenity front
@@ -104,6 +109,7 @@ public class AmenityInteraction : MonoBehaviour
         CenterCapybara(1, amenity.transform.position);
         RotateCapybara(2);
     }
+    */
 
     private void EnterAmenity()
     {
@@ -130,17 +136,45 @@ public class AmenityInteraction : MonoBehaviour
 
     private IEnumerator UpdateCapybaraStats()
     {
-        yield return new WaitForSeconds(Random.Range(3, 5));
-
+        yield return new WaitForSeconds(0.5f);
         CapybaraInfo capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
         capybaraInfo.hunger += amenity.hungerFill;
-        capybaraInfo.comfort += amenity.comfortFill * 25;
+        capybaraInfo.comfort += amenity.comfortFill;
         capybaraInfo.fun += amenity.funFill;
 
-        yield return new WaitForSeconds(Random.Range(3, 5));
-        currentState = 5;
+        if (!HandleMaxStats(capybaraInfo))
+        {
+            StartCoroutine(UpdateCapybaraStats());
+        }
+        else
+        {
+            currentState = 5;
+        }
     }
 
+
+    private Boolean HandleMaxStats(CapybaraInfo capybaraInfo)
+    {
+        if (capybaraInfo.hunger > 100)
+        {
+            capybaraInfo.hunger = 100;
+            return true;
+        }
+        else if (capybaraInfo.comfort > 100)
+        {
+            capybaraInfo.comfort = 100;
+            return true;
+        }
+        else if (capybaraInfo.fun > 100)
+        {
+            capybaraInfo.fun = 100;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     private void ExitAmenity()
     {
         if (currentState == 5)
@@ -149,6 +183,7 @@ public class AmenityInteraction : MonoBehaviour
             HandleHiding(false);
             StartCoroutine(AppearInFront(1));
             currentState = 6;
+            amenity.RemoveCapybara(gameObject);
         }
     }
 
@@ -172,6 +207,7 @@ public class AmenityInteraction : MonoBehaviour
         emitterObject.GetComponent<ParticleSystem>().Play();
     }
 
+    /*
     private void CenterCapybara(int startState, Vector3 lookPos)
     {
         if (currentState == startState && (transform.position != centeringEndPosition))
@@ -188,6 +224,7 @@ public class AmenityInteraction : MonoBehaviour
             currentState++;
         }
     }
+    */
 
     /*
     private void RotateCapybara(int startState)

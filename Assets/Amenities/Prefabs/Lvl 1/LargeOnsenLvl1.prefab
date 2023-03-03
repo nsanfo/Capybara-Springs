@@ -325,9 +325,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2508c4cbe1907d04db46d756fa0177ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amenitySlots: []
   hungerFill: 0
   comfortFill: 1
   funFill: 0
+  numSlots: 10
 --- !u!1 &6041987546337182882
 GameObject:
   m_ObjectHideFlags: 0

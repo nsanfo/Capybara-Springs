@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // Contains all the information needed to travel to an amenity
@@ -88,6 +90,9 @@ public class Pathfinder : MonoBehaviour
         {
             for (int i = 0; i < pathAmenities.Count; i++)
             {
+                if (pathAmenities[i].amenitySlots.Count(capy => capy != null) == pathAmenities[i].amenitySlots.Length)
+                    continue;
+
                 var distance = Vector3.Distance(pathAmenities[i].PathCollider.gameObject.transform.position, position);
                 var amenityRating = RateAmenity(pathAmenities[i], distance);
                 if (amenityRating > bestRating)

@@ -283,6 +283,7 @@ MonoBehaviour:
   hungerFill: 0
   comfortFill: 1
   funFill: 0
+  numSlots: 4
 --- !u!1 &8478550918671520917
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,3 +455,4 @@ MonoBehaviour:
   hungerFill: 0
   comfortFill: 0
   funFill: 0
+  numSlots: 0
