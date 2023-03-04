@@ -383,6 +383,10 @@ MonoBehaviour:
   comfortFill: 1
   funFill: 0
   numSlots: 1
+  enteringForwardMulti: 0.7
+  insideCenteringHeight: 0.02
+  insidePositioningMulti: 0
+  insidePositioningRange: 0
 --- !u!1 &8282057903527431359
 GameObject:
   m_ObjectHideFlags: 0

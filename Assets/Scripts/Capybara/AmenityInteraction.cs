@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AmenityInteraction : MonoBehaviour
 {
-    AmenityAnimationData animationData;
     Amenity amenity;
     Animator capyAnimator;
     int currentState = -1;
+    int slotLocation;
 
     // Centering and rotation
     private Vector3 centeringStartPosition;
@@ -43,21 +44,13 @@ public class AmenityInteraction : MonoBehaviour
     public void HandleInteraction(Amenity amenity)
     {
         this.amenity = amenity;
-
-        amenity.AddCapybara(gameObject);
-
-        animationData = AmenityAnimationHandler.GetInstance().GetAnimationData(amenity.gameObject);
-        if (animationData == null)
-            return;
-
+        slotLocation = amenity.AddCapybara(gameObject);
         emitterObject = new GameObject("SmokeEmitter");
         emitterObject.transform.SetParent(this.transform);
 
         // Position capybara in place for teleport
-        amenityFront = Vector3.Lerp(amenity.transform.position, amenity.PathCollider.transform.position, animationData.forwardMultiplier);
-        //transform.LookAt(amenityFront);
+        amenityFront = Vector3.Lerp(amenity.transform.position, amenity.PathCollider.transform.position, amenity.enteringForwardMulti);
         capyAnimator = gameObject.GetComponent<Animator>();
-        //capyAnimator.SetBool("Travelling", true);
 
         // Get renderers for capybara
         List<Renderer> renderList = new List<Renderer>();
@@ -125,9 +118,16 @@ public class AmenityInteraction : MonoBehaviour
     private IEnumerator AppearInAmenity(int numSeconds)
     {
         yield return new WaitForSeconds(numSeconds);
-        Vector3 amenityPos = amenity.transform.position;
-        transform.position = new Vector3(amenityPos.x, amenityPos.y + animationData.enteredCenteringHeight, amenityPos.z);
-        transform.LookAt(new Vector3(amenityFront.x, amenityFront.y + animationData.enteredCenteringHeight, amenityFront.z));
+
+        // Get position related to slot
+        Quaternion rot = Quaternion.AngleAxis((float) slotLocation / amenity.numSlots * 360, Vector3.up);
+        float randomForward = Random.Range(amenity.insidePositioningMulti - amenity.insidePositioningRange, amenity.insidePositioningMulti);
+        Vector3 forwardMulti = Vector3.forward * randomForward;
+        Vector3 amenityPos = amenity.transform.position + rot * forwardMulti;
+
+        // Set position
+        transform.position = new Vector3(amenityPos.x, amenityPos.y + amenity.insideCenteringHeight, amenityPos.z);
+        transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
         HandleHiding(true);
         emitterObject.GetComponent<ParticleSystem>().Play();
         StartCoroutine(UpdateCapybaraStats());

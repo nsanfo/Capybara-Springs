@@ -280,10 +280,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2508c4cbe1907d04db46d756fa0177ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amenitySlots: []
   hungerFill: 0
   comfortFill: 1
   funFill: 0
   numSlots: 4
+  enteringForwardMulti: 0.9
+  insideCenteringHeight: 0.12
+  insidePositioningMulti: 0.4
+  insidePositioningRange: 0.17
 --- !u!1 &8478550918671520917
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,7 +457,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2508c4cbe1907d04db46d756fa0177ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amenitySlots: []
   hungerFill: 0
   comfortFill: 0
   funFill: 0
   numSlots: 0
+  enteringForwardMulti: 0
+  insideCenteringHeight: 0
+  insidePositioningMulti: 0
+  insidePositioningRange: 0

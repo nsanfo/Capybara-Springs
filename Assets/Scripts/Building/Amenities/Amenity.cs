@@ -12,6 +12,7 @@ public class Amenity : MonoBehaviour
 
     public float hungerFill, comfortFill, funFill;
     public int numSlots;
+    public float enteringForwardMulti, insideCenteringHeight, insidePositioningMulti, insidePositioningRange;
 
     public ((float, PathNode), (float, PathNode)) GetDistances()
     {
@@ -38,15 +39,17 @@ public class Amenity : MonoBehaviour
         amenitySlots = new GameObject[numSlots];
     }
 
-    public void AddCapybara(GameObject capybara)
+    public int AddCapybara(GameObject capybara)
     {
         for (int i = 0; i < amenitySlots.Length; i++)
         {
             if (amenitySlots[i] == null)
             {
                 amenitySlots[i] = capybara;
+                return i;
             }
         }
+        return -1;
     }
 
     public void RemoveCapybara(GameObject capybara)
@@ -56,6 +59,7 @@ public class Amenity : MonoBehaviour
             if (amenitySlots[i] == capybara)
             {
                 amenitySlots[i] = null;
+                return;
             }
         }
     }
