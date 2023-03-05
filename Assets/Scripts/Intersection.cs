@@ -26,6 +26,7 @@ public class Intersection : MonoBehaviour
         else
         {
             intersection = Vector3.zero;
+            Debug.Log("Entered");
             return false;
         }
     }
@@ -34,8 +35,7 @@ public class Intersection : MonoBehaviour
     {
         Vector3 intersection;
         LineLineIntersection(out intersection, capyPosition, capyVector, pathPosition, pathVector);
-        Vector3 result = capyVector - intersection;
-        Debug.Log("Path Position: " + result);
+        Vector3 result = capyPosition - intersection;
         return result;
     }
 }

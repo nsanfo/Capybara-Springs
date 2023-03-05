@@ -20,6 +20,7 @@ public class SpawnManager : MonoBehaviour
         entranceForward = entranceScript.spacedPoints[0] - entranceScript.spacedPoints[1];
         yield return new WaitForSeconds(0.01f);
         StartCoroutine(SpawnCapybara());
+        StartCoroutine(SpawnCapybara());
     }
 
     // Update is called once per frame
@@ -82,7 +83,7 @@ public class SpawnManager : MonoBehaviour
             }
             else
             {
-                capyAI.PathPosition = Intersection.CalculatePathPosition(newCapy.transform.position, newCapy.transform.forward, new Vector3(0, 0, 0), entranceForward);
+                capyAI.PathPosition = Intersection.CalculatePathPosition(newCapy.transform.position, newCapy.transform.right, new Vector3(0, 0, 0), entranceForward);
                 break;
             }
         }

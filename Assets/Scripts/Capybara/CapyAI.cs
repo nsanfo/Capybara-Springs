@@ -70,7 +70,7 @@ public class CapyAI : MonoBehaviour
                     nodeRoute = destinationRoute.NodeRoute;
                     if (nodeRoute.Count == 0)
                     {
-                        endDirection = Quaternion.LookRotation(destinationRoute.Amenity.PathCollider.gameObject.transform.position - previousNode.gameObject.transform.position).eulerAngles.y;
+                        endDirection = Quaternion.LookRotation((destinationRoute.Amenity.PathCollider.gameObject.transform.position + PathPosition) - (previousNode.gameObject.transform.position + PathPosition)).eulerAngles.y;
                         startingDirection = gameObject.transform.eulerAngles.y;
                         CalculateTurn(startingDirection, endDirection);
                         //gameObject.transform.LookAt(destinationRoute.Amenity.PathCollider.gameObject.transform.position);
@@ -80,7 +80,7 @@ public class CapyAI : MonoBehaviour
                         nextNodeIndex = nodeRoute.Peek();
                         nextNode = nodes[nextNodeIndex];
 
-                        endDirection = Quaternion.LookRotation(nextNode.gameObject.transform.position - previousNode.gameObject.transform.position).eulerAngles.y;
+                        endDirection = Quaternion.LookRotation((nextNode.gameObject.transform.position + PathPosition) - (previousNode.gameObject.transform.position + PathPosition)).eulerAngles.y;
                         startingDirection = gameObject.transform.eulerAngles.y;
                         CalculateTurn(startingDirection, endDirection);
                         //gameObject.transform.LookAt(nextNode.gameObject.transform.position);
@@ -101,7 +101,7 @@ public class CapyAI : MonoBehaviour
                     }
                     else
                     {
-                        if (Vector3.Distance(gameObject.transform.position, nextNode.gameObject.transform.position) <= 0.5)
+                        if (Vector3.Distance(gameObject.transform.position, nextNode.gameObject.transform.position + PathPosition) <= 0.5)
                         {
                             previousNodeIndex = nodeRoute.Pop();
                             previousNode = nextNode;
@@ -111,7 +111,7 @@ public class CapyAI : MonoBehaviour
                                 currentPath = destinationRoute.Path;
                             if (nodeRoute.Count == 0)
                             {
-                                endDirection = Quaternion.LookRotation(destinationRoute.Amenity.PathCollider.gameObject.transform.position - previousNode.gameObject.transform.position).eulerAngles.y;
+                                endDirection = Quaternion.LookRotation((destinationRoute.Amenity.PathCollider.gameObject.transform.position + PathPosition) - (previousNode.gameObject.transform.position + PathPosition)).eulerAngles.y;
                                 startingDirection = gameObject.transform.eulerAngles.y;
                                 CalculateTurn(startingDirection, endDirection);
                                 state = States.walkTurning;
@@ -121,7 +121,7 @@ public class CapyAI : MonoBehaviour
                                 nextNodeIndex = nodeRoute.Peek();
                                 nextNode = nodes[nextNodeIndex];
 
-                                endDirection = Quaternion.LookRotation(nextNode.gameObject.transform.position - previousNode.gameObject.transform.position).eulerAngles.y;
+                                endDirection = Quaternion.LookRotation((nextNode.gameObject.transform.position + PathPosition) - (previousNode.gameObject.transform.position + PathPosition)).eulerAngles.y;
                                 startingDirection = gameObject.transform.eulerAngles.y;
                                 CalculateTurn(startingDirection, endDirection);
                                 state = States.walkTurning;
@@ -136,7 +136,6 @@ public class CapyAI : MonoBehaviour
                     {
                         state = States.travelling;
                         capyAnimator.SetBool("Turning", false);
-                        PathPosition = Intersection.CalculatePathPosition(new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z), gameObject.transform.forward, new Vector3(currentPath.spacedPoints[0].x, 0, currentPath.spacedPoints[0].z), currentPath.spacedPoints[0] - currentPath.spacedPoints[1]);
                         StartCoroutine(TurnWait(0.25f));
                     }
                 }
@@ -148,7 +147,6 @@ public class CapyAI : MonoBehaviour
                         state = States.travelling;
                         capyAnimator.SetBool("Turning", false);
                         capyAnimator.SetBool("Travelling", true);
-                        PathPosition = Intersection.CalculatePathPosition(new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z), gameObject.transform.forward, new Vector3(currentPath.spacedPoints[0].x, 0, currentPath.spacedPoints[0].z), currentPath.spacedPoints[0] - currentPath.spacedPoints[1]);
                         StartCoroutine(TurnWait(0.25f));
                     }
                 }
@@ -168,6 +166,7 @@ public class CapyAI : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         gameObject.transform.eulerAngles = new Vector3(gameObject.transform.rotation.x, endDirection, gameObject.transform.rotation.z);
+        PathPosition = Intersection.CalculatePathPosition(new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z), gameObject.transform.right, new Vector3(currentPath.spacedPoints[0].x, 0, currentPath.spacedPoints[0].z), currentPath.spacedPoints[1] - currentPath.spacedPoints[0]);
     }
 
     private void CalculateTurn(float startingDirection, float endDirection)
@@ -184,12 +183,10 @@ public class CapyAI : MonoBehaviour
         if (difference >= 0)
         {
             capyAnimator.SetFloat("Turn", (-difference) * (1f / 90f));
-            Debug.Log("Turn amount: " + capyAnimator.GetFloat("Turn"));
         }
         else
         {
             capyAnimator.SetFloat("Turn", (-difference) * (1f / 90f));
-            Debug.Log("Turn amount: " + capyAnimator.GetFloat("Turn"));
         }
     }
 
