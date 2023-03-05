@@ -26,15 +26,16 @@ public class Intersection : MonoBehaviour
         else
         {
             intersection = Vector3.zero;
+            Debug.Log("Entered");
             return false;
         }
     }
 
-    public static Vector3 calculatePathPosition(Vector3 capyPosition, Vector3 capyVector, Vector3 pathPosition, Vector3 pathVector)
+    public static Vector3 CalculatePathPosition(Vector3 capyPosition, Vector3 capyVector, Vector3 pathPosition, Vector3 pathVector)
     {
         Vector3 intersection;
         LineLineIntersection(out intersection, capyPosition, capyVector, pathPosition, pathVector);
-        Vector3 result = capyVector - intersection;
+        Vector3 result = capyPosition - intersection;
         return result;
     }
 }
