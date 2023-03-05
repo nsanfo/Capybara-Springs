@@ -1759,10 +1759,10 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 110233924}
-    m_Position: {x: 360, y: 24, z: 0}
+    m_Position: {x: 380, y: -10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110272980}
-    m_Position: {x: 360, y: 132, z: 0}
+    m_Position: {x: 490, y: 260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110281622}
     m_Position: {x: 660, y: 132, z: 0}

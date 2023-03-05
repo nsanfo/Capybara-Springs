@@ -8,6 +8,7 @@ public class Path : MonoBehaviour
     // Path settings
     private float meshWidth;
     private float meshSpacing;
+    private float meshOffset = 0.0001f;
     private float pointSpacing;
     private float pointResolution;
 
@@ -74,6 +75,7 @@ public class Path : MonoBehaviour
         SetMaterialRendering(isGuide);
         CreateCollisions();
         if (!isGuide) HandleNodes(nodeGraph);
+        gameObject.GetComponent<MeshFilter>().sharedMesh.RecalculateNormals();
     }
 
     private void SetMesh()
@@ -86,6 +88,7 @@ public class Path : MonoBehaviour
 
         // Set mesh
         gameObject.GetComponent<MeshFilter>().sharedMesh = PathUtilities.CreateMesh(spacedPoints, meshWidth);
+        gameObject.GetComponent<MeshFilter>().sharedMesh.RecalculateNormals();
     }
 
     public void UpdateMesh()
@@ -96,6 +99,7 @@ public class Path : MonoBehaviour
 
         // Set mesh
         gameObject.GetComponent<MeshFilter>().sharedMesh = PathUtilities.CreateMesh(spacedPoints, meshWidth);
+        gameObject.GetComponent<MeshFilter>().sharedMesh.RecalculateNormals();
     }
 
     private void SetMaterialRendering(bool isGuide)
@@ -105,8 +109,16 @@ public class Path : MonoBehaviour
 
         // Update renderer
         Renderer renderer = gameObject.GetComponent<Renderer>();
-        renderer.material = pathMaterial;
-        renderer.material.mainTextureScale = new Vector2(1, tiling);
+        if (Application.isPlaying)
+        {
+            renderer.material = pathMaterial;
+            renderer.material.mainTextureScale = new Vector2(1, tiling);
+        } 
+        else
+        {
+            renderer.sharedMaterial = pathMaterial;
+            renderer.sharedMaterial.mainTextureScale = new Vector2(1, tiling);
+        }
     }
 
     public void UpdateMaterial(Material material)
@@ -179,7 +191,14 @@ public class Path : MonoBehaviour
             // Destroy excess colliders
             for (int i = collisionPoints.Length; i < collisionsTransform.childCount; i++)
             {
-                Destroy(collisionsTransform.GetChild(i).gameObject);
+                if (Application.isPlaying)
+                {
+                    Destroy(collisionsTransform.GetChild(i).gameObject);
+                }
+                else
+                {
+                    DestroyImmediate(collisionsTransform.GetChild(i).gameObject);
+                }
             }
         }
         // Set new position of existing colliders
@@ -244,7 +263,7 @@ public class Path : MonoBehaviour
                 nodes[i] = newNode;
             }
 
-            nodes[i].SetMaterial(nodeMaterial, node.transform);
+            nodes[i].SetMaterial(nodeMaterial, node.transform, meshOffset);
             nodes[i].AddPath(this);
         }
     }

@@ -94,9 +94,9 @@ public class CapyAI : MonoBehaviour
                     {
                         if (Vector3.Distance(gameObject.transform.position, (destinationRoute.Amenity.PathCollider.gameObject.transform.position + PathPosition)) <= 0.1)
                         {
-                            state = States.waiting;
                             capyAnimator.SetBool("Travelling", false);
-                            StartCoroutine(Wait(10));
+                            state = States.usingAmenity;
+                            GetComponent<AmenityInteraction>().HandleInteraction(destinationRoute.Amenity);
                         }
                     }
                     else
@@ -200,5 +200,10 @@ public class CapyAI : MonoBehaviour
     {
         if (other.gameObject.tag == "Capybara")
             collisions--;
+    }
+
+    public void CompletedAmenityInteraction()
+    {
+        state = States.travelling;
     }
 }
