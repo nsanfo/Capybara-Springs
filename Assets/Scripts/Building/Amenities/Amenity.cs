@@ -7,6 +7,7 @@ public class Amenity : MonoBehaviour
     private (float, PathNode) nodeDistance1;
     private (float, PathNode) nodeDistance2;
     public GameObject[] amenitySlots;
+    public AmenityEnum amenityType;
 
     public GameObject PathCollider { get; set; }
 
