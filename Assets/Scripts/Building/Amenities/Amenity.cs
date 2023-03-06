@@ -6,17 +6,19 @@ public class Amenity : MonoBehaviour
 {
     private (float, PathNode) nodeDistance1;
     private (float, PathNode) nodeDistance2;
+    public AmenityEnum amenityType;
 
     public GameObject PathCollider { get; set; }
 
+    public float enteringForwardMulti;
     [Header("Needs Fulfillment")]
     public float hungerFill;
     public float comfortFill; 
     public float funFill;
 
     [Header("")]
-    public int capacity;
-    private int numOccupants;
+    public int numSlots;
+    public GameObject[] amenitySlots;
 
     public ((float, PathNode), (float, PathNode)) GetDistances()
     {
@@ -35,27 +37,36 @@ public class Amenity : MonoBehaviour
         pathScript.AddAmenity(this);
     }
 
-    public bool IncrementOccupancy()
+    public void SlotSetup()
     {
-        if (numOccupants == capacity)
-            return false;
-        else
+        if (numSlots == 0)
+            numSlots = 1;
+
+        amenitySlots = new GameObject[numSlots];
+    }
+
+    public int AddCapybara(GameObject capybara)
+    {
+        for (int i = 0; i < amenitySlots.Length; i++)
         {
-            numOccupants++;
-            return true;
+            if (amenitySlots[i] == null)
+            {
+                amenitySlots[i] = capybara;
+                return i;
+            }
         }
+        return -1;
     }
 
-    public void DecrementOccupancy()
+    public void RemoveCapybara(GameObject capybara)
     {
-        numOccupants--;
-    }
-
-    public bool CheckFull()
-    {
-        if (numOccupants == capacity)
-            return true;
-        else
-            return false;
+        for (int i = 0; i < amenitySlots.Length; i++)
+        {
+            if (amenitySlots[i] == capybara)
+            {
+                amenitySlots[i] = null;
+                return;
+            }
+        }
     }
 }

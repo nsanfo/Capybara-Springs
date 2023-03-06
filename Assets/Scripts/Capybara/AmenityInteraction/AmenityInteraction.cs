@@ -1,15 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AmenityInteraction : MonoBehaviour
 {
-    AmenityAnimationData animationData;
-    Amenity amenity;
+    private Amenity amenity;
     Animator capyAnimator;
     int currentState = -1;
+    int slotLocation;
 
     // Centering and rotation
     private Vector3 centeringStartPosition;
@@ -24,33 +26,42 @@ public class AmenityInteraction : MonoBehaviour
     private float rotationCompleted;
 
     private Vector3 amenityFront;
+    private InteractionInterface interactionInterface;
 
-    public GameObject smokeParticleEmitter;
-    private GameObject emitterObject;
+    public GameObject smokeEmitterPrefab;
+    private GameObject smokeEmitterObject;
+    public GameObject splashEmitterPrefab;
+    private GameObject splashEmitterObject;
     private Renderer[] capybaraRenderer = new Renderer[2];
 
     private void Update()
     {
         if (amenity == null) return;
 
-        RotateCapybara(2);
+        PositionCapybara();
         EnterAmenity();
         ExitAmenity();
+
+        if (currentState == 3 && interactionInterface != null) interactionInterface.HandleInteractingAnimation();
     }
 
     public void HandleInteraction(Amenity amenity)
     {
+        // Set amenity
         this.amenity = amenity;
-        animationData = AmenityAnimationHandler.GetInstance().GetAnimationData(amenity.gameObject);
-        if (animationData == null)
-            return;
+        slotLocation = amenity.AddCapybara(gameObject);
 
-        emitterObject = new GameObject("SmokeEmitter");
-        emitterObject.transform.SetParent(this.transform);
+        // Position capybara in place for transport
+        amenityFront = Vector3.Lerp(amenity.transform.position, amenity.PathCollider.transform.position, amenity.enteringForwardMulti);
 
-        // Position capybara in place for teleport
-        amenityFront = Vector3.Lerp(amenity.transform.position, amenity.PathCollider.transform.position, animationData.forwardMultiplier);
-        capyAnimator = gameObject.GetComponent<Animator>();
+        InstantiateEmitters();
+        SetCapybaraRenderArray();
+        currentState = 0;
+    }
+
+    private void SetCapybaraRenderArray()
+    {
+        capyAnimator = GetComponent<Animator>();
 
         // Get renderers for capybara
         List<Renderer> renderList = new List<Renderer>();
@@ -75,9 +86,6 @@ public class AmenityInteraction : MonoBehaviour
 
         capybaraRenderer = renderList.ToArray();
 
-        //currentState = 0;
-
-        currentState = 2;
         rotationEndPosition = Quaternion.LookRotation(amenity.transform.position - transform.position);
         capyAnimator.SetBool("Turning", true);
 
@@ -91,76 +99,9 @@ public class AmenityInteraction : MonoBehaviour
         }
     }
 
-    private void EnterAmenity()
+    private void PositionCapybara()
     {
-        if (currentState == 3)
-        {
-            CreateSmoke();
-            HandleHiding(false);
-            StartCoroutine(AppearInAmenity(1));
-            currentState = 4;
-        }
-    }
-
-    private IEnumerator AppearInAmenity(int numSeconds)
-    {
-        yield return new WaitForSeconds(numSeconds);
-        Vector3 amenityPos = amenity.transform.position;
-        transform.position = new Vector3(amenityPos.x, amenityPos.y + animationData.enteredCenteringHeight, amenityPos.z);
-        transform.LookAt(new Vector3(amenityFront.x, amenityFront.y + animationData.enteredCenteringHeight, amenityFront.z));
-        HandleHiding(true);
-        emitterObject.GetComponent<ParticleSystem>().Play();
-        StartCoroutine(UpdateCapybaraStats());
-        
-    }
-
-    private IEnumerator UpdateCapybaraStats()
-    {
-        yield return new WaitForSeconds(Random.Range(3, 5));
-
-        CapybaraInfo capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
-        capybaraInfo.hunger += amenity.hungerFill;
-        capybaraInfo.comfort += amenity.comfortFill * 25;
-        capybaraInfo.fun += amenity.funFill;
-
-        yield return new WaitForSeconds(Random.Range(3, 5));
-        currentState = 5;
-    }
-
-    private void ExitAmenity()
-    {
-        if (currentState == 5)
-        {
-            emitterObject.GetComponent<ParticleSystem>().Play();
-            HandleHiding(false);
-            StartCoroutine(AppearInFront(1));
-            currentState = 6;
-        }
-    }
-
-    private IEnumerator AppearInFront(int numSeconds)
-    {
-        yield return new WaitForSeconds(numSeconds);
-        transform.position = amenityFront;
-        HandleHiding(true);
-        emitterObject.GetComponent<ParticleSystem>().Play();
-        currentState = -1;
-        amenity = null;
-        capybaraRenderer = new Renderer[2];
-        GetComponent<CapyAI>().CompletedAmenityInteraction();
-    }
-
-    private void CreateSmoke()
-    {
-        emitterObject = Instantiate(smokeParticleEmitter);
-        emitterObject.transform.SetParent(transform);
-        emitterObject.transform.position = transform.position;
-        emitterObject.GetComponent<ParticleSystem>().Play();
-    }
-
-    private void RotateCapybara(int startState)
-    {
-        if (currentState == startState && (Mathf.Abs(rotationEndPosition.eulerAngles.y - gameObject.transform.eulerAngles.y) <= 1f))
+        if (currentState == 0 && (Mathf.Abs(rotationEndPosition.eulerAngles.y - gameObject.transform.eulerAngles.y) <= 1f))
         {
             capyAnimator.SetBool("Turning", false);
             rotationCompleted = 0;
@@ -168,6 +109,44 @@ public class AmenityInteraction : MonoBehaviour
             currentState = 1;
             StartCoroutine(Wait(1));
         }
+    }
+
+    private IEnumerator Wait(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        currentState = 2;
+    }
+
+    private void EnterAmenity()
+    {
+        if (currentState == 2)
+        {
+            CreateSmoke();
+            HandleHiding(false);
+            StartCoroutine(AppearInAmenity());
+            currentState = 3;
+        }
+    }
+
+    private void InstantiateEmitters()
+    {
+        if (smokeEmitterObject == null)
+        {
+            smokeEmitterObject = Instantiate(smokeEmitterPrefab);
+            smokeEmitterObject.transform.SetParent(transform);
+        }
+
+        if (splashEmitterObject == null)
+        {
+            splashEmitterObject = Instantiate(splashEmitterPrefab);
+            splashEmitterObject.transform.SetParent(transform);
+        }
+    }
+
+    private void CreateSmoke()
+    {
+        smokeEmitterObject.transform.position = transform.position;
+        smokeEmitterObject.GetComponent<ParticleSystem>().Play();
     }
 
     private void HandleHiding(bool hide)
@@ -178,9 +157,97 @@ public class AmenityInteraction : MonoBehaviour
         }
     }
 
-    private IEnumerator Wait(int seconds)
+    private IEnumerator AppearInAmenity()
     {
-        yield return new WaitForSeconds(seconds);
-        currentState = 3;
+        yield return new WaitForSeconds(1);
+
+        HandleHiding(true);
+        if (amenity.amenityType == AmenityEnum.Onsen)
+        {
+            OnsenAmenity onsenAmenity = amenity.gameObject.GetComponent<OnsenAmenity>();
+            OnsenInteraction onsenInteraction = gameObject.AddComponent<OnsenInteraction>();
+            onsenInteraction.SetSplashEmitter(splashEmitterObject);
+            onsenInteraction.AmenityInterface = onsenAmenity;
+            interactionInterface = onsenInteraction;
+        }
+
+        interactionInterface.HandleInteraction(amenity, slotLocation, smokeEmitterObject);
+        StartCoroutine(UpdateCapybaraStats());
+    }
+
+    private IEnumerator UpdateCapybaraStats()
+    {
+        yield return new WaitForSeconds(0.5f);
+        CapybaraInfo capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
+        capybaraInfo.hunger += amenity.hungerFill;
+        capybaraInfo.comfort += amenity.comfortFill;
+        capybaraInfo.fun += amenity.funFill;
+
+        if (!HandleMaxStats(capybaraInfo))
+        {
+            StartCoroutine(UpdateCapybaraStats());
+        }
+        else
+        {
+            interactionInterface.StopEmitters();
+            currentState = 4;
+        }
+    }
+
+    private Boolean HandleMaxStats(CapybaraInfo capybaraInfo)
+    {
+        if (capybaraInfo.hunger > 100)
+        {
+            capybaraInfo.hunger = 100;
+            return true;
+        }
+        else if (capybaraInfo.comfort > 100)
+        {
+            capybaraInfo.comfort = 100;
+            return true;
+        }
+        else if (capybaraInfo.fun > 100)
+        {
+            capybaraInfo.fun = 100;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void ExitAmenity()
+    {
+        if (currentState == 4)
+        {
+            smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+            HandleHiding(false);
+            StartCoroutine(AppearInFront());
+            currentState = 5;
+            amenity.RemoveCapybara(gameObject);
+        }
+    }
+
+    private IEnumerator AppearInFront()
+    {
+        yield return new WaitForSeconds(1);
+        transform.position = amenityFront;
+        HandleHiding(true);
+        smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+        currentState = -1;
+        capybaraRenderer = new Renderer[2];
+        RemoveInteraction();
+        GetComponent<CapyAI>().CompletedAmenityInteraction();
+    }
+
+    private void RemoveInteraction()
+    {
+        if (amenity.amenityType == AmenityEnum.Onsen)
+        {
+            Destroy((UnityEngine.Object) interactionInterface);
+        }
+
+        amenity = null;
     }
 }
