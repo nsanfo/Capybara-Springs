@@ -277,6 +277,7 @@ GameObject:
   - component: {fileID: 9181986351517665764}
   - component: {fileID: 1382508198485478364}
   - component: {fileID: 3287266224035630625}
+  - component: {fileID: -6821873455638527455}
   m_Layer: 0
   m_Name: LargeOnsenLvl1
   m_TagString: Untagged
@@ -325,16 +326,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2508c4cbe1907d04db46d756fa0177ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amenitySlots: []
   amenityType: 0
+  enteringForwardMulti: 0.9
   hungerFill: 0
   comfortFill: 1
   funFill: 0
   numSlots: 10
-  enteringForwardMulti: 0.9
+  amenitySlots: []
+--- !u!114 &-6821873455638527455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4916700532758802207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de52dc6eda6a03249bb5d9f1b24dc20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   insideCenteringHeight: 0.39
   insidePositioningMulti: 0.71
   insidePositioningRange: 0.17
+  splashHeight: 0.16
 --- !u!1 &6041987546337182882
 GameObject:
   m_ObjectHideFlags: 0

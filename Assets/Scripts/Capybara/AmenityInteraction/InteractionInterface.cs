@@ -5,6 +5,8 @@ using UnityEngine;
 
 public interface InteractionInterface
 {
+    AmenityInterface AmenityInterface { get; set; }
+
     void HandleInteraction(Amenity amenity, int slotLocation, GameObject emitterObject);
 
     void HandleInteractingAnimation();

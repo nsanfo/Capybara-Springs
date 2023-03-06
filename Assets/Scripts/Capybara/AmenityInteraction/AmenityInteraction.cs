@@ -164,8 +164,10 @@ public class AmenityInteraction : MonoBehaviour
         HandleHiding(true);
         if (amenity.amenityType == AmenityEnum.Onsen)
         {
+            OnsenAmenity onsenAmenity = amenity.gameObject.GetComponent<OnsenAmenity>();
             OnsenInteraction onsenInteraction = gameObject.AddComponent<OnsenInteraction>();
             onsenInteraction.SetSplashEmitter(splashEmitterObject);
+            onsenInteraction.AmenityInterface = onsenAmenity;
             interactionInterface = onsenInteraction;
         }
 

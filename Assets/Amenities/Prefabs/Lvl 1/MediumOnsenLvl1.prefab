@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 5023635538173929869}
   - component: {fileID: 2301945110071802745}
   - component: {fileID: 6013063697541231591}
+  - component: {fileID: 3036548019438501397}
   m_Layer: 0
   m_Name: MediumOnsenLvl1
   m_TagString: Untagged
@@ -280,16 +281,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2508c4cbe1907d04db46d756fa0177ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amenitySlots: []
   amenityType: 0
+  enteringForwardMulti: 0.9
   hungerFill: 0
   comfortFill: 1
   funFill: 0
   numSlots: 4
-  enteringForwardMulti: 0.9
+  amenitySlots: []
+--- !u!114 &3036548019438501397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6825053055517263960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de52dc6eda6a03249bb5d9f1b24dc20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   insideCenteringHeight: 0.12
   insidePositioningMulti: 0.35
   insidePositioningRange: 0.08
+  splashHeight: 0.2
 --- !u!1 &8478550918671520917
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,13 +472,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2508c4cbe1907d04db46d756fa0177ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amenitySlots: []
   amenityType: 0
+  enteringForwardMulti: 0
   hungerFill: 0
   comfortFill: 0
   funFill: 0
   numSlots: 0
-  enteringForwardMulti: 0
-  insideCenteringHeight: 0
-  insidePositioningMulti: 0
-  insidePositioningRange: 0
+  amenitySlots: []

@@ -10,8 +10,7 @@ public class Amenity : MonoBehaviour
 
     public GameObject PathCollider { get; set; }
 
-    
-    public float enteringForwardMulti, insideCenteringHeight, insidePositioningMulti, insidePositioningRange;
+    public float enteringForwardMulti;
     [Header("Needs Fulfillment")]
     public float hungerFill;
     public float comfortFill; 
