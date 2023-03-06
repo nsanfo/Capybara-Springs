@@ -125,6 +125,12 @@ public class PathBuilder : MonoBehaviour
         nodeGraph.AddPath(entrancePath);
         nodeGraph.SetNodesVisibility(false);
 
+        PathNode entranceNode1 = entranceObject.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<PathNode>();
+        PathNode entranceNode2 = entranceObject.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<PathNode>();
+
+        entranceNode1.AddPath(entrancePath);
+        entranceNode2.AddPath(entrancePath);
+
         meshOffset = 0.0001f;
     }
 

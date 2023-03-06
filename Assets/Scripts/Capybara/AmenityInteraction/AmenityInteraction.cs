@@ -89,10 +89,14 @@ public class AmenityInteraction : MonoBehaviour
         rotationEndPosition = Quaternion.LookRotation(amenity.transform.position - transform.position);
         capyAnimator.SetBool("Turning", true);
 
-        if ((amenity.transform.position - gameObject.transform.right).magnitude <= (amenity.transform.position - -gameObject.transform.right).magnitude)
+        if ((amenity.transform.position - (gameObject.transform.position + gameObject.transform.right)).magnitude <= (amenity.transform.position - (gameObject.transform.position - gameObject.transform.right)).magnitude)
+        {
             capyAnimator.SetFloat("Turn", 1f);
+        }
         else
+        {
             capyAnimator.SetFloat("Turn", -1f);
+        }
     }
 
     private void PositionCapybara()

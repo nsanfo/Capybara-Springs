@@ -6,14 +6,20 @@ public class Amenity : MonoBehaviour
 {
     private (float, PathNode) nodeDistance1;
     private (float, PathNode) nodeDistance2;
-    public GameObject[] amenitySlots;
     public AmenityEnum amenityType;
 
     public GameObject PathCollider { get; set; }
 
-    public float hungerFill, comfortFill, funFill;
-    public int numSlots;
+    
     public float enteringForwardMulti, insideCenteringHeight, insidePositioningMulti, insidePositioningRange;
+    [Header("Needs Fulfillment")]
+    public float hungerFill;
+    public float comfortFill; 
+    public float funFill;
+
+    [Header("")]
+    public int numSlots;
+    public GameObject[] amenitySlots;
 
     public ((float, PathNode), (float, PathNode)) GetDistances()
     {
