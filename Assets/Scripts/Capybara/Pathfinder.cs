@@ -112,8 +112,9 @@ public class Pathfinder : MonoBehaviour
         {
             for (int i = 0; i < pathAmenities.Count; i++)
             {
-                if (pathAmenities[i].CheckFull())
+                if (pathAmenities[i].amenitySlots.Count(capy => capy != null) == pathAmenities[i].amenitySlots.Length)
                     continue;
+
                 var nodeIndex = nodeGraph.GetNodeIndex(node);
                 var distance = cost[nodeIndex] + Vector3.Distance(pathAmenities[i].PathCollider.gameObject.transform.position, node.gameObject.transform.position);
                 var amenityRating = RateAmenity(pathAmenities[i], distance);

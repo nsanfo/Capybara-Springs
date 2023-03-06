@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CapyAI : MonoBehaviour
@@ -102,7 +103,7 @@ public class CapyAI : MonoBehaviour
                     }
                     if (nodeRoute.Count == 0)
                     {
-                        if (destinationRoute.Amenity.CheckFull())
+                        if (destinationRoute.Amenity.amenitySlots.Count(capy => capy != null) == destinationRoute.Amenity.amenitySlots.Length)
                         {
                             state = State.ready;
                             capyAnimator.SetBool("Travelling", false);
@@ -112,7 +113,6 @@ public class CapyAI : MonoBehaviour
                         {
                             capyAnimator.SetBool("Travelling", false);
                             state = State.usingAmenity;
-                            destinationRoute.Amenity.IncrementOccupancy();
                             GetComponent<AmenityInteraction>().HandleInteraction(destinationRoute.Amenity);
                         }
                     }
@@ -231,7 +231,7 @@ public class CapyAI : MonoBehaviour
     public void CompletedAmenityInteraction()
     {
         state = State.ready;
-        destinationRoute.Amenity.DecrementOccupancy();
+        destinationRoute.Amenity.RemoveCapybara(gameObject);
     }
 
     public void FrontCollisionEnter()
