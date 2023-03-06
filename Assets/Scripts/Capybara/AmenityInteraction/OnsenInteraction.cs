@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class OnsenInteraction : MonoBehaviour, InteractionInterface
 {
+    private Amenity amenity;
     private Vector3 amenityPosition;
     private GameObject splashEmitterObject;
+    private Quaternion? rotationEndPosition;
 
     public void SetSplashEmitter(GameObject splashEmitterObject)
     {
@@ -14,6 +16,8 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
 
     public void HandleInteraction(Amenity amenity, int slotLocation, GameObject smokeEmitterObject)
     {
+        this.amenity = amenity;
+
         // Get position related to slot
         Quaternion rot = Quaternion.AngleAxis((float) slotLocation / amenity.numSlots * 360, Vector3.up);
         float randomForward = Random.Range(amenity.insidePositioningMulti - amenity.insidePositioningRange, amenity.insidePositioningMulti);
@@ -29,11 +33,22 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
 
         splashEmitterObject.transform.position = transform.position + new Vector3(0, 0.2f, 0);
         splashEmitterObject.GetComponent<ParticleSystem>().Play();
+
+        StartCoroutine(WaitForTurning());
     }
 
     public void HandleInteractingAnimation()
     {
         // Handle animations
+        if (rotationEndPosition != null)
+        {
+            if (Mathf.Abs(rotationEndPosition.Value.eulerAngles.y - transform.eulerAngles.y) <= 1f)
+            {
+                GetComponent<Animator>().SetBool("Turning", false);
+                rotationEndPosition = null;
+                StartCoroutine(WaitForTurning());
+            }
+        }
     }
 
     public void StopEmitters()
@@ -65,5 +80,26 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
 
             currentPositioning -= 0.01f;
         }
+    }
+
+    private IEnumerator WaitForTurning()
+    {
+        yield return new WaitForSeconds(8);
+        GetComponent<Animator>().SetBool("Turning", true);
+        CalculateRotation();
+    }
+
+    private void CalculateRotation()
+    {
+        Quaternion insideRot = Quaternion.AngleAxis((float)Random.Range(0, 360) / amenity.numSlots, Vector3.up);
+        rotationEndPosition = insideRot;
+        
+        Vector3 insideForwardMulti = Vector3.forward * 0.1f;
+        Vector3 rotationPosition = amenityPosition + insideRot * insideForwardMulti;
+
+        if ((rotationPosition - gameObject.transform.right).magnitude <= (rotationPosition - -gameObject.transform.right).magnitude)
+            GetComponent<Animator>().SetFloat("Turn", 1f);
+        else
+            GetComponent<Animator>().SetFloat("Turn", -1f);
     }
 }
