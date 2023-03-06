@@ -328,6 +328,7 @@ MonoBehaviour:
   hungerFill: 0
   comfortFill: 1
   funFill: 0
+  capacity: 10
 --- !u!1 &6041987546337182882
 GameObject:
   m_ObjectHideFlags: 0

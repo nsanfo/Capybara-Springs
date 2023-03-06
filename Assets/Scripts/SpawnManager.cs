@@ -21,6 +21,7 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(0.01f);
         StartCoroutine(SpawnCapybara());
         StartCoroutine(SpawnCapybara());
+        StartCoroutine(SpawnCapybara());
     }
 
     // Update is called once per frame
@@ -43,7 +44,7 @@ public class SpawnManager : MonoBehaviour
         while (true)
         {
             yield return 0;
-            if (capyAI.Collisions > 0)
+            if (capyAI.BodyCollisions > 0)
             {
                 if (states == States.center)
                 {

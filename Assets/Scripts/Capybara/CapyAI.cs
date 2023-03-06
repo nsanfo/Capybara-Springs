@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class CapyAI : MonoBehaviour
 {
-    enum States { travelling, usingAmenity, collisionAvoidance, walkTurning, idleTurning, waiting, ready }
-    States state = States.ready;
+    enum State { travelling, usingAmenity, opposingCollision, walkingCollision, turnCollision, walkTurning, idleTurning, waiting, ready }
+    private State state = State.ready;
+
+    enum PathDirection { direction1, direction2, noDirection } // Used to determine if two capybaras are walking opposite directions on the same path
+    private PathDirection pathDirection;
 
     private Animator capyAnimator;
 
@@ -14,8 +17,11 @@ public class CapyAI : MonoBehaviour
     private Path currentPath;
     public Vector3 PathPosition { get; set; } // A vector representing the capybara's distance from the center axis of the path
 
-    private int collisions;
-    public int Collisions { get => collisions; }
+    private int bodyCollisions;
+    public int BodyCollisions { get => bodyCollisions; }
+    private int frontCollisions;
+    public int FrontCollisions { get => frontCollisions; }
+
 
     private NodeGraph nodeGraph;
     private PathNode[] nodes;
@@ -55,14 +61,14 @@ public class CapyAI : MonoBehaviour
         nodes = nodeGraph.Nodes;
         switch (state)
         {
-            case States.waiting:
+            case State.waiting:
                 return;
-            case States.ready:
-                state = States.travelling;
+            case State.ready:
+                state = State.travelling;
                 destinationRoute = pathfinder.FindAmenityDestination(currentPath);
                 if (destinationRoute == null)
                 {
-                    state = States.waiting;
+                    state = State.waiting;
                     StartCoroutine(Wait(2));
                 }
                 else
@@ -73,7 +79,6 @@ public class CapyAI : MonoBehaviour
                         endDirection = Quaternion.LookRotation((destinationRoute.Amenity.PathCollider.gameObject.transform.position + PathPosition) - (previousNode.gameObject.transform.position + PathPosition)).eulerAngles.y;
                         startingDirection = gameObject.transform.eulerAngles.y;
                         CalculateTurn(startingDirection, endDirection);
-                        //gameObject.transform.LookAt(destinationRoute.Amenity.PathCollider.gameObject.transform.position);
                     }
                     else
                     {
@@ -83,19 +88,31 @@ public class CapyAI : MonoBehaviour
                         endDirection = Quaternion.LookRotation((nextNode.gameObject.transform.position + PathPosition) - (previousNode.gameObject.transform.position + PathPosition)).eulerAngles.y;
                         startingDirection = gameObject.transform.eulerAngles.y;
                         CalculateTurn(startingDirection, endDirection);
-                        //gameObject.transform.LookAt(nextNode.gameObject.transform.position);
                     }
-                    capyAnimator.SetBool("Travelling", true);
+                    state = State.idleTurning;
                 }
                 break;
-            case States.travelling:
+            case State.travelling:
                 {
+                    if(frontCollisions > 0)
+                    {
+                        state = State.walkingCollision;
+                        capyAnimator.SetBool("Travelling", false);
+                        break;
+                    }
                     if (nodeRoute.Count == 0)
                     {
+                        if (destinationRoute.Amenity.CheckFull())
+                        {
+                            state = State.ready;
+                            capyAnimator.SetBool("Travelling", false);
+                            break;
+                        }
                         if (Vector3.Distance(gameObject.transform.position, (destinationRoute.Amenity.PathCollider.gameObject.transform.position + PathPosition)) <= 0.1)
                         {
                             capyAnimator.SetBool("Travelling", false);
-                            state = States.usingAmenity;
+                            state = State.usingAmenity;
+                            destinationRoute.Amenity.IncrementOccupancy();
                             GetComponent<AmenityInteraction>().HandleInteraction(destinationRoute.Amenity);
                         }
                     }
@@ -114,7 +131,7 @@ public class CapyAI : MonoBehaviour
                                 endDirection = Quaternion.LookRotation((destinationRoute.Amenity.PathCollider.gameObject.transform.position + PathPosition) - (previousNode.gameObject.transform.position + PathPosition)).eulerAngles.y;
                                 startingDirection = gameObject.transform.eulerAngles.y;
                                 CalculateTurn(startingDirection, endDirection);
-                                state = States.walkTurning;
+                                state = State.walkTurning;
                             }
                             else
                             {
@@ -124,30 +141,39 @@ public class CapyAI : MonoBehaviour
                                 endDirection = Quaternion.LookRotation((nextNode.gameObject.transform.position + PathPosition) - (previousNode.gameObject.transform.position + PathPosition)).eulerAngles.y;
                                 startingDirection = gameObject.transform.eulerAngles.y;
                                 CalculateTurn(startingDirection, endDirection);
-                                state = States.walkTurning;
+                                state = State.walkTurning;
                             }
                         }
                     }
                     break;
                 }
-            case States.walkTurning:
+            case State.walkTurning:
                 {
                     if (Mathf.Abs(endDirection - gameObject.transform.eulerAngles.y) <= 1f)
                     {
-                        state = States.travelling;
+                        state = State.travelling;
                         capyAnimator.SetBool("Turning", false);
                         StartCoroutine(TurnWait(0.25f));
                     }
                 }
                 break;
-            case States.idleTurning:
+            case State.idleTurning:
                 {
                     if (Mathf.Abs(endDirection - gameObject.transform.eulerAngles.y) <= 1f)
                     {
-                        state = States.travelling;
+                        state = State.travelling;
                         capyAnimator.SetBool("Turning", false);
                         capyAnimator.SetBool("Travelling", true);
                         StartCoroutine(TurnWait(0.25f));
+                    }
+                }
+                break;
+            case State.walkingCollision:
+                {
+                    if(frontCollisions == 0)
+                    {
+                        state = State.travelling;
+                        capyAnimator.SetBool("Travelling", true);
                     }
                 }
                 break;
@@ -156,9 +182,9 @@ public class CapyAI : MonoBehaviour
 
     private IEnumerator Wait(float seconds)
     {
-        state = States.waiting;
+        state = State.waiting;
         yield return new WaitForSeconds(seconds);
-        state = States.ready;
+        state = State.ready;
     }
 
     // Waits to align the capybara to its destination after the turn animation exit blending has completed
@@ -193,17 +219,30 @@ public class CapyAI : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Capybara")
-            collisions++;
+            bodyCollisions++;
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Capybara")
-            collisions--;
+            bodyCollisions--;
     }
 
     public void CompletedAmenityInteraction()
     {
-        state = States.travelling;
+        state = State.ready;
+        destinationRoute.Amenity.DecrementOccupancy();
+    }
+
+    public void FrontCollisionEnter()
+    {
+        if (state == State.travelling)
+            frontCollisions++;
+    }
+
+    public void FrontCollisionExit()
+    {
+        if (state == State.travelling)
+            frontCollisions--;
     }
 }

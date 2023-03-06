@@ -88,6 +88,8 @@ public class Pathfinder : MonoBehaviour
         {
             for (int i = 0; i < pathAmenities.Count; i++)
             {
+                if (pathAmenities[i].CheckFull())
+                    continue;
                 var distance = Vector3.Distance(pathAmenities[i].PathCollider.gameObject.transform.position, position);
                 var amenityRating = RateAmenity(pathAmenities[i], distance);
                 if (amenityRating > bestRating)
@@ -107,6 +109,8 @@ public class Pathfinder : MonoBehaviour
         {
             for (int i = 0; i < pathAmenities.Count; i++)
             {
+                if (pathAmenities[i].CheckFull())
+                    continue;
                 var nodeIndex = nodeGraph.GetNodeIndex(node);
                 var distance = cost[nodeIndex] + Vector3.Distance(pathAmenities[i].PathCollider.gameObject.transform.position, node.gameObject.transform.position);
                 var amenityRating = RateAmenity(pathAmenities[i], distance);
@@ -161,7 +165,7 @@ public class Pathfinder : MonoBehaviour
         previous[nodeDistances.Item2.Item1] = -1;
 
         RatePathAmenities(startingPath, gameObject.transform.position);
-        var currentPath = startingPath;
+        Path currentPath;
 
         bool keepGoing = true;
         while (remainingUnvisited > 0 && keepGoing)
