@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class AmenityInteraction : MonoBehaviour
 {
-    public Amenity amenity;
+    private Amenity amenity;
     Animator capyAnimator;
     int currentState = -1;
     int slotLocation;
@@ -28,8 +28,10 @@ public class AmenityInteraction : MonoBehaviour
     private Vector3 amenityFront;
     private InteractionInterface interactionInterface;
 
-    public GameObject smokeParticleEmitter;
-    private GameObject emitterObject;
+    public GameObject smokeEmitterPrefab;
+    private GameObject smokeEmitterObject;
+    public GameObject splashEmitterPrefab;
+    private GameObject splashEmitterObject;
     private Renderer[] capybaraRenderer = new Renderer[2];
 
     private void Update()
@@ -52,6 +54,7 @@ public class AmenityInteraction : MonoBehaviour
         // Position capybara in place for transport
         amenityFront = Vector3.Lerp(amenity.transform.position, amenity.PathCollider.transform.position, amenity.enteringForwardMulti);
 
+        InstantiateEmitters();
         SetCapybaraRenderArray();
         currentState = 0;
     }
@@ -121,16 +124,25 @@ public class AmenityInteraction : MonoBehaviour
         }
     }
 
+    private void InstantiateEmitters()
+    {
+        if (smokeEmitterObject == null)
+        {
+            smokeEmitterObject = Instantiate(smokeEmitterPrefab);
+            smokeEmitterObject.transform.SetParent(transform);
+        }
+
+        if (splashEmitterObject == null)
+        {
+            splashEmitterObject = Instantiate(splashEmitterPrefab);
+            splashEmitterObject.transform.SetParent(transform);
+        }
+    }
+
     private void CreateSmoke()
     {
-        if (emitterObject == null)
-        {
-            emitterObject = Instantiate(smokeParticleEmitter);
-            emitterObject.transform.SetParent(transform);
-        }
-        
-        emitterObject.transform.position = transform.position;
-        emitterObject.GetComponent<ParticleSystem>().Play();
+        smokeEmitterObject.transform.position = transform.position;
+        smokeEmitterObject.GetComponent<ParticleSystem>().Play();
     }
 
     private void HandleHiding(bool hide)
@@ -148,10 +160,12 @@ public class AmenityInteraction : MonoBehaviour
         HandleHiding(true);
         if (amenity.amenityType == AmenityEnum.Onsen)
         {
-            interactionInterface = gameObject.AddComponent<OnsenInteraction>();
+            OnsenInteraction onsenInteraction = gameObject.AddComponent<OnsenInteraction>();
+            onsenInteraction.SetSplashEmitter(splashEmitterObject);
+            interactionInterface = onsenInteraction;
         }
 
-        interactionInterface.HandleInteraction(gameObject, amenity, slotLocation, emitterObject);
+        interactionInterface.HandleInteraction(amenity, slotLocation, smokeEmitterObject);
         StartCoroutine(UpdateCapybaraStats());
     }
 
@@ -169,6 +183,7 @@ public class AmenityInteraction : MonoBehaviour
         }
         else
         {
+            interactionInterface.StopEmitters();
             currentState = 4;
         }
     }
@@ -200,7 +215,7 @@ public class AmenityInteraction : MonoBehaviour
     {
         if (currentState == 4)
         {
-            emitterObject.GetComponent<ParticleSystem>().Play();
+            smokeEmitterObject.GetComponent<ParticleSystem>().Play();
             HandleHiding(false);
             StartCoroutine(AppearInFront());
             currentState = 5;
@@ -213,7 +228,7 @@ public class AmenityInteraction : MonoBehaviour
         yield return new WaitForSeconds(1);
         transform.position = amenityFront;
         HandleHiding(true);
-        emitterObject.GetComponent<ParticleSystem>().Play();
+        smokeEmitterObject.GetComponent<ParticleSystem>().Play();
         currentState = -1;
         capybaraRenderer = new Renderer[2];
         RemoveInteraction();

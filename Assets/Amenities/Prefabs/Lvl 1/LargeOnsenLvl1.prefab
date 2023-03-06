@@ -326,14 +326,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amenitySlots: []
+  amenityType: 0
   hungerFill: 0
   comfortFill: 1
   funFill: 0
   numSlots: 10
   enteringForwardMulti: 0.9
   insideCenteringHeight: 0.39
-  insidePositioningMulti: 0.75
-  insidePositioningRange: 0.28
+  insidePositioningMulti: 0.71
+  insidePositioningRange: 0.17
 --- !u!1 &6041987546337182882
 GameObject:
   m_ObjectHideFlags: 0
