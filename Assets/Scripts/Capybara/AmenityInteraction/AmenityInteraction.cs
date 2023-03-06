@@ -33,7 +33,6 @@ public class AmenityInteraction : MonoBehaviour
     {
         if (amenity == null) return;
 
-        //PositionForTeleport();
         RotateCapybara(2);
         EnterAmenity();
         ExitAmenity();
@@ -51,9 +50,7 @@ public class AmenityInteraction : MonoBehaviour
 
         // Position capybara in place for teleport
         amenityFront = Vector3.Lerp(amenity.transform.position, amenity.PathCollider.transform.position, animationData.forwardMultiplier);
-        //transform.LookAt(amenityFront);
         capyAnimator = gameObject.GetComponent<Animator>();
-        //capyAnimator.SetBool("Travelling", true);
 
         // Get renderers for capybara
         List<Renderer> renderList = new List<Renderer>();
@@ -84,25 +81,14 @@ public class AmenityInteraction : MonoBehaviour
         rotationEndPosition = Quaternion.LookRotation(amenity.transform.position - transform.position);
         capyAnimator.SetBool("Turning", true);
 
-        if((amenity.transform.position - gameObject.transform.right).magnitude <= (amenity.transform.position - -gameObject.transform.right).magnitude)
-            capyAnimator.SetFloat("Turn", 1f);
-        else
-            capyAnimator.SetFloat("Turn", -1f);
-    }
-
-    private void PositionForTeleport()
-    {
-        // Approach amenity front
-        if (currentState == 0 && Vector3.Distance(transform.position, amenityFront) <= 0.1)
+        if ((amenity.transform.position - (gameObject.transform.position + gameObject.transform.right)).magnitude <= (amenity.transform.position - (gameObject.transform.position - gameObject.transform.right)).magnitude)
         {
-            capyAnimator.SetBool("Travelling", false);
-            centeringStartPosition = transform.localPosition;
-            centeringEndPosition = amenityFront;
-            currentState = 1;
+            capyAnimator.SetFloat("Turn", 1f);
         }
-
-        CenterCapybara(1, amenity.transform.position);
-        RotateCapybara(2);
+        else
+        {
+            capyAnimator.SetFloat("Turn", -1f);
+        }
     }
 
     private void EnterAmenity()
@@ -171,42 +157,6 @@ public class AmenityInteraction : MonoBehaviour
         emitterObject.transform.position = transform.position;
         emitterObject.GetComponent<ParticleSystem>().Play();
     }
-
-    private void CenterCapybara(int startState, Vector3 lookPos)
-    {
-        if (currentState == startState && (transform.position != centeringEndPosition))
-        {
-            centeringElapsedTime += Time.deltaTime;
-            float percentageComplete = centeringElapsedTime / centeringDuration;
-
-            transform.position = Vector3.Lerp(centeringStartPosition, centeringEndPosition, Mathf.SmoothStep(0, 1, percentageComplete));
-        }
-        else if (currentState == startState)
-        {
-            rotationStartPosition = transform.rotation;
-            rotationEndPosition = Quaternion.LookRotation(lookPos - transform.position);
-            currentState++;
-        }
-    }
-
-    /*
-    private void RotateCapybara(int startState)
-    {
-        if (currentState == startState && (rotationCompleted <= 1))
-        {
-            rotationElapsedTime += Time.deltaTime;
-            rotationCompleted = rotationElapsedTime / rotationDuration;
-
-            transform.rotation = Quaternion.Lerp(rotationStartPosition, rotationEndPosition, Mathf.SmoothStep(0, 1, rotationCompleted));
-        }
-        else if (currentState == startState)
-        {
-            rotationCompleted = 0;
-            rotationElapsedTime = 0;
-            currentState++;
-        }
-    }
-    */
 
     private void RotateCapybara(int startState)
     {

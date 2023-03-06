@@ -9,7 +9,14 @@ public class Amenity : MonoBehaviour
 
     public GameObject PathCollider { get; set; }
 
-    public float hungerFill, comfortFill, funFill;
+    [Header("Needs Fulfillment")]
+    public float hungerFill;
+    public float comfortFill; 
+    public float funFill;
+
+    [Header("")]
+    public int capacity;
+    private int numOccupants;
 
     public ((float, PathNode), (float, PathNode)) GetDistances()
     {
@@ -26,5 +33,29 @@ public class Amenity : MonoBehaviour
         nodeDistance1 = (distance1, node1);
         nodeDistance2 = (distance2, node2);
         pathScript.AddAmenity(this);
+    }
+
+    public bool IncrementOccupancy()
+    {
+        if (numOccupants == capacity)
+            return false;
+        else
+        {
+            numOccupants++;
+            return true;
+        }
+    }
+
+    public void DecrementOccupancy()
+    {
+        numOccupants--;
+    }
+
+    public bool CheckFull()
+    {
+        if (numOccupants == capacity)
+            return true;
+        else
+            return false;
     }
 }
