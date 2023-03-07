@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2026139169811193504}
   - component: {fileID: 2026139169811193510}
   - component: {fileID: 2026139169811193511}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Burst
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4883,7 +4883,7 @@ GameObject:
   - component: {fileID: 2026139171341548182}
   - component: {fileID: 2026139171341548183}
   - component: {fileID: 2026139171341548176}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ParticleSmoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}

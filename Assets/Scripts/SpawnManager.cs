@@ -21,7 +21,6 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(0.01f);
         StartCoroutine(SpawnCapybara());
         StartCoroutine(SpawnCapybara());
-        StartCoroutine(SpawnCapybara());
     }
 
     // Update is called once per frame

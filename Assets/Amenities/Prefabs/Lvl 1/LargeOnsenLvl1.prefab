@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8094450508016626194}
   - component: {fileID: 910807712561468810}
   - component: {fileID: 6150664075575047523}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 1382508198485478364}
   - component: {fileID: 3287266224035630625}
   - component: {fileID: -6821873455638527455}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LargeOnsenLvl1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

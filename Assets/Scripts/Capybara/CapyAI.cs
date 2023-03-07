@@ -77,6 +77,12 @@ public class CapyAI : MonoBehaviour
                     nodeRoute = destinationRoute.NodeRoute;
                     if (nodeRoute.Count == 0)
                     {
+                        if (Vector3.Distance(gameObject.transform.position, (destinationRoute.Amenity.PathCollider.gameObject.transform.position)) <= 0.5)
+                        {
+                            state = State.usingAmenity;
+                            GetComponent<AmenityInteraction>().HandleInteraction(destinationRoute.Amenity);
+                            break;
+                        }
                         endDirection = Quaternion.LookRotation((destinationRoute.Amenity.PathCollider.gameObject.transform.position + PathPosition) - (previousNode.gameObject.transform.position + PathPosition)).eulerAngles.y;
                         startingDirection = gameObject.transform.eulerAngles.y;
                         CalculateTurn(startingDirection, endDirection);
@@ -164,7 +170,7 @@ public class CapyAI : MonoBehaviour
                         state = State.travelling;
                         capyAnimator.SetBool("Turning", false);
                         capyAnimator.SetBool("Travelling", true);
-                        StartCoroutine(TurnWait(0.25f));
+                        StartCoroutine(IdleTurnWait(0.25f));
                     }
                 }
                 break;
@@ -193,6 +199,15 @@ public class CapyAI : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         gameObject.transform.eulerAngles = new Vector3(gameObject.transform.rotation.x, endDirection, gameObject.transform.rotation.z);
         PathPosition = Intersection.CalculatePathPosition(new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z), gameObject.transform.right, new Vector3(currentPath.spacedPoints[0].x, 0, currentPath.spacedPoints[0].z), currentPath.spacedPoints[1] - currentPath.spacedPoints[0]);
+    }
+
+    private IEnumerator IdleTurnWait(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        gameObject.transform.eulerAngles = new Vector3(gameObject.transform.rotation.x, endDirection, gameObject.transform.rotation.z);
+        PathPosition = Intersection.CalculatePathPosition(new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z), gameObject.transform.right, new Vector3(currentPath.spacedPoints[0].x, 0, currentPath.spacedPoints[0].z), currentPath.spacedPoints[1] - currentPath.spacedPoints[0]);
+        state = State.travelling;
+        capyAnimator.SetBool("Travelling", true);
     }
 
     private void CalculateTurn(float startingDirection, float endDirection)
