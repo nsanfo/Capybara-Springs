@@ -76,13 +76,13 @@ public class AmenityBlueprint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name != "SnapCollider" && other.gameObject.name != "PathCollider")
+        if (other.gameObject.tag == "Amenity" || other.gameObject.tag == "Decor")
             buildCollisions++;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.name != "SnapCollider" && other.gameObject.name != "PathCollider")
+        if (other.gameObject.tag == "Amenity" || other.gameObject.tag == "Decor")
             buildCollisions--;
     }
 }

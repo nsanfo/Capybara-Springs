@@ -180,9 +180,10 @@ GameObject:
   - component: {fileID: 2301945110071802745}
   - component: {fileID: 6013063697541231591}
   - component: {fileID: 3036548019438501397}
+  - component: {fileID: -499314307608429210}
   m_Layer: 2
   m_Name: MediumOnsenLvl1
-  m_TagString: Untagged
+  m_TagString: Amenity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -304,6 +305,22 @@ MonoBehaviour:
   insidePositioningMulti: 0.35
   insidePositioningRange: 0.08
   splashHeight: 0.2
+--- !u!54 &-499314307608429210
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6825053055517263960}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8478550918671520917
 GameObject:
   m_ObjectHideFlags: 0

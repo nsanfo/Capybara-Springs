@@ -278,9 +278,10 @@ GameObject:
   - component: {fileID: 1382508198485478364}
   - component: {fileID: 3287266224035630625}
   - component: {fileID: -6821873455638527455}
+  - component: {fileID: -5297786256677841830}
   m_Layer: 2
   m_Name: LargeOnsenLvl1
-  m_TagString: Untagged
+  m_TagString: Amenity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -349,6 +350,22 @@ MonoBehaviour:
   insidePositioningMulti: 0.71
   insidePositioningRange: 0.17
   splashHeight: 0.16
+--- !u!54 &-5297786256677841830
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4916700532758802207}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6041987546337182882
 GameObject:
   m_ObjectHideFlags: 0

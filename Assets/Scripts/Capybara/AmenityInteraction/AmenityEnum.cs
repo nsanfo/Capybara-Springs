@@ -4,5 +4,6 @@ using UnityEngine;
 
 public enum AmenityEnum
 {
-    Onsen
+    Onsen,
+    Food
 }

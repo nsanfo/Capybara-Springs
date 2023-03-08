@@ -11,6 +11,9 @@ public class AmenitiesBuilder : MonoBehaviour
     public GameObject smallOnsenBlueprint;
     public GameObject mediumOnsenBlueprint;
     public GameObject largeOnsenBlueprint;
+    public GameObject smallFoodBlueprint;
+    public GameObject mediumFoodBlueprint;
+    public GameObject largeFoodBlueprint;
 
     [Header("Blueprint Material")]
     public Material blueprintMat;
@@ -127,6 +130,120 @@ public class AmenitiesBuilder : MonoBehaviour
         else if (blueprint == null)
         {
             blueprint = Instantiate(largeOnsenBlueprint);
+            if (red)
+            {
+                var redColor = new Color(1f, 0f, 0f, 0.27f);
+                blueprintMat.SetColor("_Color", redColor);
+            }
+            else
+            {
+                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
+                blueprintMat.SetColor("_Color", blueColor);
+            }
+        }
+    }
+
+    public void SmallFoodSelect()
+    {
+        if (blueprint != null && blueprint.name.StartsWith("SmallFood"))
+        {
+            Destroy(blueprint);
+        }
+        else if (blueprint != null)
+        {
+            Destroy(blueprint);
+            blueprint = Instantiate(smallFoodBlueprint);
+            if (red)
+            {
+                var redColor = new Color(1f, 0f, 0f, 0.27f);
+                blueprintMat.SetColor("_Color", redColor);
+            }
+            else
+            {
+
+                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
+                blueprintMat.SetColor("_Color", blueColor);
+            }
+        }
+        else if (blueprint == null)
+        {
+            blueprint = Instantiate(smallFoodBlueprint);
+            if (red)
+            {
+                var redColor = new Color(1f, 0f, 0f, 0.27f);
+                blueprintMat.SetColor("_Color", redColor);
+            }
+            else
+            {
+                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
+                blueprintMat.SetColor("_Color", blueColor);
+            }
+        }
+    }
+
+    public void MediumFoodSelect()
+    {
+        if (blueprint != null && blueprint.name.StartsWith("MediumFood"))
+        {
+            Destroy(blueprint);
+        }
+        else if (blueprint != null)
+        {
+            Destroy(blueprint);
+            blueprint = Instantiate(mediumFoodBlueprint);
+            if (red)
+            {
+                var redColor = new Color(1f, 0f, 0f, 0.27f);
+                blueprintMat.SetColor("_Color", redColor);
+            }
+            else
+            {
+
+                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
+                blueprintMat.SetColor("_Color", blueColor);
+            }
+        }
+        else if (blueprint == null)
+        {
+            blueprint = Instantiate(mediumFoodBlueprint);
+            if (red)
+            {
+                var redColor = new Color(1f, 0f, 0f, 0.27f);
+                blueprintMat.SetColor("_Color", redColor);
+            }
+            else
+            {
+                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
+                blueprintMat.SetColor("_Color", blueColor);
+            }
+        }
+    }
+
+    public void LargeFoodSelect()
+    {
+        if (blueprint != null && blueprint.name.StartsWith("LargeFood"))
+        {
+            Destroy(blueprint);
+        }
+        else if (blueprint != null)
+        {
+            Destroy(blueprint);
+            blueprint = Instantiate(largeFoodBlueprint);
+            if (red)
+            {
+                var redColor = new Color(1f, 0f, 0f, 0.27f);
+                blueprintMat.SetColor("_Color", redColor);
+            }
+            else
+            {
+
+                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
+                blueprintMat.SetColor("_Color", blueColor);
+            }
+        }
+        else if (blueprint == null)
+        {
+            blueprint = Instantiate(largeFoodBlueprint);
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
