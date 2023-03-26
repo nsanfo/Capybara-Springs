@@ -6,6 +6,9 @@ public class CapybaraInfo : MonoBehaviour
 {
     public string capyName;
     public float happiness, hunger = 75, comfort = 75, fun = 75;
+    public bool HungerFilling { get; set; } = false;
+    public bool ComfortFilling { get; set; } = false;
+    public bool FunFilling { get; set; } = false;
 
     // Update is called once per frame
     void Update()

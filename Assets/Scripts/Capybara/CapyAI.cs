@@ -101,6 +101,12 @@ public class CapyAI : MonoBehaviour
                 break;
             case State.travelling:
                 {
+                    if(destinationRoute.Amenity == null)
+                    {
+                        state = State.ready;
+                        capyAnimator.SetBool("Travelling", false);
+                        break;
+                    }
                     if(frontCollisions > 0)
                     {
                         state = State.walkingCollision;
