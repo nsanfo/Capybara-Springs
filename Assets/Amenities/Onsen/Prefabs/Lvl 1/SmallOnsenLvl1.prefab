@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 8089215896310701283}
   - component: {fileID: 7256909388236200496}
   - component: {fileID: 214511505167331900}
-  - component: {fileID: 3124378741865957617}
   m_Layer: 0
   m_Name: Band
-  m_TagString: Amenity
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,20 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3124378741865957617
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 515081175982429951}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 5239907867132663878, guid: e191ad9a450084b4e9a14b883022c251, type: 3}
 --- !u!1 &3437827799394079193
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,10 +95,9 @@ GameObject:
   - component: {fileID: 8689678114097897702}
   - component: {fileID: 3937444736316593058}
   - component: {fileID: 698229578528407642}
-  - component: {fileID: 7383098209897453682}
   m_Layer: 2
   m_Name: Sphere
-  m_TagString: Amenity
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -196,118 +180,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!64 &7383098209897453682
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3437827799394079193}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &3911645295119810453
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6583564851408934046}
-  - component: {fileID: 648737162369830906}
-  - component: {fileID: 8976692092964147847}
-  - component: {fileID: 6557727360476693809}
-  m_Layer: 0
-  m_Name: Planks
-  m_TagString: Amenity
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6583564851408934046
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3911645295119810453}
-  m_LocalRotation: {x: -0, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7408756321684263895}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &648737162369830906
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3911645295119810453}
-  m_Mesh: {fileID: 7058280831600997715, guid: e191ad9a450084b4e9a14b883022c251, type: 3}
---- !u!23 &8976692092964147847
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3911645295119810453}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: f053f42e322403f4b8ce851806ef64cd, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6557727360476693809
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3911645295119810453}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7058280831600997715, guid: e191ad9a450084b4e9a14b883022c251, type: 3}
 --- !u!1 &5031153288726692081
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,10 +191,9 @@ GameObject:
   - component: {fileID: 2252209008855183622}
   - component: {fileID: 5036743305196259482}
   - component: {fileID: 468575263866622134}
-  - component: {fileID: 5990572903097014062}
   m_Layer: 0
   m_Name: Band.003
-  m_TagString: Amenity
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -392,20 +263,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5990572903097014062
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5031153288726692081}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4333570168902509179, guid: e191ad9a450084b4e9a14b883022c251, type: 3}
 --- !u!1 &7897871408743303533
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,10 +272,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7408756321684263895}
+  - component: {fileID: 5872389393584790642}
+  - component: {fileID: 8546174319686084792}
   - component: {fileID: 8273893926371007718}
   - component: {fileID: 3894059343096895471}
   - component: {fileID: 287511464211682432}
-  - component: {fileID: 2760168119513978562}
   - component: {fileID: 3636212400380521764}
   m_Layer: 2
   m_Name: SmallOnsenLvl1
@@ -439,7 +297,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6583564851408934046}
   - {fileID: 8089215896310701283}
   - {fileID: 4425577631673162092}
   - {fileID: 281984270888320831}
@@ -448,6 +305,56 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &5872389393584790642
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7897871408743303533}
+  m_Mesh: {fileID: 7058280831600997715, guid: e191ad9a450084b4e9a14b883022c251, type: 3}
+--- !u!23 &8546174319686084792
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7897871408743303533}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: f053f42e322403f4b8ce851806ef64cd, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!135 &8273893926371007718
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -474,7 +381,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amenityType: 0
-  level: 1
   enteringForwardMulti: 0.7
   hungerFill: 0
   comfortFill: 1
@@ -497,20 +403,6 @@ MonoBehaviour:
   insidePositioningMulti: 0
   insidePositioningRange: 0
   splashHeight: 0.14
---- !u!114 &2760168119513978562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7897871408743303533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df42eb33b4b921c46a93cffdc665767c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeObject: {fileID: 5440704171105643667, guid: a382677e66b7dbd498e9f436eb72af7a, type: 3}
-  upgradeCost: 1000
 --- !u!54 &3636212400380521764
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -538,10 +430,9 @@ GameObject:
   - component: {fileID: 281984270888320831}
   - component: {fileID: 992709385316292264}
   - component: {fileID: 1688822309931284745}
-  - component: {fileID: 3180027401280426097}
   m_Layer: 0
   m_Name: Band.002
-  m_TagString: Amenity
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -611,20 +502,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3180027401280426097
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8282057903527431359}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2853153606168112634, guid: e191ad9a450084b4e9a14b883022c251, type: 3}
 --- !u!1 &8656696642480880180
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,10 +513,9 @@ GameObject:
   - component: {fileID: 4425577631673162092}
   - component: {fileID: 171732859299457781}
   - component: {fileID: 2613350481303160528}
-  - component: {fileID: 2588463363426213109}
   m_Layer: 0
   m_Name: Band.001
-  m_TagString: Amenity
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -709,17 +585,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2588463363426213109
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8656696642480880180}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3455956076653141776, guid: e191ad9a450084b4e9a14b883022c251, type: 3}

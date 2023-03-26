@@ -7,11 +7,6 @@ TagManager:
   - Terrain
   - Snap
   - Blueprint
-  - Capybara
-  - Amenity
-  - Front
-  - Decor
-  - UI
   layers:
   - Default
   - TransparentFX

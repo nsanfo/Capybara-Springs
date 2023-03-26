@@ -19,7 +19,6 @@ public class AmenitiesBuilder : MonoBehaviour
     public Material blueprintMat;
 
     GameObject stats;
-    Balance balanceScript;
     GameObject blueprint;
     bool red = false;
     Vector2 originalMousePos;
@@ -28,7 +27,6 @@ public class AmenitiesBuilder : MonoBehaviour
     void Start()
     {
         stats = GameObject.Find("Stats");
-        balanceScript = stats.GetComponent<Balance>();
     }
 
     public void SmallOnsenSelect()
@@ -273,6 +271,7 @@ public class AmenitiesBuilder : MonoBehaviour
     public void SnapPlace(Vector3 hitVector)
     {
         var blueprintScript = blueprint.GetComponent<AmenityBlueprint>();
+        var balanceScript = stats.GetComponent<Balance>();
         var balance = balanceScript.GetBalance();
         var cost = blueprintScript.cost;
         var pathTuple = blueprintScript.FindClosestCollider(hitVector);

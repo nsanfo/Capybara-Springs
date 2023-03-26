@@ -285,11 +285,6 @@ public class Path : MonoBehaviour
         amenities.Add(param);
     }
 
-    public void RemoveAmenity(Amenity param)
-    {
-        amenities.Remove(param);
-    }
-
     public int FindPathDirection(PathNode currentNode)
     {
         if (currentNode == nodes[0])
