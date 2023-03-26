@@ -7,6 +7,7 @@ public class Amenity : MonoBehaviour
     private (float, PathNode) nodeDistance1;
     private (float, PathNode) nodeDistance2;
     public AmenityEnum amenityType;
+    public int level;
 
     public GameObject PathCollider { get; set; }
 
@@ -35,6 +36,12 @@ public class Amenity : MonoBehaviour
         nodeDistance1 = (distance1, node1);
         nodeDistance2 = (distance2, node2);
         pathScript.AddAmenity(this);
+    }
+
+    public void PathUnset()
+    {
+        var pathScript = PathCollider.transform.parent.parent.gameObject.GetComponent<Path>();
+        pathScript.RemoveAmenity(this);
     }
 
     public void SlotSetup()

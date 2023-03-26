@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class AmenityInteraction : MonoBehaviour
 {
-    private Amenity amenity;
+    public Amenity amenity;
     Animator capyAnimator;
     int currentState = -1;
     int slotLocation;
@@ -172,7 +172,28 @@ public class AmenityInteraction : MonoBehaviour
         }
 
         interactionInterface.HandleInteraction(amenity, slotLocation, smokeEmitterObject);
+        SetFilling();
         StartCoroutine(UpdateCapybaraStats());
+    }
+
+    // Updates boolean variables which are used to enable arrows on the Capybara Details Window, indicating which needs are currently being filled
+    private void SetFilling()
+    {
+        CapybaraInfo capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
+        if (amenity.hungerFill > 0)
+            capybaraInfo.HungerFilling = true;
+        if (amenity.comfortFill > 0)
+            capybaraInfo.ComfortFilling = true;
+        if (amenity.funFill > 0)
+            capybaraInfo.FunFilling = true;
+    }
+
+    private void UnsetFilling()
+    {
+        CapybaraInfo capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
+        capybaraInfo.HungerFilling = false;
+        capybaraInfo.ComfortFilling = false;
+        capybaraInfo.FunFilling = false;
     }
 
     private IEnumerator UpdateCapybaraStats()
@@ -226,6 +247,7 @@ public class AmenityInteraction : MonoBehaviour
             StartCoroutine(AppearInFront());
             currentState = 5;
             amenity.RemoveCapybara(gameObject);
+            UnsetFilling();
         }
     }
 
