@@ -266,7 +266,6 @@ public class UIManager : MonoBehaviour
             }
             else if(Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "Amenity")
             {
-                Debug.Log(hit.transform.gameObject);
                 SetAmenityWindow(hit.transform.gameObject);
                 lastSelected = hit.transform.gameObject;
                 amenitySelected = true;

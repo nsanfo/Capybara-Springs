@@ -32,6 +32,8 @@ public class AmenityInteraction : MonoBehaviour
     private GameObject smokeEmitterObject;
     public GameObject splashEmitterPrefab;
     private GameObject splashEmitterObject;
+    public GameObject eatEmitterPrefab;
+    private GameObject eatEmitterObject;
     private Renderer[] capybaraRenderer = new Renderer[2];
 
     private void Update()
@@ -86,6 +88,7 @@ public class AmenityInteraction : MonoBehaviour
 
         capybaraRenderer = renderList.ToArray();
 
+        rotationStartPosition = transform.rotation;
         rotationEndPosition = Quaternion.LookRotation(amenity.transform.position - transform.position);
         capyAnimator.SetBool("Turning", true);
 
@@ -141,6 +144,12 @@ public class AmenityInteraction : MonoBehaviour
             splashEmitterObject = Instantiate(splashEmitterPrefab);
             splashEmitterObject.transform.SetParent(transform);
         }
+
+        if (eatEmitterObject == null)
+        {
+            eatEmitterObject = Instantiate(eatEmitterPrefab);
+            eatEmitterObject.transform.SetParent(transform);
+        }
     }
 
     private void CreateSmoke()
@@ -169,6 +178,14 @@ public class AmenityInteraction : MonoBehaviour
             onsenInteraction.SetSplashEmitter(splashEmitterObject);
             onsenInteraction.AmenityInterface = onsenAmenity;
             interactionInterface = onsenInteraction;
+        }
+        else if (amenity.amenityType == AmenityEnum.Food)
+        {
+            FoodAmenity foodAmenity = amenity.gameObject.GetComponent<FoodAmenity>();
+            FoodInteraction foodInteraction = gameObject.AddComponent<FoodInteraction>();
+            foodInteraction.SetEatEmitter(eatEmitterObject);
+            foodInteraction.AmenityInterface = foodAmenity;
+            interactionInterface = foodInteraction;
         }
 
         interactionInterface.HandleInteraction(amenity, slotLocation, smokeEmitterObject);
@@ -210,7 +227,7 @@ public class AmenityInteraction : MonoBehaviour
         }
         else
         {
-            interactionInterface.StopEmitters();
+            interactionInterface.HandleInteractionEnd();
             currentState = 4;
         }
     }
@@ -255,6 +272,7 @@ public class AmenityInteraction : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         transform.position = amenityFront;
+        transform.rotation = rotationStartPosition;
         HandleHiding(true);
         smokeEmitterObject.GetComponent<ParticleSystem>().Play();
         currentState = -1;

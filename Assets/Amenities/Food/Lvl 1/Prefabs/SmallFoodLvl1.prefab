@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 6164383335567842254}
   - component: {fileID: 3669414848608259187}
   - component: {fileID: 8957638869056864218}
-  m_Layer: 0
+  - component: {fileID: -4266277736263390625}
+  m_Layer: 6
   m_Name: SmallFoodLvl1
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -101,7 +102,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amenityType: 1
-  enteringForwardMulti: 0
+  level: 0
+  enteringForwardMulti: 0.7
   hungerFill: 1
   comfortFill: 0
   funFill: 0
@@ -136,6 +138,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-4266277736263390625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720341925075210288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ebe0fcdcd1a5a47b9b964a156d34bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  insidePositioningMulti: 0
+  insidePositioningRange: 0
+  positioningMultiExtender: 1
+  angleForSlots: 360
+  particleColor: {r: 0.20283908, g: 0.3584906, b: 0.025364896, a: 1}
+  eatingObject: {fileID: 0}
 --- !u!1001 &226766073356655379
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207,6 +227,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 05078808c279fb04dba574656df36826, type: 3}
       propertyPath: m_Name
       value: Grass
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 05078808c279fb04dba574656df36826, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
