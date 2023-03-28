@@ -88,6 +88,7 @@ public class AmenityInteraction : MonoBehaviour
 
         capybaraRenderer = renderList.ToArray();
 
+        rotationStartPosition = transform.rotation;
         rotationEndPosition = Quaternion.LookRotation(amenity.transform.position - transform.position);
         capyAnimator.SetBool("Turning", true);
 
@@ -271,6 +272,7 @@ public class AmenityInteraction : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         transform.position = amenityFront;
+        transform.rotation = rotationStartPosition;
         HandleHiding(true);
         smokeEmitterObject.GetComponent<ParticleSystem>().Play();
         currentState = -1;

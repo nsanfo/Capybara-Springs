@@ -65,6 +65,7 @@ public class CapyAI : MonoBehaviour
             case State.waiting:
                 return;
             case State.ready:
+                PathPosition = Intersection.CalculatePathPosition(new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z), gameObject.transform.right, new Vector3(currentPath.spacedPoints[0].x, 0, currentPath.spacedPoints[0].z), currentPath.spacedPoints[1] - currentPath.spacedPoints[0]);
                 state = State.travelling;
                 destinationRoute = pathfinder.FindAmenityDestination(currentPath);
                 if (destinationRoute == null)
@@ -83,7 +84,7 @@ public class CapyAI : MonoBehaviour
                             GetComponent<AmenityInteraction>().HandleInteraction(destinationRoute.Amenity);
                             break;
                         }
-                        endDirection = Quaternion.LookRotation((destinationRoute.Amenity.PathCollider.gameObject.transform.position + PathPosition) - (previousNode.gameObject.transform.position + PathPosition)).eulerAngles.y;
+                        endDirection = Quaternion.LookRotation((destinationRoute.Amenity.PathCollider.gameObject.transform.position + PathPosition) - (gameObject.transform.position)).eulerAngles.y;
                         startingDirection = gameObject.transform.eulerAngles.y;
                         CalculateTurn(startingDirection, endDirection);
                     }
@@ -211,7 +212,6 @@ public class CapyAI : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         gameObject.transform.eulerAngles = new Vector3(gameObject.transform.rotation.x, endDirection, gameObject.transform.rotation.z);
-        PathPosition = Intersection.CalculatePathPosition(new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z), gameObject.transform.right, new Vector3(currentPath.spacedPoints[0].x, 0, currentPath.spacedPoints[0].z), currentPath.spacedPoints[1] - currentPath.spacedPoints[0]);
         state = State.travelling;
         capyAnimator.SetBool("Travelling", true);
     }
