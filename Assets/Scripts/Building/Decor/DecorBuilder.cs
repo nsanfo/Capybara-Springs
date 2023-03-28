@@ -7,8 +7,11 @@ using UnityEngine.InputSystem.LowLevel;
 public class DecorBuilder : MonoBehaviour
 {
     [Header("Decor Blueprints")]
-		public GameObject toriiBlueprint;
-		public GameObject lampBlueprint;
+	public GameObject toriiBlueprint;
+	public GameObject lampBlueprint;
+    public GameObject plant1Blueprint;
+    public GameObject plant2Blueprint;
+    public GameObject rockBlueprint;
 
     [Header("Blueprint Material")]
     public Material blueprintMat;
@@ -24,16 +27,16 @@ public class DecorBuilder : MonoBehaviour
         stats = GameObject.Find("Stats");
     }
 
-		public void toriiObjectSelect()
+    public void ObjectSelect(GameObject go, string s)
     {
-        if (blueprint != null && blueprint.name.StartsWith("Torii"))
+        if (blueprint != null && blueprint.name.StartsWith(s))
         {
             Destroy(blueprint);
         }
         else if (blueprint != null)
         {
             Destroy(blueprint);
-            blueprint = Instantiate(toriiBlueprint);
+            blueprint = Instantiate(go);
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -48,7 +51,7 @@ public class DecorBuilder : MonoBehaviour
         }
         else if (blueprint == null)
         {
-            blueprint = Instantiate(toriiBlueprint);
+            blueprint = Instantiate(go);
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -62,45 +65,32 @@ public class DecorBuilder : MonoBehaviour
         }
     }
 
-		public void lampObjectSelect()
+	public void ToriiObjectSelect()
     {
-        if (blueprint != null && blueprint.name.StartsWith("Lamp"))
-        {
-            Destroy(blueprint);
-        }
-        else if (blueprint != null)
-        {
-            Destroy(blueprint);
-            blueprint = Instantiate(lampBlueprint);
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
-        else if (blueprint == null)
-        {
-            blueprint = Instantiate(lampBlueprint);
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
+        ObjectSelect(toriiBlueprint, "Torii");
     }
 
-		// Update is called once per frame
+	public void LampObjectSelect()
+    {
+        ObjectSelect(lampBlueprint, "Lamp");
+    }
+
+    public void Plant1ObjectSelect()
+    {
+        ObjectSelect(plant1Blueprint, "Plant1");
+    }
+
+    public void Plant2ObjectSelect()
+    {
+        ObjectSelect(plant2Blueprint, "Plant2");
+    }
+
+    public void RockObjectSelect()
+    {
+        ObjectSelect(rockBlueprint, "Rock");
+    }
+
+    // Update is called once per frame
     void LateUpdate()
     {
         if(blueprint != null)
