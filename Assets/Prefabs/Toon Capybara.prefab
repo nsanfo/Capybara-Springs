@@ -512,6 +512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smokeEmitterPrefab: {fileID: 2026139171341548177, guid: 249074cec8a6de8408d82e35071608cf, type: 3}
   splashEmitterPrefab: {fileID: 6048790893211046431, guid: 1dfbff454261fed4ea824d18ee47db67, type: 3}
+  eatEmitterPrefab: {fileID: 4581267845117610347, guid: bd044d7dee8f28b4bb781e310695a923, type: 3}
 --- !u!114 &2638168307437096894
 MonoBehaviour:
   m_ObjectHideFlags: 0

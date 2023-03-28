@@ -11,5 +11,5 @@ public interface InteractionInterface
 
     void HandleInteractingAnimation();
 
-    void StopEmitters();
+    void HandleInteractionEnd();
 }
