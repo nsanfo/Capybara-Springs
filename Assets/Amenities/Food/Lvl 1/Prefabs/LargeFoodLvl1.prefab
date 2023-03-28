@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1483757204469108068}
   - component: {fileID: 2535399533482623048}
   - component: {fileID: 7079633705120906646}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 5808243071967515843}
   - component: {fileID: 1830176671239902359}
   - component: {fileID: 6185641394829627174}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5973775752237301251}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Melons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,7 +256,7 @@ GameObject:
   - component: {fileID: 6524991942452729461}
   - component: {fileID: 2678651077784054095}
   - component: {fileID: -373000819882576070}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LargeFoodLvl1
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -344,6 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amenityType: 1
+  level: 0
   enteringForwardMulti: 0.9
   hungerFill: 1
   comfortFill: 0
@@ -359,7 +360,7 @@ SphereCollider:
   m_GameObject: {fileID: 2732807019736522465}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 3.14
   m_Center: {x: 0, y: 0.02119504, z: 0}
@@ -409,7 +410,7 @@ GameObject:
   - component: {fileID: 6796364771129385080}
   - component: {fileID: 7491391525372790007}
   - component: {fileID: 7348190519720971839}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -506,7 +507,7 @@ GameObject:
   - component: {fileID: 4030521978322226058}
   - component: {fileID: 7135639387512651774}
   - component: {fileID: 3786356279447620281}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -603,7 +604,7 @@ GameObject:
   - component: {fileID: 8433045970084987174}
   - component: {fileID: 1983106523247193463}
   - component: {fileID: 702857658393547006}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -700,7 +701,7 @@ GameObject:
   - component: {fileID: 7788311788807159676}
   - component: {fileID: 4382313438326511627}
   - component: {fileID: 5199874892844241228}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -797,7 +798,7 @@ GameObject:
   - component: {fileID: 6536739906593302002}
   - component: {fileID: 566371518683474076}
   - component: {fileID: 6737482080571249846}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -894,7 +895,7 @@ GameObject:
   - component: {fileID: 2723169314048465013}
   - component: {fileID: 6878865294698831224}
   - component: {fileID: 6652826848037414090}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -991,7 +992,7 @@ GameObject:
   - component: {fileID: 5500617650989597447}
   - component: {fileID: 1375308173724718416}
   - component: {fileID: 3698511666171420437}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1088,7 +1089,7 @@ GameObject:
   - component: {fileID: 9074900476543056859}
   - component: {fileID: 2788681346223550313}
   - component: {fileID: 3517263060483678271}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1185,7 +1186,7 @@ GameObject:
   - component: {fileID: 6830547394178649525}
   - component: {fileID: 3933235746580339522}
   - component: {fileID: 998883065955555952}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1282,7 +1283,7 @@ GameObject:
   - component: {fileID: 6467374695419732367}
   - component: {fileID: 5915375036024631213}
   - component: {fileID: 5454605534097571253}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1379,7 +1380,7 @@ GameObject:
   - component: {fileID: 4831834065928094022}
   - component: {fileID: 562427316413291902}
   - component: {fileID: 2705657439015765085}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1476,7 +1477,7 @@ GameObject:
   - component: {fileID: 4965094806693741106}
   - component: {fileID: 7261786582673142262}
   - component: {fileID: 7352823031943719158}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1573,7 +1574,7 @@ GameObject:
   - component: {fileID: 7369769361160633061}
   - component: {fileID: 3605025659983411223}
   - component: {fileID: 2170242718993440565}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Watermelon (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1713,6 +1714,10 @@ PrefabInstance:
     - target: {fileID: 4090590377686779180, guid: 7a7efc436897db949bedc0c6b638e709, type: 3}
       propertyPath: m_Name
       value: Watermelon
+      objectReference: {fileID: 0}
+    - target: {fileID: 4090590377686779180, guid: 7a7efc436897db949bedc0c6b638e709, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
