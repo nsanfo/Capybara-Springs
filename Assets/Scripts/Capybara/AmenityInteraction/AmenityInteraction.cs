@@ -44,7 +44,10 @@ public class AmenityInteraction : MonoBehaviour
         EnterAmenity();
         ExitAmenity();
 
-        if (currentState == 3 && interactionInterface != null) interactionInterface.HandleInteractingAnimation();
+        if (currentState == 3 && interactionInterface != null)
+        {
+            interactionInterface.HandleInteractingAnimation();
+        }
     }
 
     public void HandleInteraction(Amenity amenity)
@@ -288,6 +291,7 @@ public class AmenityInteraction : MonoBehaviour
             Destroy((UnityEngine.Object) interactionInterface);
         }
 
+        interactionInterface = null;
         amenity = null;
     }
 }
