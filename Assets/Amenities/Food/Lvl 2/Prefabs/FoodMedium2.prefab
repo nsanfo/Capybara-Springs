@@ -84,6 +84,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: f053f42e322403f4b8ce851806ef64cd, type: 2}
+    - target: {fileID: -1210149596137265203, guid: c1c43ef4fde490d48a918e0f805b9dd6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a263ce7e89e32b24da689cc60117941c, type: 2}
+    - target: {fileID: -1210149596137265203, guid: c1c43ef4fde490d48a918e0f805b9dd6, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: ad4a36bedc9f9f145bcd8587afcd3a85, type: 2}
     - target: {fileID: 919132149155446097, guid: c1c43ef4fde490d48a918e0f805b9dd6, type: 3}
       propertyPath: m_Name
       value: FoodMedium2
