@@ -5,7 +5,9 @@ using UnityEngine;
 public class CapybaraInfo : MonoBehaviour
 {
     public string capyName;
-    public float happiness, hunger = 75, comfort = 75, fun = 75;
+    public float happiness = 75, hunger = 75, comfort = 75, fun = 75;
+    public int Frustration { get; set; }
+    public float TimeSpent { get; set; }
     public bool HungerFilling { get; set; } = false;
     public bool ComfortFilling { get; set; } = false;
     public bool FunFilling { get; set; } = false;

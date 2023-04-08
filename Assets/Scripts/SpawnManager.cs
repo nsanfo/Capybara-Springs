@@ -6,7 +6,6 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject capybara;
-    public GameObject playerBuilding;
 
     public GameObject entrancePath;
     private Vector3 entranceForward;

@@ -59,6 +59,7 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
 
     public void HandleInteractionEnd()
     {
+        GetComponent<Animator>().SetBool("Turning", false);
         splashEmitterObject.GetComponent<ParticleSystem>().Stop();
     }
 
