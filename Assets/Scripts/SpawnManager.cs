@@ -80,18 +80,20 @@ public class SpawnManager : MonoBehaviour
 
         float happinessCapacity = gameplayStateScript.currentCapacity;
 
-        if (averageHappiness > 50)
-        {
-            happinessCapacity = Mathf.RoundToInt(Mathf.Pow((happinessCapacity + 0.5f), 1.025f));
-        }
-        else
-        {
-            happinessCapacity = Mathf.RoundToInt(Mathf.Pow((happinessCapacity - 0.5f), 0.975f));
-        }
-
         if (capybaraHandlerScript.CapybaraCount() >= happinessCapacity)
         {
             happinessCapacity = Mathf.RoundToInt(Mathf.Pow(happinessCapacity, 0.95f));
+        }
+        else
+        {
+            if (averageHappiness > 50)
+            {
+                happinessCapacity = Mathf.RoundToInt(Mathf.Pow((happinessCapacity + 0.5f), 1.025f));
+            }
+            else
+            {
+                happinessCapacity = Mathf.RoundToInt(Mathf.Pow((happinessCapacity - 0.5f), 0.975f));
+            }
         }
 
         var currentCount = capybaraHandlerScript.CapybaraCount();
