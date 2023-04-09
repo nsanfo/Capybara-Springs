@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 public class CapyAI : MonoBehaviour
 {
-    enum State { travelling, usingAmenity, opposingCollision, walkingCollision, turnCollision, walkTurning, idleTurning, waiting, ready }
+    enum State { travelling, usingAmenity, opposingCollision, walkingCollision, turnCollision, walkTurning, idleTurning, waiting, ready, leaving }
     private State state = State.ready;
 
     enum PathDirection { direction1, direction2, noDirection } // Used to determine if two capybaras are walking opposite directions on the same path
@@ -23,7 +24,6 @@ public class CapyAI : MonoBehaviour
     private int frontCollisions;
     public int FrontCollisions { get => frontCollisions; }
 
-
     private NodeGraph nodeGraph;
     private PathNode[] nodes;
 
@@ -34,6 +34,11 @@ public class CapyAI : MonoBehaviour
     private PathNode nextNode;
     private int previousNodeIndex;
     private PathNode previousNode;
+
+    private bool leaving = false;
+    private int amenitiesEntered = 0;
+
+    private CapybaraInfo capybaraInfo;
 
     float startingDirection, endDirection;
     //float turnAmount;
@@ -51,6 +56,8 @@ public class CapyAI : MonoBehaviour
         nodeGraph = pathBuilder.nodeGraph;
         nodes = nodeGraph.Nodes;
 
+        capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
+
         var entrancePath = GameObject.Find("EntrancePath");
         currentPath = entrancePath.GetComponent<Path>();
         previousNode = entrancePath.transform.GetChild(1).transform.GetChild(0).transform.GetChild(0).GetComponent<PathNode>();
@@ -59,6 +66,11 @@ public class CapyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (capybaraInfo != null)
+        {
+            capybaraInfo.TimeSpent = capybaraInfo.TimeSpent + Time.deltaTime;
+        }
+
         nodes = nodeGraph.Nodes;
         switch (state)
         {
@@ -67,6 +79,40 @@ public class CapyAI : MonoBehaviour
             case State.ready:
                 PathPosition = Intersection.CalculatePathPosition(new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z), gameObject.transform.right, new Vector3(currentPath.spacedPoints[0].x, 0, currentPath.spacedPoints[0].z), currentPath.spacedPoints[1] - currentPath.spacedPoints[0]);
                 state = State.travelling;
+
+                if (pathfinder.LeaveRoute(capybaraInfo.TimeSpent, capybaraInfo.Frustration) && amenitiesEntered > 0)
+                {
+                    nodeRoute = pathfinder.FindExitDestination(currentPath);
+                    leaving = true;
+                }
+
+                if (leaving)
+                {
+                    if (nodeRoute.Count == 0)
+                    {
+                        state = State.leaving;
+                        capyAnimator.SetBool("Travelling", false);
+                        break;
+                    }
+                    else
+                    {
+                        nextNodeIndex = nodeRoute.Peek();
+                        nextNode = nodes[nextNodeIndex];
+
+                        endDirection = Quaternion.LookRotation((nextNode.gameObject.transform.position + PathPosition) - (gameObject.transform.position)).eulerAngles.y;
+                        startingDirection = gameObject.transform.eulerAngles.y;
+                        CalculateTurn(startingDirection, endDirection);
+                    }
+                    state = State.idleTurning;
+
+                    if (capybaraInfo != null)
+                    {
+                        capybaraInfo.Frustration = 0;
+                    }
+
+                    break;
+                }
+
                 destinationRoute = pathfinder.FindAmenityDestination(currentPath);
                 if (destinationRoute == null)
                 {
@@ -81,6 +127,7 @@ public class CapyAI : MonoBehaviour
                         if (Vector3.Distance(gameObject.transform.position, (destinationRoute.Amenity.PathCollider.gameObject.transform.position)) <= 0.5)
                         {
                             state = State.usingAmenity;
+                            amenitiesEntered++;
                             GetComponent<AmenityInteraction>().HandleInteraction(destinationRoute.Amenity);
                             break;
                         }
@@ -98,11 +145,24 @@ public class CapyAI : MonoBehaviour
                         CalculateTurn(startingDirection, endDirection);
                     }
                     state = State.idleTurning;
+                    if (capybaraInfo != null)
+                    {
+                        capybaraInfo.Frustration = 0;
+                    }
                 }
+
+                if (amenitiesEntered > 0)
+                {
+                    if (capybaraInfo != null)
+                    {
+                        capybaraInfo.Frustration = capybaraInfo.Frustration++;
+                    }
+                }
+
                 break;
             case State.travelling:
                 {
-                    if(destinationRoute.Amenity == null)
+                    if(destinationRoute != null && destinationRoute.Amenity == null)
                     {
                         state = State.ready;
                         capyAnimator.SetBool("Travelling", false);
@@ -116,6 +176,14 @@ public class CapyAI : MonoBehaviour
                     }
                     if (nodeRoute.Count == 0)
                     {
+                        if (leaving)
+                        {
+                            endDirection = Quaternion.LookRotation((nodeGraph.Nodes[0].gameObject.transform.position + PathPosition) - (previousNode.gameObject.transform.position + PathPosition)).eulerAngles.y;
+                            startingDirection = gameObject.transform.eulerAngles.y;
+                            CalculateTurn(startingDirection, endDirection);
+                            state = State.walkTurning;
+                            break;
+                        }
                         if (destinationRoute.Amenity.amenitySlots.Count(capy => capy != null) == destinationRoute.Amenity.amenitySlots.Length)
                         {
                             state = State.ready;
@@ -126,6 +194,7 @@ public class CapyAI : MonoBehaviour
                         {
                             capyAnimator.SetBool("Travelling", false);
                             state = State.usingAmenity;
+                            amenitiesEntered++;
                             GetComponent<AmenityInteraction>().HandleInteraction(destinationRoute.Amenity);
                         }
                     }
@@ -137,10 +206,17 @@ public class CapyAI : MonoBehaviour
                             previousNode = nextNode;
                             if (nodeRoute.Count > 0)
                                 currentPath = nodeGraph.GetPath(previousNodeIndex, nodeRoute.Peek());
-                            else
+                            else if (destinationRoute != null)
                                 currentPath = destinationRoute.Path;
+
                             if (nodeRoute.Count == 0)
                             {
+                                if (leaving)
+                                {
+                                    state = State.leaving;
+                                    capyAnimator.SetBool("Travelling", false);
+                                    break;
+                                }
                                 endDirection = Quaternion.LookRotation((destinationRoute.Amenity.PathCollider.gameObject.transform.position + PathPosition) - (previousNode.gameObject.transform.position + PathPosition)).eulerAngles.y;
                                 startingDirection = gameObject.transform.eulerAngles.y;
                                 CalculateTurn(startingDirection, endDirection);
@@ -189,6 +265,10 @@ public class CapyAI : MonoBehaviour
                         capyAnimator.SetBool("Travelling", true);
                     }
                 }
+                break;
+            case State.leaving:
+                Leave();
+                state = State.waiting;
                 break;
         }
     }
@@ -265,5 +345,24 @@ public class CapyAI : MonoBehaviour
     {
         if (state == State.travelling)
             frontCollisions--;
+    }
+
+    private void Leave()
+    {
+        // Handle Money
+        CapybaraInfo capyInfo = gameObject.GetComponent<CapybaraInfo>();
+        if (capyInfo == null) return;
+        double payment = capyInfo.happiness * 25;
+
+        Balance balance = GameObject.Find("Stats").GetComponent<Balance>();
+        balance.AdjustBalance(payment);
+
+        // Handle capybara number
+        CapybaraHandler capybaraHandler = GameObject.Find("SpawnManager").GetComponent<CapybaraHandler>();
+        if (capybaraHandler == null) return;
+        capybaraHandler.RemoveCapybara(gameObject);
+
+        // Handle destroy
+        Destroy(gameObject);
     }
 }
