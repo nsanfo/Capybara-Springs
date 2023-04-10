@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class AmenityInteraction : MonoBehaviour
 {
-    private Amenity amenity;
+    public Amenity amenity;
     Animator capyAnimator;
     int currentState = -1;
     int slotLocation;
@@ -32,6 +32,8 @@ public class AmenityInteraction : MonoBehaviour
     private GameObject smokeEmitterObject;
     public GameObject splashEmitterPrefab;
     private GameObject splashEmitterObject;
+    public GameObject eatEmitterPrefab;
+    private GameObject eatEmitterObject;
     private Renderer[] capybaraRenderer = new Renderer[2];
 
     private void Update()
@@ -42,7 +44,10 @@ public class AmenityInteraction : MonoBehaviour
         EnterAmenity();
         ExitAmenity();
 
-        if (currentState == 3 && interactionInterface != null) interactionInterface.HandleInteractingAnimation();
+        if (currentState == 3 && interactionInterface != null)
+        {
+            interactionInterface.HandleInteractingAnimation();
+        }
     }
 
     public void HandleInteraction(Amenity amenity)
@@ -86,6 +91,7 @@ public class AmenityInteraction : MonoBehaviour
 
         capybaraRenderer = renderList.ToArray();
 
+        rotationStartPosition = transform.rotation;
         rotationEndPosition = Quaternion.LookRotation(amenity.transform.position - transform.position);
         capyAnimator.SetBool("Turning", true);
 
@@ -141,6 +147,12 @@ public class AmenityInteraction : MonoBehaviour
             splashEmitterObject = Instantiate(splashEmitterPrefab);
             splashEmitterObject.transform.SetParent(transform);
         }
+
+        if (eatEmitterObject == null)
+        {
+            eatEmitterObject = Instantiate(eatEmitterPrefab);
+            eatEmitterObject.transform.SetParent(transform);
+        }
     }
 
     private void CreateSmoke()
@@ -170,9 +182,38 @@ public class AmenityInteraction : MonoBehaviour
             onsenInteraction.AmenityInterface = onsenAmenity;
             interactionInterface = onsenInteraction;
         }
+        else if (amenity.amenityType == AmenityEnum.Food)
+        {
+            FoodAmenity foodAmenity = amenity.gameObject.GetComponent<FoodAmenity>();
+            FoodInteraction foodInteraction = gameObject.AddComponent<FoodInteraction>();
+            foodInteraction.SetEatEmitter(eatEmitterObject);
+            foodInteraction.AmenityInterface = foodAmenity;
+            interactionInterface = foodInteraction;
+        }
 
         interactionInterface.HandleInteraction(amenity, slotLocation, smokeEmitterObject);
+        SetFilling();
         StartCoroutine(UpdateCapybaraStats());
+    }
+
+    // Updates boolean variables which are used to enable arrows on the Capybara Details Window, indicating which needs are currently being filled
+    private void SetFilling()
+    {
+        CapybaraInfo capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
+        if (amenity.hungerFill > 0)
+            capybaraInfo.HungerFilling = true;
+        if (amenity.comfortFill > 0)
+            capybaraInfo.ComfortFilling = true;
+        if (amenity.funFill > 0)
+            capybaraInfo.FunFilling = true;
+    }
+
+    private void UnsetFilling()
+    {
+        CapybaraInfo capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
+        capybaraInfo.HungerFilling = false;
+        capybaraInfo.ComfortFilling = false;
+        capybaraInfo.FunFilling = false;
     }
 
     private IEnumerator UpdateCapybaraStats()
@@ -189,7 +230,7 @@ public class AmenityInteraction : MonoBehaviour
         }
         else
         {
-            interactionInterface.StopEmitters();
+            interactionInterface.HandleInteractionEnd();
             currentState = 4;
         }
     }
@@ -226,6 +267,7 @@ public class AmenityInteraction : MonoBehaviour
             StartCoroutine(AppearInFront());
             currentState = 5;
             amenity.RemoveCapybara(gameObject);
+            UnsetFilling();
         }
     }
 
@@ -233,6 +275,7 @@ public class AmenityInteraction : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         transform.position = amenityFront;
+        transform.rotation = rotationStartPosition;
         HandleHiding(true);
         smokeEmitterObject.GetComponent<ParticleSystem>().Play();
         currentState = -1;
@@ -248,6 +291,7 @@ public class AmenityInteraction : MonoBehaviour
             Destroy((UnityEngine.Object) interactionInterface);
         }
 
+        interactionInterface = null;
         amenity = null;
     }
 }
