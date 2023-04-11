@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public class AmenityInteraction : MonoBehaviour
 {
     Pathfinder pathfinderScript;
+    CapyAI aiScript;
     public Amenity amenity;
     Animator capyAnimator;
     int currentState = -1;
@@ -44,6 +45,7 @@ public class AmenityInteraction : MonoBehaviour
     private void Start()
     {
         pathfinderScript = GetComponent<Pathfinder>();
+        aiScript = GetComponent<CapyAI>();
     }
 
     private void Update()
@@ -230,9 +232,9 @@ public class AmenityInteraction : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         CapybaraInfo capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
-        capybaraInfo.hunger += amenity.hungerFill;
-        capybaraInfo.comfort += amenity.comfortFill;
-        capybaraInfo.fun += amenity.funFill;
+        capybaraInfo.hunger += (amenity.hungerFill * Time.deltaTime * 100);
+        capybaraInfo.comfort += (amenity.comfortFill * Time.deltaTime * 100);
+        capybaraInfo.fun += (amenity.funFill * Time.deltaTime * 100);
 
         if (!HandleMaxStats(capybaraInfo))
         {
@@ -273,6 +275,7 @@ public class AmenityInteraction : MonoBehaviour
         if (currentState == 4)
         {
             pathfinderScript.LastAmenityUsed = amenity.gameObject;
+            aiScript.previousNode = amenity.PathCollider;
             smokeEmitterObject.GetComponent<ParticleSystem>().Play();
             HandleHiding(false);
             StartCoroutine(AppearInFront());
@@ -344,7 +347,7 @@ public class AmenityInteraction : MonoBehaviour
                 currentState = -1;
                 capybaraRenderer = new Renderer[2];
                 RemoveInteraction();
-                GetComponent<CapyAI>().CompletedAmenityInteraction();
+                aiScript.CompletedAmenityInteraction();
                 break;
             }
         }

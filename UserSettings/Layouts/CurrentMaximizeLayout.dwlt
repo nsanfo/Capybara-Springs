@@ -191,8 +191,8 @@ MonoBehaviour:
     y: 0
     width: 388
     height: 608
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -234,9 +234,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: 200a0000
       m_LastClickedID: 0
-      m_ExpandedIDs: e039ffff28fbffff
+      m_ExpandedIDs: 28fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -630,9 +630,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 693.26404, y: 327.96658, z: -0.75469565}
+    m_Target: {x: 3.6364071, y: -2.1573496, z: -3.3905592}
     speed: 2
-    m_Value: {x: 693.26404, y: 327.96658, z: -0.75469565}
+    m_Value: {x: 3.6364071, y: -2.1573496, z: -3.3905592}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -678,13 +678,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.0038419506, y: -0.9813661, z: 0.19108751, w: 0.01973332}
+    m_Target: {x: -0.070693746, y: -0.9238935, z: 0.20884246, w: -0.31273934}
     speed: 2
-    m_Value: {x: 0.0038419545, y: -0.9813671, z: 0.19108771, w: 0.019733341}
+    m_Value: {x: -0.07069382, y: -0.9238945, z: 0.20884268, w: -0.31273967}
   m_Size:
-    m_Target: 727.1284
+    m_Target: 3.449135
     speed: 2
-    m_Value: 727.1284
+    m_Value: 3.449135
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -783,11 +783,11 @@ MonoBehaviour:
     - e00: 0.9370195
       e01: 0
       e02: 0
-      e03: 7.80954
+      e03: 147.22586
       e10: 0
       e11: 0.9370195
       e12: 0
-      e13: 157.73184
+      e13: 106.73186
       e20: 0
       e21: 0
       e22: 1
@@ -822,7 +822,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectBrowser
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -831,14 +831,14 @@ MonoBehaviour:
     y: 608
     width: 1564
     height: 419.59998
-  m_MinSize: {x: 231, y: 271}
-  m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 11}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 11}
   - {fileID: 12}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -885,23 +885,23 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - Assets/Scripts/Capybara/AmenityInteraction
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Prefabs
+  - Assets/Scripts/Capybara/AmenityInteraction
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Ryan\Documents\GitHub\COMP490Game
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 187}
-    m_SelectedIDs: fe790000
-    m_LastClickedID: 31230
-    m_ExpandedIDs: 000000002072000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 165.40002}
+    m_SelectedIDs: 8e720000
+    m_LastClickedID: 29326
+    m_ExpandedIDs: 000000002272000052720000887200008a72000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -929,7 +929,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000020720000
+    m_ExpandedIDs: 0000000022720000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -954,8 +954,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
+    m_SelectedInstanceIDs: 200a0000
+    m_LastClickedInstanceID: 2592
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
@@ -1037,8 +1037,8 @@ MonoBehaviour:
     y: 0
     width: 484
     height: 1027.6
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}

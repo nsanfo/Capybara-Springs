@@ -13,7 +13,7 @@ public class FrontCollisionDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Capybara" || (other.gameObject.tag == "Front" && (Mathf.Abs(other.transform.TransformDirection(Vector3.forward).y - transform.TransformDirection(Vector3.forward).y) >= 170f)))
+        if(other.gameObject.tag == "Capybara")
         {
             ai.FrontCollisionEnter(other);
         }
@@ -22,7 +22,7 @@ public class FrontCollisionDetection : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Capybara" || (other.gameObject.tag == "Front" && (Mathf.Abs(other.transform.TransformDirection(Vector3.forward).y - transform.TransformDirection(Vector3.forward).y) >= 170f)))
+        if (other.gameObject.tag == "Capybara")
         {
             ai.FrontCollisionExit(other);
         }

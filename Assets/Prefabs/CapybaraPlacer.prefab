@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &-3118415077972029307
 Rigidbody:
@@ -80,7 +80,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.13, y: 0.24, z: 0.36}
+  m_Size: {x: 0.36, y: 0.24, z: 0.36}
   m_Center: {x: 0, y: 0.12, z: 0.035}
 --- !u!114 &-6262477118124452115
 MonoBehaviour:
