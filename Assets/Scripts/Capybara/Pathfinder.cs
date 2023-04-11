@@ -50,6 +50,8 @@ public class Pathfinder : MonoBehaviour
 
     private CapybaraInfo capyInfo;
 
+    public GameObject LastAmenityUsed { get; set; }
+
     private void Start()
     {
         var playerBuilding = GameObject.Find("PlayerBuilding");
@@ -81,6 +83,8 @@ public class Pathfinder : MonoBehaviour
             bestRating = comfortRating;
         if (bestRating < funRating)
             bestRating = funRating;
+        if (amenity.gameObject == LastAmenityUsed)
+            bestRating = 0.000001f;
         return bestRating;
     }
 
@@ -316,6 +320,7 @@ public class Pathfinder : MonoBehaviour
         previous[nodeDistances.Item1.Item1] = -1;
         previous[nodeDistances.Item2.Item1] = -1;
 
+        RatePathAmenities(startingPath, gameObject.transform.position);
         Path currentPath;
 
         bool keepGoing = true;

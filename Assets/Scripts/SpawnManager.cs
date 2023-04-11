@@ -6,6 +6,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject capybara;
+    public GameObject capybaraPlacer;
 
     public GameObject entrancePath;
     private Vector3 entranceForward;
@@ -107,63 +108,72 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnCapybara()
     {
-        var newCapy = GameObject.Instantiate(capybara);
-        var capyInfo = newCapy.GetComponent<CapybaraInfo>();
-        var capyAI = newCapy.GetComponent<CapyAI>();
-        float pathDistance = 0;
-        capyInfo.capyName = CapyNames.GetRandomName();
-        newCapy.transform.position = new Vector3(0, 0, 0);
-        newCapy.transform.Rotate(Vector3.up, 45);
-        states = States.center;
+        GameObject capyPlacer = GameObject.Instantiate(capybaraPlacer);
+        capyPlacer.transform.position = new Vector3(0, 0, 0);
+        capyPlacer.transform.Rotate(Vector3.up, 45);
+        var placerScript = capyPlacer.GetComponent<CapybaraPlacer>();
 
-        if (capybaraHandlerScript != null)
-        {
-            capybaraHandlerScript.AddCapybara(newCapy);
-        }
+        float pathDistance = 0;
+        states = States.center;
 
         while (true)
         {
-            yield return 0;
-            if (capyAI.BodyCollisions > 0)
+            yield return new WaitForSeconds(0.1f);
+            if (placerScript.Collisions > 0)
             {
                 if (states == States.center)
                 {
                     states = States.right;
-                    newCapy.transform.Translate(Vector3.right * 0.13f);
-                    pathDistance += 0.13f;
+                    capyPlacer.transform.Translate(Vector3.right * 0.13f);
+                    pathDistance += 0.10f;
                 }
                 else if (states == States.right)
                 {
-                    if (pathDistance < 0.26)
+                    if (pathDistance < 0.30)
                     {
-                        newCapy.transform.Translate(Vector3.right * 0.13f);
-                        pathDistance += 0.13f;
+                        capyPlacer.transform.Translate(Vector3.right * 0.13f);
+                        pathDistance += 0.10f;
                     }
                     else
                     {
                         states = States.left;
-                        newCapy.transform.position = new Vector3(0, 0, 0);
-                        newCapy.transform.Translate(Vector3.left * 0.13f);
-                        pathDistance = -0.13f;
+                        capyPlacer.transform.position = new Vector3(0, 0, 0);
+                        capyPlacer.transform.Translate(Vector3.left * 0.13f);
+                        pathDistance = -0.10f;
                     }
                 }
                 else if (states == States.left)
                 {
-                    if (pathDistance > -0.26)
+                    if (pathDistance > -0.30)
                     {
-                        newCapy.transform.Translate(Vector3.left * 0.13f);
-                        pathDistance -= 0.13f;
+                        capyPlacer.transform.Translate(Vector3.left * 0.13f);
+                        pathDistance -= 0.10f;
                     }
                     else
                     {
                         states = States.center;
-                        newCapy.transform.position = new Vector3(0, 0, 0);
+                        capyPlacer.transform.position = new Vector3(0, 0, 0);
                         pathDistance = 0;
                     }
                 }
             }
             else
+            {
+                var newCapy = GameObject.Instantiate(capybara);
+                var capyInfo = newCapy.GetComponent<CapybaraInfo>();
+                var capyAI = newCapy.GetComponent<CapyAI>();
+                capyInfo.capyName = CapyNames.GetRandomName();
+                newCapy.transform.position = capyPlacer.transform.position;
+                newCapy.transform.Rotate(Vector3.up, 45);
+
+                GameObject.Destroy(capyPlacer);
+
+                if (capybaraHandlerScript != null)
+                {
+                    capybaraHandlerScript.AddCapybara(newCapy);
+                }
                 break;
+            }
         }
     }
 }
