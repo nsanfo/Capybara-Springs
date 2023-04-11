@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 // Contains all the information needed to travel to an amenity
 public class AmenityRoute
@@ -48,6 +50,8 @@ public class Pathfinder : MonoBehaviour
 
     private CapybaraInfo capyInfo;
 
+    public GameObject LastAmenityUsed { get; set; }
+
     private void Start()
     {
         var playerBuilding = GameObject.Find("PlayerBuilding");
@@ -63,7 +67,7 @@ public class Pathfinder : MonoBehaviour
     // to the amenity. The capybara will choose the amenity with the highest rating as its next destination.
     private float RateAmenity(Amenity amenity, float distance)
     {
-        CapybaraInfo capyInfo = this.gameObject.GetComponent<CapybaraInfo>();;
+        CapybaraInfo capyInfo = this.gameObject.GetComponent<CapybaraInfo>();
         float hungerFill = amenity.hungerFill;
         float comfortFill = amenity.comfortFill;
         float funFill = amenity.funFill;
@@ -79,6 +83,8 @@ public class Pathfinder : MonoBehaviour
             bestRating = comfortRating;
         if (bestRating < funRating)
             bestRating = funRating;
+        if (amenity.gameObject == LastAmenityUsed)
+            bestRating = 0.000001f;
         return bestRating;
     }
 
@@ -127,6 +133,74 @@ public class Pathfinder : MonoBehaviour
         }
     }
 
+    public bool LeaveRoute(float timeSpent, int frustration)
+    {
+        return LeaveIfTimeSpent(timeSpent) || LeaveIfHappinessFrustration(frustration);
+    }
+
+    private bool LeaveIfTimeSpent(float timeSpent)
+    {
+        CapybaraInfo capyInfo = gameObject.GetComponent<CapybaraInfo>();
+        if (capyInfo == null) return true;
+
+        float generatedMaximum = (float) (-100 * Math.Cos(timeSpent / 150) + 100);
+
+        if (Random.Range(0, 100) < generatedMaximum)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool LeaveIfHappinessFrustration(int frustration)
+    {
+        // Frustration multiplier
+        float frustMulti = 1, addPerFrust = 0.015f;
+        if (frustration != 0)
+        {
+            frustMulti += addPerFrust * frustration;
+        }
+
+        CapybaraInfo capyInfo = gameObject.GetComponent<CapybaraInfo>();
+        if (capyInfo == null) return true;
+
+        float selectedPoint = Random.Range(0, 100);
+        float generatedMaximum, amplitude, period, offset;
+        if (capyInfo.happiness > 90)
+        {
+            amplitude = -90;
+            period = 75;
+            offset = 100;
+        }
+        else if (capyInfo.happiness > 45)
+        {
+            amplitude = -100;
+            period = 175;
+            offset = 100;
+        }
+        else
+        {
+            amplitude = -100;
+            period = 50;
+            offset = 125;
+        }
+
+        generatedMaximum = (float) (amplitude * Math.Cos(selectedPoint / period) + offset);
+        generatedMaximum *= frustMulti;
+
+        if (Random.Range(0, 100) < generatedMaximum)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     // Finds the distances from this GameObject to the PathNodes at the ends of the specified path
     private ((int, float), (int, float)) PathNodeDistances(Path path)
     {
@@ -139,6 +213,84 @@ public class Pathfinder : MonoBehaviour
         return ((node1Index, distance1), (node2Index, distance2));
     }
 
+    public Stack<int> FindExitDestination(Path startingPath)
+    {
+        Stack<int> nodeRoute = new Stack<int>();
+        nodes = nodeGraph.Nodes;
+        bestDestination = null;
+        visited = new bool[nodes.Length];
+        cost = new float[nodes.Length];
+        previous = new int[nodes.Length];
+        remainingUnvisited = nodes.Length;
+
+        for (int i = 0; i < visited.Length; i++)
+        {
+            visited[i] = false;
+        }
+
+        for (int i = 0; i < cost.Length; i++)
+        {
+            cost[i] = float.PositiveInfinity;
+        }
+
+        var nodeDistances = PathNodeDistances(startingPath);
+        cost[nodeDistances.Item1.Item1] = nodeDistances.Item1.Item2;
+        cost[nodeDistances.Item2.Item1] = nodeDistances.Item2.Item2;
+        previous[nodeDistances.Item1.Item1] = -1;
+        previous[nodeDistances.Item2.Item1] = -1;
+
+        bool keepGoing = true;
+        while (remainingUnvisited > 0 && keepGoing)
+        {
+            keepGoing = false;
+            float lowestCost = float.PositiveInfinity;
+            int lowestCostIndex = -1;
+
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                if (visited[i] == false && cost[i] < lowestCost)
+                {
+                    lowestCost = cost[i];
+                    lowestCostIndex = i;
+                }
+            }
+
+            if (lowestCost != float.PositiveInfinity)
+            {
+                keepGoing = true;
+                visited[lowestCostIndex] = true;
+                remainingUnvisited--;
+                var lowestCostNode = nodes[lowestCostIndex];
+                var connectedNodes = nodeGraph.GetConnectedNodes(nodes[lowestCostIndex]);
+                for (int i = 0; i < connectedNodes.Length; i++)
+                {
+                    if (connectedNodes[i] != null)
+                    {
+                        var nodeIndex = nodeGraph.GetNodeIndex(connectedNodes[i]);
+                        if (nodeIndex != -1 && visited[nodeIndex] == false)
+                        {
+                            var newDistance = cost[lowestCostIndex] + Vector3.Distance(connectedNodes[i].gameObject.transform.position, lowestCostNode.gameObject.transform.position);
+                            if (newDistance < cost[nodeIndex])
+                            {
+                                cost[nodeIndex] = newDistance;
+                                previous[nodeIndex] = lowestCostIndex;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Go to first node
+        var previousIndex = 0;
+        while (previousIndex != -1)
+        {
+            nodeRoute.Push(previousIndex);
+            previousIndex = previous[previousIndex];
+        }
+
+        return nodeRoute;
+    }
 
     // Uses Dijkstra's Algorithm to find the path distances from the capybara to all PathNodes connected to the capybara's current path and find the next amenity that the
     // capybara should travel to based on its needs. Returns an AmenityRoute for the destination amenity.

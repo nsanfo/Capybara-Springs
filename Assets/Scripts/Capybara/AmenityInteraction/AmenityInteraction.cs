@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class AmenityInteraction : MonoBehaviour
 {
+    Pathfinder pathfinderScript;
     public Amenity amenity;
     Animator capyAnimator;
     int currentState = -1;
@@ -36,6 +37,15 @@ public class AmenityInteraction : MonoBehaviour
     private GameObject eatEmitterObject;
     private Renderer[] capybaraRenderer = new Renderer[2];
 
+    public GameObject capybaraPlacer; // Used to find an open spot in front of the amenity for the capybara to be placed upon exiting
+    enum States { center, right, left };
+    States placerStates;
+
+    private void Start()
+    {
+        pathfinderScript = GetComponent<Pathfinder>();
+    }
+
     private void Update()
     {
         if (amenity == null) return;
@@ -44,7 +54,10 @@ public class AmenityInteraction : MonoBehaviour
         EnterAmenity();
         ExitAmenity();
 
-        if (currentState == 3 && interactionInterface != null) interactionInterface.HandleInteractingAnimation();
+        if (currentState == 3 && interactionInterface != null)
+        {
+            interactionInterface.HandleInteractingAnimation();
+        }
     }
 
     public void HandleInteraction(Amenity amenity)
@@ -104,7 +117,7 @@ public class AmenityInteraction : MonoBehaviour
 
     private void PositionCapybara()
     {
-        if (currentState == 0 && (Mathf.Abs(rotationEndPosition.eulerAngles.y - gameObject.transform.eulerAngles.y) <= 1f))
+        if (currentState == 0 && (Mathf.Abs(rotationEndPosition.eulerAngles.y - gameObject.transform.eulerAngles.y) <= 5f))
         {
             capyAnimator.SetBool("Turning", false);
             rotationCompleted = 0;
@@ -259,6 +272,7 @@ public class AmenityInteraction : MonoBehaviour
     {
         if (currentState == 4)
         {
+            pathfinderScript.LastAmenityUsed = amenity.gameObject;
             smokeEmitterObject.GetComponent<ParticleSystem>().Play();
             HandleHiding(false);
             StartCoroutine(AppearInFront());
@@ -271,14 +285,69 @@ public class AmenityInteraction : MonoBehaviour
     private IEnumerator AppearInFront()
     {
         yield return new WaitForSeconds(1);
-        transform.position = amenityFront;
-        transform.rotation = rotationStartPosition;
-        HandleHiding(true);
-        smokeEmitterObject.GetComponent<ParticleSystem>().Play();
-        currentState = -1;
-        capybaraRenderer = new Renderer[2];
-        RemoveInteraction();
-        GetComponent<CapyAI>().CompletedAmenityInteraction();
+
+        var capyPlacer = GameObject.Instantiate(capybaraPlacer);
+        var placerScript = capyPlacer.GetComponent<CapybaraPlacer>();
+        capyPlacer.transform.position = amenity.PathCollider.transform.position;
+        capyPlacer.transform.rotation = rotationStartPosition;
+        placerStates = States.center;
+        float pathDistance = 0;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+            if (placerScript.Collisions > 0)
+            {
+                if (placerStates == States.center)
+                {
+                    placerStates = States.right;
+                    capyPlacer.transform.Translate(Vector3.right * 0.13f);
+                    pathDistance += 0.10f;
+                }
+                else if (placerStates == States.right)
+                {
+                    if (pathDistance < 0.30)
+                    {
+                        capyPlacer.transform.Translate(Vector3.right * 0.13f);
+                        pathDistance += 0.10f;
+                    }
+                    else
+                    {
+                        placerStates = States.left;
+                        capyPlacer.transform.position = new Vector3(0, 0, 0);
+                        capyPlacer.transform.Translate(Vector3.left * 0.13f);
+                        pathDistance = -0.10f;
+                    }
+                }
+                else if (placerStates == States.left)
+                {
+                    if (pathDistance > -0.30)
+                    {
+                        capyPlacer.transform.Translate(Vector3.left * 0.13f);
+                        pathDistance -= 0.10f;
+                    }
+                    else
+                    {
+                        placerStates = States.center;
+                        capyPlacer.transform.position = new Vector3(0, 0, 0);
+                        pathDistance = 0;
+                    }
+                }
+            }
+            else
+            {
+                transform.position = capyPlacer.transform.position;
+                transform.rotation = rotationStartPosition;
+                GameObject.Destroy(capyPlacer);
+                HandleHiding(true);
+                smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+                currentState = -1;
+                capybaraRenderer = new Renderer[2];
+                RemoveInteraction();
+                GetComponent<CapyAI>().CompletedAmenityInteraction();
+                break;
+            }
+        }
     }
 
     private void RemoveInteraction()
@@ -288,6 +357,7 @@ public class AmenityInteraction : MonoBehaviour
             Destroy((UnityEngine.Object) interactionInterface);
         }
 
+        interactionInterface = null;
         amenity = null;
     }
 }
