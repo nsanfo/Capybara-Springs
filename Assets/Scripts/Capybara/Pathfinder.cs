@@ -133,7 +133,7 @@ public class Pathfinder : MonoBehaviour
         }
     }
 
-    public bool LeaveRoute(float timeSpent, int frustration)
+    public bool LeaveRoute(float timeSpent, float frustration)
     {
         return LeaveIfTimeSpent(timeSpent) || LeaveIfHappinessFrustration(frustration);
     }
@@ -155,7 +155,7 @@ public class Pathfinder : MonoBehaviour
         }
     }
 
-    private bool LeaveIfHappinessFrustration(int frustration)
+    private bool LeaveIfHappinessFrustration(float frustration)
     {
         // Frustration multiplier
         float frustMulti = 1, addPerFrust = 0.015f;
