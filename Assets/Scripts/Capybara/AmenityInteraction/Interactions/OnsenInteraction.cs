@@ -19,10 +19,7 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
 
     public void HandleInteraction(Amenity amenity, int slotLocation, GameObject smokeEmitterObject)
     {
-        if (!(AmenityInterface is OnsenAmenity))
-        {
-            return;
-        }
+        if (AmenityInterface is not OnsenAmenity) return;
         onsenInterface = (OnsenAmenity) AmenityInterface;
 
         this.amenity = amenity;
@@ -60,8 +57,9 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
         }
     }
 
-    public void StopEmitters()
+    public void HandleInteractionEnd()
     {
+        GetComponent<Animator>().SetBool("Turning", false);
         splashEmitterObject.GetComponent<ParticleSystem>().Stop();
     }
 

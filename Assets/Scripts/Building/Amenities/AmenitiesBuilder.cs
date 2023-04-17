@@ -15,11 +15,14 @@ public class AmenitiesBuilder : MonoBehaviour
     public GameObject mediumFoodBlueprint;
     public GameObject largeFoodBlueprint;
 
+    private int numSmall, numMedium, numLarge, currentCap;
+
     [Header("Blueprint Material")]
     public Material blueprintMat;
 
     GameObject stats;
     Balance balanceScript;
+    GameplayState gameplayStateScript;
     GameObject blueprint;
     bool red = false;
     Vector2 originalMousePos;
@@ -29,6 +32,7 @@ public class AmenitiesBuilder : MonoBehaviour
     {
         stats = GameObject.Find("Stats");
         balanceScript = stats.GetComponent<Balance>();
+        gameplayStateScript = stats.GetComponent<GameplayState>();
     }
 
     public void SmallOnsenSelect()
@@ -41,6 +45,7 @@ public class AmenitiesBuilder : MonoBehaviour
         {
             Destroy(blueprint);
             blueprint = Instantiate(smallOnsenBlueprint);
+            currentCap = 1;
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -56,6 +61,7 @@ public class AmenitiesBuilder : MonoBehaviour
         else if (blueprint == null)
         {
             blueprint = Instantiate(smallOnsenBlueprint);
+            currentCap = 1;
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -79,6 +85,7 @@ public class AmenitiesBuilder : MonoBehaviour
         {
             Destroy(blueprint);
             blueprint = Instantiate(mediumOnsenBlueprint);
+            currentCap = 4;
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -94,6 +101,7 @@ public class AmenitiesBuilder : MonoBehaviour
         else if (blueprint == null)
         {
             blueprint = Instantiate(mediumOnsenBlueprint);
+            currentCap = 4;
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -117,6 +125,7 @@ public class AmenitiesBuilder : MonoBehaviour
         {
             Destroy(blueprint);
             blueprint = Instantiate(largeOnsenBlueprint);
+            currentCap = 10;
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -132,6 +141,7 @@ public class AmenitiesBuilder : MonoBehaviour
         else if (blueprint == null)
         {
             blueprint = Instantiate(largeOnsenBlueprint);
+            currentCap = 10;
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -155,6 +165,7 @@ public class AmenitiesBuilder : MonoBehaviour
         {
             Destroy(blueprint);
             blueprint = Instantiate(smallFoodBlueprint);
+            currentCap = 1;
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -170,6 +181,7 @@ public class AmenitiesBuilder : MonoBehaviour
         else if (blueprint == null)
         {
             blueprint = Instantiate(smallFoodBlueprint);
+            currentCap = 1;
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -193,6 +205,7 @@ public class AmenitiesBuilder : MonoBehaviour
         {
             Destroy(blueprint);
             blueprint = Instantiate(mediumFoodBlueprint);
+            currentCap = 4;
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -208,6 +221,7 @@ public class AmenitiesBuilder : MonoBehaviour
         else if (blueprint == null)
         {
             blueprint = Instantiate(mediumFoodBlueprint);
+            currentCap = 4;
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -231,6 +245,7 @@ public class AmenitiesBuilder : MonoBehaviour
         {
             Destroy(blueprint);
             blueprint = Instantiate(largeFoodBlueprint);
+            currentCap = 10;
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -246,6 +261,7 @@ public class AmenitiesBuilder : MonoBehaviour
         else if (blueprint == null)
         {
             blueprint = Instantiate(largeFoodBlueprint);
+            currentCap = 10;
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -329,6 +345,9 @@ public class AmenitiesBuilder : MonoBehaviour
                 amenityScript.SlotSetup();
                 Destroy(blueprint);
                 balanceScript.AdjustBalance(cost * -1);
+
+                gameplayStateScript.AdjustCapacity(currentCap);
+                currentCap = 0;
             }
         }
 

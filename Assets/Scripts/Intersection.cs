@@ -25,8 +25,8 @@ public class Intersection : MonoBehaviour
         }
         else
         {
-            intersection = Vector3.zero;
             Debug.Log("Entered");
+            intersection = Vector3.zero;
             return false;
         }
     }

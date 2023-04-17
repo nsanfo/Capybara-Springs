@@ -11,21 +11,20 @@ public class FrontCollisionDetection : MonoBehaviour
         ai = gameObject.transform.parent.GetComponent<CapyAI>();    
     }
 
-    /*
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Capybara")
         {
-            ai.FrontCollisionEnter();
+            ai.FrontCollisionEnter(other);
         }
+
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Capybara")
         {
-            ai.FrontCollisionExit();
+            ai.FrontCollisionExit(other);
         }
     }
-    */
 }
