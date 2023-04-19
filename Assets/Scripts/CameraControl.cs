@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,17 +12,24 @@ public class CameraControl : MonoBehaviour
     public float cameraSpeed = 1.5f, zoomSpeed = 100f, maxZoom = 0.6f, minZoom = 5f;
     float horizontalInput, forwardInput, scrollInput, mouseInput, modifier;
 
+    public bool plotCamera = false;
+
     // Start is called before the first frame update
     void Start()
     {
         ground = new Plane(Vector3.up, new Vector3(0, 0, 0));
-
     }
 
     void KeyMove()
     {
         horizontalInput = Input.GetAxis("Horizontal");
         forwardInput = Input.GetAxis("Vertical");
+
+        if (plotCamera)
+        {
+            horizontalInput *= -1;
+            forwardInput *= -1;
+        }
 
         transform.Translate(((Vector3.right * Time.deltaTime * horizontalInput * cameraSpeed) / 0.6f) * modifier);
         transform.Translate(((Vector3.forward * Time.deltaTime * forwardInput * cameraSpeed) / 0.6f) * modifier, tmp.transform);
@@ -58,6 +66,8 @@ public class CameraControl : MonoBehaviour
 
     void Rotate()
     {
+        if (plotCamera) return;
+
         mouseInput = Input.GetAxis("Mouse X");
         float enter = 0.0f;
         ray = new Ray(transform.position, transform.forward);
