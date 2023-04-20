@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class PlotInfo : MonoBehaviour
 {
-    private double price = 0;
+    public double price = 0;
     public int xLocation = 0, yLocation = 0;
+    public bool purchased = false;
 
-    public double GetPrice()
+    public void ChangeMaterial(Material material)
     {
-        return price;
-    }
-
-    public void SetPrice(double price)
-    {
-        this.price = price;
+        GetComponent<Renderer>().material = material;
     }
 }

@@ -5,110 +5,183 @@ using UnityEngine;
 
 public class PlotManager : MonoBehaviour
 {
-    private bool[,] ownedPlots = new bool[5, 5];
+    private PlotInfo[,] plots = new PlotInfo[5, 5];
 
     public Material plotMaterial, unsoldMaterial;
+    public GameObject plotPurchaseSprite;
+
+    public GameObject buildableHolder, nonBuildableHolder;
 
     void Start()
     {
-        // Look for existing buildable terrain to populate the 2D plot array
-        GameObject buildableTerrain = GameObject.Find("PlotManager/TerrainHolder/Buildable");
-        if (buildableTerrain == null) return;
+        // Housekeeping
+        GameObject terrainHolder = GameObject.Find("PlotManager/TerrainHolder");
+        if (terrainHolder == null)
+        {
+            terrainHolder = new GameObject("TerrainHolder");
+            terrainHolder.transform.parent = transform;
+        }
 
-        foreach (Transform child in buildableTerrain.transform)
+        GameObject spriteHolder = GameObject.Find("PlotManager/SpriteHolder");
+        if (spriteHolder == null)
+        {
+            spriteHolder = new GameObject("SpriteHolder");
+            spriteHolder.transform.parent = transform;
+        }
+
+        buildableHolder = GameObject.Find("PlotManager/TerrainHolder/Buildable");
+        if (buildableHolder == null)
+        {
+            buildableHolder = new GameObject("Buildable");
+            buildableHolder.transform.parent = terrainHolder.transform;
+        }
+
+        nonBuildableHolder = GameObject.Find("PlotManager/TerrainHolder/NonBuildable");
+        if (nonBuildableHolder == null)
+        {
+            nonBuildableHolder = new GameObject("NonBuildable");
+            nonBuildableHolder.transform.parent = terrainHolder.transform;
+        }
+
+        foreach (Transform child in buildableHolder.transform)
         {
             if (!child.TryGetComponent<PlotInfo>(out var currentPlot)) continue;
 
-            UpdateMatrix(currentPlot);
+            UpdateMatrix(currentPlot, true);
         }
 
-        GenerateUnsoldTerrain();
-
+        UpdateTerrain();
+        UpdateCameraBounds();
         DebugMatrix();
     }
 
-    private void ExpandMatrix(int x, int y)
+    public PlotInfo[,] GetPlotMatrix()
+    {
+        return plots;
+    }
+
+    private void ExpandMatrix(int x, int y, bool initialization)
     {
         // Create new array with expanded size
-        bool[,] newMatrix = new bool[x, y];
+        PlotInfo[,] newMatrix = new PlotInfo[x, y];
 
         // Copy original array variables to new array
-        for (int i = 0; i < ownedPlots.GetLength(0); i++)
+        for (int i = 0; i < plots.GetLength(0); i++)
         {
-            for (int j = 0; j < ownedPlots.GetLength(1); j++)
+            for (int j = 0; j < plots.GetLength(1); j++)
             {
-                newMatrix[i, j] = ownedPlots[i, j];
+                newMatrix[i, j] = plots[i, j];
             }
         }
 
-        ownedPlots = newMatrix;
+        plots = newMatrix;
     }
-    private void UpdateMatrix(PlotInfo plot)
+
+    private void UpdateMatrix(PlotInfo plot, bool initialization)
     {
         // Set current matrix lengths
-        int xLength = ownedPlots.GetLength(1), yLength = ownedPlots.GetLength(0);
+        int xLength = plots.GetLength(1), yLength = plots.GetLength(0);
 
         // Check x length
-        if (plot.xLocation + 3 > ownedPlots.GetLength(1))
+        if (plot.xLocation + 3 > plots.GetLength(1))
         {
             xLength = plot.xLocation + 3;
         }
 
         // Check y length
-        if (plot.yLocation + 3 > ownedPlots.GetLength(0))
+        if (plot.yLocation + 3 > plots.GetLength(0))
         {
             yLength = plot.yLocation + 3;
         }
 
         // Check to expand matrix
-        if (xLength > ownedPlots.GetLength(1) || yLength > ownedPlots.GetLength(0))
+        if (xLength > plots.GetLength(1) || yLength > plots.GetLength(0))
         {
-            ExpandMatrix(yLength, xLength);
+            ExpandMatrix(yLength, xLength, initialization);
         }
 
-        // Set the added plot to true
-        ownedPlots[plot.yLocation, plot.xLocation] = true;
+        // Set the added plot
+        plots[plot.yLocation, plot.xLocation] = plot;
     }
 
     public void AddPlot(PlotInfo plot)
     {
-        UpdateMatrix(plot);
+        UpdateMatrix(plot, false);
         UpdateTerrain();
+        UpdateCameraBounds();
+        DebugMatrix();
     }
 
     private void UpdateTerrain()
     {
-
-    }
-
-    private void GenerateUnsoldTerrain()
-    {
-        GameObject nonBuildableHolder = GameObject.Find("PlotManager/TerrainHolder/NonBuildable");
-        if (nonBuildableHolder == null) return;
-
-        for (int i = 0; i < ownedPlots.GetLength(0); i++)
+        // Update new cells with information
+        for (int i = 0; i < plots.GetLength(0); i++)
         {
-            for (int j = 0; j < ownedPlots.GetLength(1); j++)
+            for (int j = 0; j < plots.GetLength(1); j++)
             {
-                if (!ownedPlots[i, j])
+                if (!plots[i, j])
                 {
                     GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
                     plane.transform.SetParent(nonBuildableHolder.transform);
-                    plane.transform.position = new Vector3(-15 + (10 * i), 0, -15 + (10 * j));
+                    plane.transform.position = new Vector3(-12f + (8 * i), 0, -12f + (8 * j));
+                    plane.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
                     plane.GetComponent<Renderer>().material = unsoldMaterial;
+                    plane.name = "Purchasable[" + j + "," + i + "]";
+
+                    PlotInfo plotInfo = plane.AddComponent<PlotInfo>();
+                    plotInfo.xLocation = j;
+                    plotInfo.yLocation = i;
+                    plotInfo.price = j + i;
+
+                    plots[i, j] = plotInfo;
                 }
             }
         }
     }
 
+    public void UpdateCameraBounds()
+    {
+        float upBound = 2, leftBound = 2, rightBound = 0, downBound = 0;
+
+        // Get basic bounds
+        for (int i = 0; i < plots.GetLength(0); i++)
+        {
+            for (int j = 0; j < plots.GetLength(1); j++)
+            {
+                if (plots[i, j].xLocation > rightBound)
+                {
+                    rightBound = plots[i, j].xLocation;
+                }
+
+                if (plots[i, j].yLocation > downBound)
+                {
+                    downBound = plots[i, j].yLocation;
+                }
+            }
+        }
+
+        upBound = -16 + (upBound * 8) + 0.5f;
+        rightBound = (rightBound - 3) * 8 - 0.5f;
+        downBound = (downBound - 3) * 8 - 0.5f;
+        leftBound = -16 + (leftBound * 8) + 0.5f;
+
+        GameObject camera = GameObject.Find("Camera/Main Camera");
+        if (camera == null) return;
+
+        CameraControl cameraControl = camera.GetComponent<CameraControl>();
+        if (cameraControl == null) return;
+
+        cameraControl.cameraBound = (upBound, rightBound, downBound, leftBound);
+    }
+
     private void DebugMatrix()
     {
         StringBuilder debug = new StringBuilder();
-        for (int i = 0; i < ownedPlots.GetLength(0); i++)
+        for (int i = 0; i < plots.GetLength(0); i++)
         {
-            for (int j = 0; j < ownedPlots.GetLength(1); j++)
+            for (int j = 0; j < plots.GetLength(1); j++)
             {
-                debug.Append(ownedPlots[i, j]);
+                debug.Append(plots[i, j].purchased);
                 debug.Append(' ');
             }
 

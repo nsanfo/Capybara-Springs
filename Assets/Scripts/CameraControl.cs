@@ -13,10 +13,12 @@ public class CameraControl : MonoBehaviour
     float horizontalInput, forwardInput, scrollInput, mouseInput, modifier;
 
     public bool plotCamera = false;
+    public (float, float, float, float) cameraBound;
 
     // Start is called before the first frame update
     void Start()
     {
+        cameraBound = (0.5f, 7.5f, 7.5f, 0.5f);
         ground = new Plane(Vector3.up, new Vector3(0, 0, 0));
     }
 
@@ -33,6 +35,26 @@ public class CameraControl : MonoBehaviour
 
         transform.Translate(((Vector3.right * Time.deltaTime * horizontalInput * cameraSpeed) / 0.6f) * modifier);
         transform.Translate(((Vector3.forward * Time.deltaTime * forwardInput * cameraSpeed) / 0.6f) * modifier, tmp.transform);
+    
+        // Horizontal bound
+        if (transform.position.z > cameraBound.Item2)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, cameraBound.Item2);
+        }
+        else if (transform.position.z < cameraBound.Item4)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, cameraBound.Item4);
+        }
+
+        // Vertical bound
+        if (transform.position.x < cameraBound.Item1)
+        {
+            transform.position = new Vector3(cameraBound.Item1, transform.position.y, transform.position.z);
+        }
+        else if (transform.position.x > cameraBound.Item3)
+        {
+            transform.position = new Vector3(cameraBound.Item3, transform.position.y, transform.position.z);
+        }
     }
 
     void EdgeMove()

@@ -262,6 +262,9 @@ public class PathBuilder : MonoBehaviour
     {
         if (!Input.GetMouseButtonDown(0)) return;
 
+        // Get guide mouse vector
+        Vector3 guideMousePosition = gameObject.GetComponent<PathGuide>().GetGuideMousePosition();
+
         // Set first point
         #region SetFirstPoint
         if (pathHelper.pathPoints.Item1 == Vector3.zero)
@@ -278,7 +281,14 @@ public class PathBuilder : MonoBehaviour
             // Set point at mouse raycast position
             else if(pathHelper.mouseBuildable)
             {
-                pathHelper.pathPoints.Item1 = mouseRaycast.GetPosition();
+                if (mouseRaycast.GetHitInfo().transform.CompareTag("Terrain"))
+                {
+                    pathHelper.pathPoints.Item1 = mouseRaycast.GetPosition();
+                }
+                else
+                {
+                    pathHelper.pathPoints.Item1 = guideMousePosition;
+                }
             }
         }
         #endregion
@@ -306,7 +316,14 @@ public class PathBuilder : MonoBehaviour
             // Set point at mouse raycast position
             else
             {
-                pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
+                if (mouseRaycast.GetHitInfo().transform.CompareTag("Terrain"))
+                {
+                    pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
+                }
+                else
+                {
+                    pathHelper.pathPoints.Item2 = guideMousePosition;
+                }
             }
 
             // Create path
@@ -321,7 +338,14 @@ public class PathBuilder : MonoBehaviour
             // Set curved point
             if (pathHelper.mouseBuildable && pathHelper.pathPoints.Item3 == Vector3.zero)
             {
-                pathHelper.pathPoints.Item3 = mouseRaycast.GetPosition();
+                if (mouseRaycast.GetHitInfo().transform.CompareTag("Terrain"))
+                {
+                    pathHelper.pathPoints.Item3 = mouseRaycast.GetPosition();
+                }
+                else
+                {
+                    pathHelper.pathPoints.Item3 = guideMousePosition;
+                }
             }
             // Set second point to complete path
             else if (pathHelper.pathBuildable)
@@ -341,7 +365,14 @@ public class PathBuilder : MonoBehaviour
                 // Set point at mouse raycast position
                 else if (pathHelper.mouseBuildable)
                 {
-                    pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
+                    if (mouseRaycast.GetHitInfo().transform.CompareTag("Terrain"))
+                    {
+                        pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
+                    }
+                    else
+                    {
+                        pathHelper.pathPoints.Item2 = guideMousePosition;
+                    }
                 }
 
                 // Create path

@@ -39,6 +39,11 @@ public class MouseRaycast
     {
         return new Vector3(hitInfo.point.x, 0, hitInfo.point.z);
     }
+
+    public RaycastHit GetHitInfo()
+    {
+        return hitInfo;
+    }
 }
 
 [RequireComponent(typeof(PathBuilder))]
@@ -157,6 +162,7 @@ public class PlayerBuilding : MonoBehaviour
             if (gameObject.TryGetComponent<PlotBuyer>(out var plotBuyer))
             {
                 plotBuyer.CameraZoomBack();
+                plotBuyer.RemovePurchaseSprites();
             }
         }
         else
@@ -206,6 +212,7 @@ public class PlayerBuilding : MonoBehaviour
             if (gameObject.TryGetComponent<PlotBuyer>(out var plotBuyer))
             {
                 plotBuyer.CameraZoomBack();
+                plotBuyer.RemovePurchaseSprites();
             }
         }
 
@@ -253,6 +260,7 @@ public class PlayerBuilding : MonoBehaviour
             if (gameObject.TryGetComponent<PlotBuyer>(out var plotBuyer))
             {
                 plotBuyer.CameraZoomBack();
+                plotBuyer.RemovePurchaseSprites();
             }
         }
         else
@@ -284,6 +292,7 @@ public class PlayerBuilding : MonoBehaviour
             } else
             {
                 plotBuyer.CameraZoomBack();
+                plotBuyer.RemovePurchaseSprites();
             }
         }
 
