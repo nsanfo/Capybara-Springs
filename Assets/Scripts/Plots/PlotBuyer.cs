@@ -120,6 +120,12 @@ public class PlotBuyer : MonoBehaviour
             plotInfo.ChangeMaterial(plotManager.plotMaterial);
             plotInfo.transform.SetParent(plotManager.buildableHolder.transform);
 
+            // Remove all outside deco in plot
+            foreach (Transform child in plotInfo.gameObject.transform)
+            {
+                Destroy(child.gameObject);
+            }
+
             // Delete purchasing sprite
             GameObject scriptParent = purchaseScript.gameObject.transform.parent.gameObject;
             if (scriptParent != null)
@@ -145,7 +151,7 @@ public class PlotBuyer : MonoBehaviour
         }
         else
         {
-            // Cannot purchase
+            // Cannot purchase 
         }
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
+[RequireComponent(typeof(PlotOutsideHandler))]
 public class PlotManager : MonoBehaviour
 {
     private PlotInfo[,] plots = new PlotInfo[5, 5];
@@ -11,6 +12,9 @@ public class PlotManager : MonoBehaviour
     public GameObject plotPurchaseSprite;
 
     public GameObject buildableHolder, nonBuildableHolder;
+    public bool debugMatrix = false;
+
+    private PlotOutsideHandler edgeHandler;
 
     void Start()
     {
@@ -50,7 +54,10 @@ public class PlotManager : MonoBehaviour
             UpdateMatrix(currentPlot, true);
         }
 
+        edgeHandler = GetComponent<PlotOutsideHandler>();
+
         UpdateTerrain();
+        edgeHandler.GenerateOutsideTiles(plots);
         UpdateCameraBounds();
         DebugMatrix();
     }
@@ -108,6 +115,7 @@ public class PlotManager : MonoBehaviour
     {
         UpdateMatrix(plot, false);
         UpdateTerrain();
+        edgeHandler.GenerateOutsideTiles(plots);
         UpdateCameraBounds();
         DebugMatrix();
     }
@@ -131,7 +139,27 @@ public class PlotManager : MonoBehaviour
                     PlotInfo plotInfo = plane.AddComponent<PlotInfo>();
                     plotInfo.xLocation = j;
                     plotInfo.yLocation = i;
-                    plotInfo.price = j + i;
+
+                    // Calculate price
+                    float multiplier = 0f;
+                    if (j > 6 || i > 6)
+                    {
+                        multiplier = 20 + Mathf.Pow(j, 2) + Mathf.Pow(i, 2);
+                    }
+                    else if (j > 5 || i > 5)
+                    {
+                        multiplier = 20;
+                    }
+                    else if (j > 4 || i > 4)
+                    {
+                        multiplier = 10;
+                    }
+                    else if (j > 3 || i > 3)
+                    {
+                        multiplier = 5;
+                    }
+
+                    plotInfo.price = 10000 + (500 * multiplier);
 
                     plots[i, j] = plotInfo;
                 }
@@ -176,6 +204,8 @@ public class PlotManager : MonoBehaviour
 
     private void DebugMatrix()
     {
+        if (!debugMatrix) return;
+
         StringBuilder debug = new StringBuilder();
         for (int i = 0; i < plots.GetLength(0); i++)
         {
