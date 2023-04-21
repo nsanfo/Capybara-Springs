@@ -27,7 +27,6 @@ public class PlotBuyer : MonoBehaviour
 
     // Sprite
     private PurchasablePlotSprite previousPurchaseSprite;
-    private bool generatedSprites = false;
     private GameObject spriteHolder;
 
     // Plot manager
@@ -68,8 +67,6 @@ public class PlotBuyer : MonoBehaviour
         CameraAnimation();
 
         if (!buildingModes.enablePlots) return;
-
-        if (!generatedSprites) InstantiatePurchaseSprites();
 
         // Handle raycast to plot purchase sprites
         bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo);
@@ -167,15 +164,13 @@ public class PlotBuyer : MonoBehaviour
         }
     }
 
-    private void InstantiatePurchaseSprites()
+    public void InstantiatePurchaseSprites()
     {
         List<PlotInfo> purchasablePlots = GetPurchasablePlots();
         foreach (PlotInfo plotInfo in purchasablePlots)
         {
             GeneratePurchaseSprite(plotInfo);
         }
-
-        generatedSprites = true;
     }
 
     private void GeneratePurchaseSprite(PlotInfo plotInfo)
@@ -200,8 +195,6 @@ public class PlotBuyer : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-
-        generatedSprites = false;
     }
 
     private List<PlotInfo> GetPurchasablePlots()

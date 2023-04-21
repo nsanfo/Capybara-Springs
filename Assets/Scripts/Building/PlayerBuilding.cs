@@ -289,6 +289,7 @@ public class PlayerBuilding : MonoBehaviour
             if (buildingModes.enablePlots)
             {
                 plotBuyer.CameraZoomOut();
+                plotBuyer.InstantiatePurchaseSprites();
             } else
             {
                 plotBuyer.CameraZoomBack();
