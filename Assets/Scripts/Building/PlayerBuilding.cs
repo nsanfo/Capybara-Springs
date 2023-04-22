@@ -7,14 +7,15 @@ using UnityEngine.UI;
 
 public class BuildingModes
 {
-    public bool enableBuild, enablePath, enableAmenities, enableDecor;
+    public bool enableBuild, enablePath, enableAmenities, enableDecor, enablePlots;
 
     public BuildingModes()
     {
         enableBuild = false;
         enablePath = false;
         enableAmenities = false;
-				enableDecor = false;
+		enableDecor = false;
+        enablePlots = false;
     }
 }
 
@@ -37,6 +38,11 @@ public class MouseRaycast
     public Vector3 GetPosition()
     {
         return new Vector3(hitInfo.point.x, 0, hitInfo.point.z);
+    }
+
+    public RaycastHit GetHitInfo()
+    {
+        return hitInfo;
     }
 }
 
@@ -89,6 +95,8 @@ public class PlayerBuilding : MonoBehaviour
 
     public void ToggleBuild()
     {
+        if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
+
         buildingModes.enableBuild = !buildingModes.enableBuild;
 
         if (!buildingModes.enableBuild)
@@ -101,9 +109,13 @@ public class PlayerBuilding : MonoBehaviour
             {
                 ToggleAmenitiesBuilding();
             }
-						if (buildingModes.enableDecor)
+			if (buildingModes.enableDecor)
             {
                 ToggleDecorBuilding();
+            }
+            if (buildingModes.enablePlots)
+            {
+                TogglePlotPurchasing();
             }
         }
 
@@ -122,6 +134,8 @@ public class PlayerBuilding : MonoBehaviour
 
     public void ToggleAmenitiesBuilding()
     {
+        if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
+
         buildingModes.enableAmenities = !buildingModes.enableAmenities;
         
         if (buildingModes.enablePath)
@@ -131,7 +145,7 @@ public class PlayerBuilding : MonoBehaviour
             gameObject.GetComponent<PathBuilder>().pathHelper = new PathHelper();
             Destroy(gameObject.GetComponent<PathGuide>());
         }
-				else if (buildingModes.enableDecor)
+		else if (buildingModes.enableDecor)
         {
             buildingModes.enableDecor = false;
             AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorsButton", buildingModes.enableDecor);
@@ -140,6 +154,16 @@ public class PlayerBuilding : MonoBehaviour
             var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
             if(blueprint != null)
                 Destroy(blueprint);
+        }
+        else if (buildingModes.enablePlots)
+        {
+            buildingModes.enablePlots = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PlotsButton", buildingModes.enablePlots);
+            if (gameObject.TryGetComponent<PlotBuyer>(out var plotBuyer))
+            {
+                plotBuyer.CameraZoomBack();
+                plotBuyer.RemovePurchaseSprites();
+            }
         }
         else
         {
@@ -157,6 +181,8 @@ public class PlayerBuilding : MonoBehaviour
 
     public void TogglePathBuilding()
     {
+        if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
+
         buildingModes.enablePath = !buildingModes.enablePath;
         
         if (buildingModes.enableAmenities)
@@ -169,7 +195,7 @@ public class PlayerBuilding : MonoBehaviour
             if(blueprint != null)
                 Destroy(blueprint);
         }
-				else if (buildingModes.enableDecor)
+		else if (buildingModes.enableDecor)
         {
             buildingModes.enableDecor = false;
             AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorsButton", buildingModes.enableDecor);
@@ -178,6 +204,16 @@ public class PlayerBuilding : MonoBehaviour
             var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
             if(blueprint != null)
                 Destroy(blueprint);
+        }
+        else if (buildingModes.enablePlots)
+        {
+            buildingModes.enablePlots = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PlotsButton", buildingModes.enablePlots);
+            if (gameObject.TryGetComponent<PlotBuyer>(out var plotBuyer))
+            {
+                plotBuyer.CameraZoomBack();
+                plotBuyer.RemovePurchaseSprites();
+            }
         }
 
         if (buildingModes.enablePath)
@@ -194,8 +230,10 @@ public class PlayerBuilding : MonoBehaviour
         AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PathsButton", buildingModes.enablePath);
     }
 
-		public void ToggleDecorBuilding()
+	public void ToggleDecorBuilding()
     {
+        if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
+
         buildingModes.enableDecor = !buildingModes.enableDecor;
         
         if (buildingModes.enablePath)
@@ -205,7 +243,7 @@ public class PlayerBuilding : MonoBehaviour
             gameObject.GetComponent<PathBuilder>().pathHelper = new PathHelper();
             Destroy(gameObject.GetComponent<PathGuide>());
         }
-				else if (buildingModes.enableAmenities)
+		else if (buildingModes.enableAmenities)
         {
             buildingModes.enableAmenities = false;
             AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "AmenitiesButton", buildingModes.enableAmenities);
@@ -214,6 +252,16 @@ public class PlayerBuilding : MonoBehaviour
             var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
             if(blueprint != null)
                 Destroy(blueprint);
+        }
+        else if (buildingModes.enablePlots)
+        {
+            buildingModes.enablePlots = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PlotsButton", buildingModes.enablePlots);
+            if (gameObject.TryGetComponent<PlotBuyer>(out var plotBuyer))
+            {
+                plotBuyer.CameraZoomBack();
+                plotBuyer.RemovePurchaseSprites();
+            }
         }
         else
         {
@@ -227,5 +275,59 @@ public class PlayerBuilding : MonoBehaviour
 
         // Animate decor UI
         AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorsButton", buildingModes.enableDecor);
+    }
+
+    public void TogglePlotPurchasing()
+    {
+        if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
+
+        buildingModes.enablePlots = !buildingModes.enablePlots;
+
+        PlotBuyer plotBuyer = gameObject.GetComponent<PlotBuyer>();
+        if (plotBuyer != null )
+        {
+            if (buildingModes.enablePlots)
+            {
+                plotBuyer.CameraZoomOut();
+                plotBuyer.InstantiatePurchaseSprites();
+            } else
+            {
+                plotBuyer.CameraZoomBack();
+                plotBuyer.RemovePurchaseSprites();
+            }
+        }
+
+        if (buildingModes.enablePath)
+        {
+            buildingModes.enablePath = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PathsButton", buildingModes.enablePath);
+            gameObject.GetComponent<PathBuilder>().pathHelper = new PathHelper();
+            Destroy(gameObject.GetComponent<PathGuide>());
+        }
+        else if (buildingModes.enableDecor)
+        {
+            buildingModes.enableDecor = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "DecorsButton", buildingModes.enableDecor);
+
+            var decorObject = GameObject.Find("Canvas").transform.Find("DecorOptions").gameObject;
+            decorObject.SetActive(false);
+            var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+            if (blueprint != null)
+                Destroy(blueprint);
+        }
+        else if (buildingModes.enableAmenities)
+        {
+            buildingModes.enableAmenities = false;
+            AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "AmenitiesButton", buildingModes.enableAmenities);
+
+            var amenitiesObject = GameObject.Find("Canvas").transform.Find("AmenitiesOptions").gameObject;
+            amenitiesObject.SetActive(false);
+            var blueprint = GameObject.FindGameObjectWithTag("Blueprint");
+            if (blueprint != null)
+                Destroy(blueprint);
+        }
+
+        // Animate amenities UI
+        AnimateBuildUI.AnimateSelectTypeButton(buildTypeButtons, "PlotsButton", buildingModes.enablePlots);
     }
 }

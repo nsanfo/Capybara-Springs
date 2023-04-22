@@ -109,7 +109,7 @@ public class SpawnManager : MonoBehaviour
     IEnumerator SpawnCapybara()
     {
         GameObject capyPlacer = GameObject.Instantiate(capybaraPlacer);
-        capyPlacer.transform.position = new Vector3(0, 0, 0);
+        capyPlacer.transform.position = new Vector3(1, 0, 1);
         capyPlacer.transform.Rotate(Vector3.up, 45);
         var placerScript = capyPlacer.GetComponent<CapybaraPlacer>();
 
@@ -137,7 +137,7 @@ public class SpawnManager : MonoBehaviour
                     else
                     {
                         states = States.left;
-                        capyPlacer.transform.position = new Vector3(0, 0, 0);
+                        capyPlacer.transform.position = new Vector3(1, 0, 1);
                         capyPlacer.transform.Translate(Vector3.left * 0.13f);
                         pathDistance = -0.10f;
                     }
@@ -152,7 +152,7 @@ public class SpawnManager : MonoBehaviour
                     else
                     {
                         states = States.center;
-                        capyPlacer.transform.position = new Vector3(0, 0, 0);
+                        capyPlacer.transform.position = new Vector3(1, 0, 1);
                         pathDistance = 0;
                     }
                 }

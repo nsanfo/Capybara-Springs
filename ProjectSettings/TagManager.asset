@@ -12,6 +12,9 @@ TagManager:
   - Front
   - Decor
   - UI
+  - Left
+  - Right
+  - PlotPurchase
   layers:
   - Default
   - TransparentFX
