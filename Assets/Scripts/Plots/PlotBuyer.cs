@@ -285,6 +285,9 @@ public class PlotBuyer : MonoBehaviour
             cameraControl.plotCamera = true;
         }
 
+        // Update target position to the camera's location
+        targetPos = new Vector3(cameraObject.transform.position.x, 15, cameraObject.transform.position.z);
+
         originalPos = cameraObject.transform.position;
         originalRot = cameraObject.transform.rotation;
 
@@ -303,6 +306,9 @@ public class PlotBuyer : MonoBehaviour
 
             cameraControl.plotCamera = false;
         }
+
+        // Use original position y-axis only
+        originalPos = new Vector3(cameraObject.transform.position.x, originalPos.y, cameraObject.transform.position.z);
 
         plotPos = cameraObject.transform.position;
         plotRot = cameraObject.transform.rotation;
