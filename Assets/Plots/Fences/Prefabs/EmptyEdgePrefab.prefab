@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &891615308480588643
 Transform:
@@ -49,7 +49,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &6458900644301190563
 Transform:
@@ -85,7 +85,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &6478567276272333029
 Transform:
@@ -162,7 +162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d21c9142eddd2b241a959d9b0cee7b3c, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -232,7 +232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7734952177012000899, guid: 614c2b21e2f02194793fbe08d9c741c5, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -252,6 +252,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6458900644301190563}
     m_Modifications:
+    - target: {fileID: 2059661037548399984, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2953084293759318226, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -296,9 +300,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4613066876545769143, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571291345605616574, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645464170357073388, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_Name
       value: BambooCluster3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -368,7 +388,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8ed7270a390dd7c49bac542de2f8c22e, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -438,7 +458,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4142699854382850048, guid: b182c516e6b313c4ebc53b79abc8d8f1, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -458,6 +478,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6458900644301190563}
     m_Modifications:
+    - target: {fileID: 2059661037548399984, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2953084293759318226, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -502,9 +526,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4613066876545769143, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571291345605616574, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645464170357073388, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_Name
       value: BambooCluster3 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -530,7 +570,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8220754653863995064, guid: 4063499c325ad164bae54df196c19a5b, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8745476325743246338, guid: 4063499c325ad164bae54df196c19a5b, type: 3}
       propertyPath: m_RootOrder
@@ -594,6 +634,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6458900644301190563}
     m_Modifications:
+    - target: {fileID: 1296366136196181391, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394414385448935398, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4828804317165044943, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -641,6 +689,14 @@ PrefabInstance:
     - target: {fileID: 8180571232806833855, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
       propertyPath: m_Name
       value: BambooCluster1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8180571232806833855, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076392429593289368, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -710,7 +766,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5561528363293419320, guid: 71f30c0bab03e7b4aa80bb01af603e79, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

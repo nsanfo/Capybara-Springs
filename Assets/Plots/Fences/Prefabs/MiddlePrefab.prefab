@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &7085323571447787464
 Transform:
@@ -55,7 +55,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &7085323571866731506
 Transform:
@@ -109,7 +109,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &7085323572273631215
 Transform:
@@ -136,6 +136,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2205508834518310948, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2445817312817085725, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -180,9 +184,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3423577165430482319, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6620418623606662790, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
       propertyPath: m_Name
       value: BambooCluster4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620418623606662790, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830866104341985399, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957119467342833398, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8437589652326199210, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9093822709042398629, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -202,6 +230,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2059661037548399984, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2953084293759318226, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -246,9 +278,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4613066876545769143, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571291345605616574, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645464170357073388, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_Name
       value: BambooCluster3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -268,6 +316,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2185193411450523919, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440464661328128500, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5559557199770914516, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -312,9 +368,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5767814599120444433, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8205207797278258429, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
       propertyPath: m_Name
       value: BambooCluster2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205207797278258429, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -334,6 +398,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2059661037548399984, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2953084293759318226, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -378,9 +446,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4613066876545769143, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571291345605616574, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645464170357073388, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_Name
       value: BambooCluster3 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -450,7 +534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4247938301561868223, guid: 439443e8acc8a674cbe014898ed22dac, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -470,6 +554,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 1296366136196181391, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394414385448935398, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4828804317165044943, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -534,6 +626,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BambooCluster1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8180571232806833855, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076392429593289368, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -552,6 +652,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 1296366136196181391, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394414385448935398, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4828804317165044943, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -600,6 +708,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BambooCluster1 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 8180571232806833855, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076392429593289368, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -618,6 +734,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 1296366136196181391, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394414385448935398, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4828804317165044943, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -666,6 +790,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BambooCluster1 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8180571232806833855, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076392429593289368, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -684,6 +816,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 1296366136196181391, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394414385448935398, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4828804317165044943, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -732,6 +872,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BambooCluster1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8180571232806833855, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076392429593289368, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -750,6 +898,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2205508834518310948, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2445817312817085725, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -794,9 +946,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3423577165430482319, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6620418623606662790, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
       propertyPath: m_Name
       value: BambooCluster4 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620418623606662790, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830866104341985399, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957119467342833398, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8437589652326199210, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9093822709042398629, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -816,6 +992,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2185193411450523919, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440464661328128500, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5559557199770914516, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -860,9 +1044,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5767814599120444433, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8205207797278258429, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
       propertyPath: m_Name
       value: BambooCluster2 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205207797278258429, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -882,6 +1074,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2059661037548399984, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2953084293759318226, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -942,9 +1138,25 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4613066876545769143, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571291345605616574, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645464170357073388, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_Name
       value: BambooCluster3 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1014,7 +1226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7627809557971481398, guid: 639593dd4d9b71c49913fa13281a5b49, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1034,6 +1246,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2205508834518310948, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2445817312817085725, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -1078,9 +1294,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3423577165430482319, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6620418623606662790, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
       propertyPath: m_Name
       value: BambooCluster4 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620418623606662790, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830866104341985399, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957119467342833398, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8437589652326199210, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9093822709042398629, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1150,7 +1390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4247938301561868223, guid: 439443e8acc8a674cbe014898ed22dac, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1220,7 +1460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5561528363293419320, guid: 71f30c0bab03e7b4aa80bb01af603e79, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1240,6 +1480,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 1296366136196181391, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394414385448935398, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4828804317165044943, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -1288,6 +1536,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BambooCluster1 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8180571232806833855, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076392429593289368, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1306,6 +1562,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2185193411450523919, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440464661328128500, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5559557199770914516, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -1350,9 +1614,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5767814599120444433, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8205207797278258429, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
       propertyPath: m_Name
       value: BambooCluster2 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205207797278258429, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1372,6 +1644,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2185193411450523919, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440464661328128500, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5559557199770914516, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -1416,9 +1696,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5767814599120444433, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8205207797278258429, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
       propertyPath: m_Name
       value: BambooCluster2 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205207797278258429, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1438,6 +1726,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2205508834518310948, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2445817312817085725, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -1482,9 +1774,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3423577165430482319, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6620418623606662790, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
       propertyPath: m_Name
       value: BambooCluster4 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620418623606662790, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830866104341985399, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957119467342833398, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8437589652326199210, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9093822709042398629, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1554,7 +1870,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4142699854382850048, guid: b182c516e6b313c4ebc53b79abc8d8f1, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1574,6 +1890,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2185193411450523919, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440464661328128500, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5559557199770914516, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -1618,9 +1942,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5767814599120444433, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8205207797278258429, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
       propertyPath: m_Name
       value: BambooCluster2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205207797278258429, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1640,6 +1972,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2059661037548399984, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2953084293759318226, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -1684,9 +2020,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4613066876545769143, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571291345605616574, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645464170357073388, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_Name
       value: BambooCluster3 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1756,7 +2108,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7734952177012000899, guid: 614c2b21e2f02194793fbe08d9c741c5, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1782,7 +2134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8220754653863995064, guid: 4063499c325ad164bae54df196c19a5b, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8745476325743246338, guid: 4063499c325ad164bae54df196c19a5b, type: 3}
       propertyPath: m_RootOrder
@@ -1846,6 +2198,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2185193411450523919, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440464661328128500, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5559557199770914516, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -1890,9 +2250,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5767814599120444433, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8205207797278258429, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
       propertyPath: m_Name
       value: BambooCluster2 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205207797278258429, guid: 1706187371b11f646a0fc60df6eebf3a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1912,6 +2280,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2059661037548399984, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2953084293759318226, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -1956,9 +2328,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4613066876545769143, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571291345605616574, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645464170357073388, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_Name
       value: BambooCluster3 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1984,7 +2372,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1366353455546271248, guid: 0619bb82e3300134f8734dbe0aa130d7, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1854800894433352874, guid: 0619bb82e3300134f8734dbe0aa130d7, type: 3}
       propertyPath: m_RootOrder
@@ -2048,6 +2436,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2205508834518310948, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2445817312817085725, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -2092,9 +2484,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3423577165430482319, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6620418623606662790, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
       propertyPath: m_Name
       value: BambooCluster4 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620418623606662790, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830866104341985399, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957119467342833398, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8437589652326199210, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9093822709042398629, guid: 77024edf5daab284caf21ac82ffa6981, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2114,6 +2530,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 2059661037548399984, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2953084293759318226, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -2158,9 +2578,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4613066876545769143, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571291345605616574, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7645464170357073388, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
       propertyPath: m_Name
       value: BambooCluster3 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9213941714265919653, guid: 630a93950d374f54d8b25622a93de852, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2246,7 +2682,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7627809557971481398, guid: 639593dd4d9b71c49913fa13281a5b49, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2272,7 +2708,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4909904829142753544, guid: fa95e4e682ea28b4584fd0df7efebe30, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5722013272521522098, guid: fa95e4e682ea28b4584fd0df7efebe30, type: 3}
       propertyPath: m_RootOrder
@@ -2336,6 +2772,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7085323571866731506}
     m_Modifications:
+    - target: {fileID: 1296366136196181391, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394414385448935398, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4828804317165044943, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -2383,6 +2827,14 @@ PrefabInstance:
     - target: {fileID: 8180571232806833855, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
       propertyPath: m_Name
       value: BambooCluster1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8180571232806833855, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076392429593289368, guid: a3304cbeadb7d40428301867cf319a8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
