@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7085323571447787464
 Transform:
@@ -55,7 +55,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7085323571866731506
 Transform:
@@ -109,7 +109,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7085323572273631215
 Transform:
@@ -447,6 +447,10 @@ PrefabInstance:
     - target: {fileID: 4247938301561868223, guid: 439443e8acc8a674cbe014898ed22dac, type: 3}
       propertyPath: m_Name
       value: RockGrey8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247938301561868223, guid: 439443e8acc8a674cbe014898ed22dac, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1008,6 +1012,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockGrey5
       objectReference: {fileID: 0}
+    - target: {fileID: 7627809557971481398, guid: 639593dd4d9b71c49913fa13281a5b49, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1140,6 +1148,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockGrey8 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4247938301561868223, guid: 439443e8acc8a674cbe014898ed22dac, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1205,6 +1217,10 @@ PrefabInstance:
     - target: {fileID: 5561528363293419320, guid: 71f30c0bab03e7b4aa80bb01af603e79, type: 3}
       propertyPath: m_Name
       value: RockGrey6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5561528363293419320, guid: 71f30c0bab03e7b4aa80bb01af603e79, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1536,6 +1552,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockGrey1
       objectReference: {fileID: 0}
+    - target: {fileID: 4142699854382850048, guid: b182c516e6b313c4ebc53b79abc8d8f1, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1734,6 +1754,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockGrey4
       objectReference: {fileID: 0}
+    - target: {fileID: 7734952177012000899, guid: 614c2b21e2f02194793fbe08d9c741c5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1755,6 +1779,10 @@ PrefabInstance:
     - target: {fileID: 8220754653863995064, guid: 4063499c325ad164bae54df196c19a5b, type: 3}
       propertyPath: m_Name
       value: RockGrey2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8220754653863995064, guid: 4063499c325ad164bae54df196c19a5b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8745476325743246338, guid: 4063499c325ad164bae54df196c19a5b, type: 3}
       propertyPath: m_RootOrder
@@ -1953,6 +1981,10 @@ PrefabInstance:
     - target: {fileID: 1366353455546271248, guid: 0619bb82e3300134f8734dbe0aa130d7, type: 3}
       propertyPath: m_Name
       value: RockGrey3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1366353455546271248, guid: 0619bb82e3300134f8734dbe0aa130d7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 1854800894433352874, guid: 0619bb82e3300134f8734dbe0aa130d7, type: 3}
       propertyPath: m_RootOrder
@@ -2212,6 +2244,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockGrey5 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7627809557971481398, guid: 639593dd4d9b71c49913fa13281a5b49, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2233,6 +2269,10 @@ PrefabInstance:
     - target: {fileID: 4909904829142753544, guid: fa95e4e682ea28b4584fd0df7efebe30, type: 3}
       propertyPath: m_Name
       value: RockGrey7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4909904829142753544, guid: fa95e4e682ea28b4584fd0df7efebe30, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 5722013272521522098, guid: fa95e4e682ea28b4584fd0df7efebe30, type: 3}
       propertyPath: m_RootOrder
