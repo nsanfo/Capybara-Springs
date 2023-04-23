@@ -78,7 +78,7 @@ public class CapyAI : MonoBehaviour
         currentPath = entrancePath.GetComponent<Path>();
         previousNode = entrancePath.transform.GetChild(1).transform.GetChild(0).transform.GetChild(0).gameObject;
 
-        bodyCollider = GetComponent<BoxCollider>();
+        bodyCollider = transform.GetChild(6).GetComponent<BoxCollider>();
         bodyColliderSize = bodyCollider.size;
         bodyColliderCenter = bodyCollider.center;
         frontCollider = transform.GetChild(3).GetComponent<BoxCollider>();
@@ -471,12 +471,18 @@ public class CapyAI : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void CompletedAmenityInteraction()
+    {
+        state = State.ready;
+        destinationRoute.Amenity.RemoveCapybara(gameObject);
+    }
+
+    public void BodyCollisionEnter(Collider other)
     {
         if (other.gameObject.tag == "Capybara")
         {
             bodyCollisions++;
-            if(state == State.walkTurning)
+            if (state == State.walkTurning)
             {
                 if (Vector3.Distance(transform.right, other.transform.position) <= Vector3.Distance(-transform.right, other.transform.position))
                     strafeDirection = StrafeDirection.strafeLeft;
@@ -486,16 +492,10 @@ public class CapyAI : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void BodyCollisionExit(Collider other)
     {
         if (other.gameObject.tag == "Capybara")
             bodyCollisions--;
-    }
-
-    public void CompletedAmenityInteraction()
-    {
-        state = State.ready;
-        destinationRoute.Amenity.RemoveCapybara(gameObject);
     }
 
     public void FrontCollisionEnter(Collider other)

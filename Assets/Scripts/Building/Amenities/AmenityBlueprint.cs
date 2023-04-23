@@ -9,7 +9,7 @@ public class AmenityBlueprint : MonoBehaviour
     public float entranceDistance;
     public float snapDistance;
     private List<(Vector3, GameObject)> pathCollisions = new List<(Vector3, GameObject)>(); // List of tuples, each containing (Forward vector, Position) of path colliders
-    private int buildCollisions = 0;
+    public int buildCollisions = 0;
 
     public GameObject GetConcrete()
     {
@@ -72,17 +72,5 @@ public class AmenityBlueprint : MonoBehaviour
         else
             rightSide = false;
         return (closestForward, closestPathCollider, rightSide, shortestDistance);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Amenity" || other.gameObject.tag == "Decor")
-            buildCollisions++;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Amenity" || other.gameObject.tag == "Decor")
-            buildCollisions--;
     }
 }

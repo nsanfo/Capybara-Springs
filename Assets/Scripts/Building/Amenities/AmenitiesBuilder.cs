@@ -20,6 +20,9 @@ public class AmenitiesBuilder : MonoBehaviour
     [Header("Blueprint Material")]
     public Material blueprintMat;
 
+    Color redColor = new Color(1f, 0f, 0f, 0.27f);
+    Color blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
+
     GameObject stats;
     Balance balanceScript;
     GameplayState gameplayStateScript;
@@ -47,31 +50,18 @@ public class AmenitiesBuilder : MonoBehaviour
             blueprint = Instantiate(smallOnsenBlueprint);
             currentCap = 1;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
         else if (blueprint == null)
         {
             blueprint = Instantiate(smallOnsenBlueprint);
             currentCap = 1;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
     }
 
@@ -87,31 +77,18 @@ public class AmenitiesBuilder : MonoBehaviour
             blueprint = Instantiate(mediumOnsenBlueprint);
             currentCap = 4;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
         else if (blueprint == null)
         {
             blueprint = Instantiate(mediumOnsenBlueprint);
             currentCap = 4;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
     }
 
@@ -127,31 +104,18 @@ public class AmenitiesBuilder : MonoBehaviour
             blueprint = Instantiate(largeOnsenBlueprint);
             currentCap = 10;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
         else if (blueprint == null)
         {
             blueprint = Instantiate(largeOnsenBlueprint);
             currentCap = 10;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
     }
 
@@ -167,31 +131,18 @@ public class AmenitiesBuilder : MonoBehaviour
             blueprint = Instantiate(smallFoodBlueprint);
             currentCap = 1;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
         else if (blueprint == null)
         {
             blueprint = Instantiate(smallFoodBlueprint);
             currentCap = 1;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
     }
 
@@ -207,31 +158,18 @@ public class AmenitiesBuilder : MonoBehaviour
             blueprint = Instantiate(mediumFoodBlueprint);
             currentCap = 4;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
         else if (blueprint == null)
         {
             blueprint = Instantiate(mediumFoodBlueprint);
             currentCap = 4;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
     }
 
@@ -247,31 +185,18 @@ public class AmenitiesBuilder : MonoBehaviour
             blueprint = Instantiate(largeFoodBlueprint);
             currentCap = 10;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
         else if (blueprint == null)
         {
             blueprint = Instantiate(largeFoodBlueprint);
             currentCap = 10;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
     }
 
@@ -280,8 +205,7 @@ public class AmenitiesBuilder : MonoBehaviour
         blueprint.transform.position = hitVector;
         if (!red)
         {
-            var redColor = new Color(1f, 0f, 0f, 0.27f);
-            blueprintMat.SetColor("_Color", redColor);
+            blueprintMat.SetColor("_BaseColor", redColor);
             red = true;
         }
     }
@@ -320,8 +244,7 @@ public class AmenitiesBuilder : MonoBehaviour
 
         if ((balance - cost < 0 || blueprintScript.GetBuildCollisions() != 0) && !red)
         {
-            var redColor = new Color(1f, 0f, 0f, 0.27f);
-            blueprintMat.SetColor("_Color", redColor);
+            blueprintMat.SetColor("_BaseColor", redColor);
             red = true;
         }
 
@@ -329,8 +252,7 @@ public class AmenitiesBuilder : MonoBehaviour
         {
             if (red)
             {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
+                blueprintMat.SetColor("_BaseColor", blueColor);
                 red = false;
             }
             if (Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject() == false)
@@ -374,6 +296,11 @@ public class AmenitiesBuilder : MonoBehaviour
             {
                 SnapPlace(hitVector);
             }
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            Destroy(blueprint);
         }
     }
 }
