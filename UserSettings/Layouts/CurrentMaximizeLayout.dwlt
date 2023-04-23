@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 43
+  controlID: 68
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 44
+  controlID: 69
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 45
+  controlID: 70
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -234,7 +234,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 200a0000
+      m_SelectedIDs: 
       m_LastClickedID: 0
       m_ExpandedIDs: 28fbffff
       m_RenameOverlay:
@@ -630,9 +630,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 3.6364071, y: -2.1573496, z: -3.3905592}
+    m_Target: {x: 2.22627, y: -2.728463, z: -0.681675}
     speed: 2
-    m_Value: {x: 3.6364071, y: -2.1573496, z: -3.3905592}
+    m_Value: {x: 2.22627, y: -2.728463, z: -0.681675}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -678,9 +678,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.070693746, y: -0.9238935, z: 0.20884246, w: -0.31273934}
+    m_Target: {x: 0.013873171, y: -0.92473954, z: 0.37883285, w: 0.0338657}
     speed: 2
-    m_Value: {x: -0.07069382, y: -0.9238945, z: 0.20884268, w: -0.31273967}
+    m_Value: {x: 0.0138731925, y: -0.92474097, z: 0.37883344, w: 0.033865754}
   m_Size:
     m_Target: 3.449135
     speed: 2
@@ -780,14 +780,14 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
-    - e00: 0.9370195
+    - e00: 1.0097066
       e01: 0
       e02: 0
-      e03: 147.22586
+      e03: -183.70932
       e10: 0
-      e11: 0.9370195
+      e11: 1.0097066
       e12: 0
-      e13: 106.73186
+      e13: 172.05704
       e20: 0
       e21: 0
       e22: 1
@@ -822,7 +822,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -831,14 +831,14 @@ MonoBehaviour:
     y: 608
     width: 1564
     height: 419.59998
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 12}
+  m_MinSize: {x: 231, y: 271}
+  m_MaxSize: {x: 10001, y: 10021}
+  m_ActualView: {fileID: 11}
   m_Panes:
   - {fileID: 11}
   - {fileID: 12}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -885,23 +885,23 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Capybara/AmenityInteraction
+    - Assets/Prefabs
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/Capybara/AmenityInteraction
+  - Assets/Prefabs
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Ryan\Documents\GitHub\COMP490Game
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 165.40002}
-    m_SelectedIDs: 8e720000
-    m_LastClickedID: 29326
-    m_ExpandedIDs: 000000002272000052720000887200008a72000000ca9a3bffffff7f
+    m_SelectedIDs: 72c70000
+    m_LastClickedID: 51058
+    m_ExpandedIDs: 0000000054c7000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -929,7 +929,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000022720000
+    m_ExpandedIDs: 0000000054c70000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -954,9 +954,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 200a0000
-    m_LastClickedInstanceID: 2592
-    m_HadKeyboardFocusLastEvent: 1
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1037,8 +1037,8 @@ MonoBehaviour:
     y: 0
     width: 484
     height: 1027.6
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
