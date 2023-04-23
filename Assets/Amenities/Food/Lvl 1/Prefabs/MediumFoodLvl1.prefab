@@ -959,6 +959,8 @@ GameObject:
   - component: {fileID: 5138191754849053000}
   - component: {fileID: 8873556021151834765}
   - component: {fileID: 3374377255919950127}
+  - component: {fileID: 4229694274123343336}
+  - component: {fileID: 6232564146642653295}
   m_Layer: 0
   m_Name: MediumFoodLvl1
   m_TagString: Amenity
@@ -1075,7 +1077,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.228825, y: 0.4089623, z: 3.4363465}
+  m_Size: {x: 2.61, y: 0.4089623, z: 2.83}
   m_Center: {x: -0.000000834465, y: 0.16153583, z: 0.09020454}
 --- !u!54 &3374377255919950127
 Rigidbody:
@@ -1104,6 +1106,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4229694274123343336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2995522105448614561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ebe0fcdcd1a5a47b9b964a156d34bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  insidePositioningMulti: 1.1
+  insidePositioningRange: 0.6
+  positioningMultiExtender: 1
+  angleForSlots: 360
+  particleColor: {r: 0.8431373, g: 0.5686275, b: 0.07058824, a: 1}
+  eatingObject: {fileID: 1127044860350731665, guid: 920660501dcaf2f42a344d3d30ad6243, type: 3}
+--- !u!114 &6232564146642653295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2995522105448614561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df42eb33b4b921c46a93cffdc665767c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeObject: {fileID: 6270345326200130320, guid: 8b9c67d7be44f804c974e42c67058783, type: 3}
+  upgradeCost: 5000
 --- !u!1 &3044422423490444967
 GameObject:
   m_ObjectHideFlags: 0

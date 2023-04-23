@@ -478,7 +478,7 @@ Material:
     - _simpleUI: 0
     - _utsTechnique: 0
     - _utsVersionX: 0
-    - _utsVersionY: 8
+    - _utsVersionY: 9
     - _utsVersionZ: 2
     m_Colors:
     - _1st_ShadeColor: {r: 0.10616938, g: 0.22799999, b: 0.092112005, a: 1}
