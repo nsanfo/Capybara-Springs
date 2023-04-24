@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5226950108332842876}
   - component: {fileID: 4252288541611090443}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,9 +264,25 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[8]
       value: 
       objectReference: {fileID: 2100000, guid: 0ff8221595376774a87a723d7dbeadef, type: 2}
+    - target: {fileID: -2147642314998828177, guid: 50f58c892c68a464fa379edc8061f711, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1359110824882932502, guid: 50f58c892c68a464fa379edc8061f711, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -733528298368146570, guid: 50f58c892c68a464fa379edc8061f711, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 50f58c892c68a464fa379edc8061f711, type: 3}
       propertyPath: m_Name
       value: FoodL2 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 50f58c892c68a464fa379edc8061f711, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 50f58c892c68a464fa379edc8061f711, type: 3}
       propertyPath: m_TagString
@@ -280,6 +296,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 8fcdbd387d885c14aba27971237cc58b, type: 2}
+    - target: {fileID: 3615287726823673526, guid: 50f58c892c68a464fa379edc8061f711, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830418562428712030, guid: 50f58c892c68a464fa379edc8061f711, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6472065874707415554, guid: 50f58c892c68a464fa379edc8061f711, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -512,6 +536,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ToonConfettiDirectionalPastel
       objectReference: {fileID: 0}
+    - target: {fileID: 2742492824044505757, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3887977740042797703, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -519,6 +547,18 @@ PrefabInstance:
     - target: {fileID: 4181871130265796722, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4402713992100065107, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953117531023919729, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8420125688860540082, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
