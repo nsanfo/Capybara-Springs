@@ -20,7 +20,6 @@ public class CapyAI : MonoBehaviour
     public Vector3 PathPosition { get; set; } // A vector representing the capybara's distance from the center axis of the path
 
     private int bodyCollisions;
-    public int BodyCollisions { get => bodyCollisions; }
     private int initialBodyCollisions;
     private int frontCollisions = 0;
     private int rightCollisions = 0;
@@ -34,7 +33,6 @@ public class CapyAI : MonoBehaviour
     private BoxCollider frontCollider;
     private Vector3 frontColliderSize;
     private Vector3 frontColliderCenter;
-    public int FrontCollisions { get => frontCollisions; }
     private int opposingCollisions = 0;
     private bool noclip = false;
     private float stuckTime;
@@ -479,23 +477,19 @@ public class CapyAI : MonoBehaviour
 
     public void BodyCollisionEnter(Collider other)
     {
-        if (other.gameObject.tag == "Capybara")
+        bodyCollisions++;
+        if (state == State.walkTurning)
         {
-            bodyCollisions++;
-            if (state == State.walkTurning)
-            {
-                if (Vector3.Distance(transform.right, other.transform.position) <= Vector3.Distance(-transform.right, other.transform.position))
-                    strafeDirection = StrafeDirection.strafeLeft;
-                else
-                    strafeDirection = StrafeDirection.strafeRight;
-            }
+            if (Vector3.Distance(transform.right, other.transform.position) <= Vector3.Distance(-transform.right, other.transform.position))
+                strafeDirection = StrafeDirection.strafeLeft;
+            else
+                strafeDirection = StrafeDirection.strafeRight;
         }
     }
 
     public void BodyCollisionExit(Collider other)
     {
-        if (other.gameObject.tag == "Capybara")
-            bodyCollisions--;
+        bodyCollisions--;
     }
 
     public void FrontCollisionEnter(Collider other)

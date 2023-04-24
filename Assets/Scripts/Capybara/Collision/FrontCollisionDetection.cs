@@ -13,18 +13,14 @@ public class FrontCollisionDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Capybara")
-        {
+        if(other.gameObject.tag == "Capybara" || other.gameObject.tag == "Front")
             ai.FrontCollisionEnter(other);
-        }
 
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Capybara")
-        {
+        if (other.gameObject.tag == "Capybara" || other.gameObject.tag == "Front")
             ai.FrontCollisionExit(other);
-        }
     }
 }

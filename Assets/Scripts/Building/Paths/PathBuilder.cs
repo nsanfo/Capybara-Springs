@@ -106,6 +106,8 @@ public class PathBuilder : MonoBehaviour
     Balance balance;
     double cost = 0;
 
+    AudioSource buildSFX;
+
     void Start()
     {
         PlayerBuilding buildingScript = gameObject.GetComponent<PlayerBuilding>();
@@ -152,6 +154,8 @@ public class PathBuilder : MonoBehaviour
         pathText = Instantiate(pathTextPrefab);
         pathText.SetActive(false);
         pathText.transform.SetParent(transform);
+
+        buildSFX = transform.GetChild(0).GetComponent<AudioSource>();
     }
 
     void Update()
@@ -523,6 +527,8 @@ public class PathBuilder : MonoBehaviour
 
         // Handle cost
         balance.AdjustBalance(cost * -1);
+
+        buildSFX.Play();
     }
 
     void TrackNearbyNodes()

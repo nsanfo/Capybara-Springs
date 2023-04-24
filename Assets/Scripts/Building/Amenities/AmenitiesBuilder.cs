@@ -29,6 +29,8 @@ public class AmenitiesBuilder : MonoBehaviour
     GameObject blueprint;
     bool red = false;
     Vector2 originalMousePos;
+
+    AudioSource buildSFX;
     
     // Start is called before the first frame update
     void Start()
@@ -36,6 +38,7 @@ public class AmenitiesBuilder : MonoBehaviour
         stats = GameObject.Find("Stats");
         balanceScript = stats.GetComponent<Balance>();
         gameplayStateScript = stats.GetComponent<GameplayState>();
+        buildSFX = transform.GetChild(0).GetComponent<AudioSource>();
     }
 
     public void SmallOnsenSelect()
@@ -267,6 +270,7 @@ public class AmenitiesBuilder : MonoBehaviour
                 amenityScript.SlotSetup();
                 Destroy(blueprint);
                 balanceScript.AdjustBalance(cost * -1);
+                buildSFX.Play();
 
                 gameplayStateScript.AdjustCapacity(currentCap);
                 currentCap = 0;

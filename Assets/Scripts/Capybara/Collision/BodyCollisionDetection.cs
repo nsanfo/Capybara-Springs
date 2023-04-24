@@ -13,11 +13,13 @@ public class BodyCollisionDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        aiScript.BodyCollisionEnter(other);
+        if (other.gameObject.tag == "Capybara")
+            aiScript.BodyCollisionEnter(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        aiScript.BodyCollisionExit(other);
+        if (other.gameObject.tag == "Capybara")
+            aiScript.BodyCollisionExit(other);
     }
 }
