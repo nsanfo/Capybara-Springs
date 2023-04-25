@@ -430,7 +430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   concrete: {fileID: 6825053055517263960, guid: 3b90fef450533df4191de3747046e7e7, type: 3}
   cost: 5000
-  entranceDistance: 0.555
+  entranceDistance: 0.6
   snapDistance: 1.5
   buildCollisions: 0
 --- !u!54 &7393921890587385526

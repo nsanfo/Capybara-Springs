@@ -50,13 +50,13 @@ public class DecorBuilder : MonoBehaviour
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
+                blueprintMat.SetColor("_BaseColor", redColor);
             }
             else
             {
 
                 var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
+                blueprintMat.SetColor("_BaseColor", blueColor);
             }
         }
         else if (blueprint == null)
@@ -65,12 +65,12 @@ public class DecorBuilder : MonoBehaviour
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
+                blueprintMat.SetColor("_BaseColor", redColor);
             }
             else
             {
                 var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
+                blueprintMat.SetColor("_BaseColor", blueColor);
             }
         }
     }
@@ -135,19 +135,19 @@ public class DecorBuilder : MonoBehaviour
                     blueprint.transform.position = new Vector3(hitInfo.point.x, hitInfo.point.y, hitInfo.point.z);
                 }
 
-                if (balance - cost < 0 && !red)
+                if ((balance - cost < 0 || blueprintScript.buildCollisions > 0)  && !red)
                 {
                     var redColor = new Color(1f, 0f, 0f, 0.27f);
-                    blueprintMat.SetColor("_Color", redColor);
+                    blueprintMat.SetColor("_BaseColor", redColor);
                     red = true;
                 }
 
-                else if (balance - cost >= 0)
+                else if (balance - cost >= 0 && blueprintScript.buildCollisions == 0)
                 {
                     if (red)
                     {
                         var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                        blueprintMat.SetColor("_Color", blueColor);
+                        blueprintMat.SetColor("_BaseColor", blueColor);
                         red = false;
                     }
                     if (Input.GetMouseButtonDown(0))
@@ -162,7 +162,7 @@ public class DecorBuilder : MonoBehaviour
                     }
                 }
 
-                if (red && EventSystem.current.IsPointerOverGameObject() == false)
+                if (red && EventSystem.current.IsPointerOverGameObject() == false && Input.GetMouseButtonDown(0))
                     errorSound.Play();
 
                 if (Input.GetMouseButtonDown(1))

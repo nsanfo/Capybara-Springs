@@ -258,13 +258,13 @@ public class AmenitiesBuilder : MonoBehaviour
             blueprint.transform.position = closestPosition + Vector3.Scale(pathLeft, new Vector3(entranceDistance, entranceDistance, entranceDistance));
         }
 
-        if ((balance - cost < 0 || blueprintScript.GetBuildCollisions() != 0) && !red)
+        if ((balance - cost < 0 || blueprintScript.buildCollisions != 0) && !red)
         {
             blueprintMat.SetColor("_BaseColor", redColor);
             red = true;
         }
 
-        else if (balance - cost >= 0 && blueprintScript.GetBuildCollisions() == 0)
+        else if (balance - cost >= 0 && blueprintScript.buildCollisions == 0)
         {
             if (red)
             {

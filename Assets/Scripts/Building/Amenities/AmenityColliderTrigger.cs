@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlueprintColliderTrigger : MonoBehaviour
+public class AmenityColliderTrigger : MonoBehaviour
 {
     AmenityBlueprint blueprintScript;
 
@@ -13,13 +13,13 @@ public class BlueprintColliderTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Amenity" || other.gameObject.tag == "Decor" || other.gameObject.tag == "Fence")
+        if (other.gameObject.tag == "Amenity" || other.gameObject.tag == "Decor" || other.gameObject.tag == "Fence" || other.gameObject.name == "PathCollider")
             blueprintScript.buildCollisions++;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Amenity" || other.gameObject.tag == "Decor" || other.gameObject.tag == "Fence")
+        if (other.gameObject.tag == "Amenity" || other.gameObject.tag == "Decor" || other.gameObject.tag == "Fence" || other.gameObject.name == "PathCollider")
             blueprintScript.buildCollisions--;
     }
 }

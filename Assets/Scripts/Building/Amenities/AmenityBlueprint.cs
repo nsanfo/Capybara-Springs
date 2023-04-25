@@ -21,11 +21,6 @@ public class AmenityBlueprint : MonoBehaviour
         return pathCollisions.Count;
     }
 
-    public int GetBuildCollisions()
-    {
-        return buildCollisions;
-    }
-
     public void AddPathCollision(Vector3 forwardVector, GameObject pathCollider)
     {
         pathCollisions.Add((forwardVector, pathCollider));
