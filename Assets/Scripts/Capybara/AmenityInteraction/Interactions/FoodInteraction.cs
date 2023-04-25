@@ -70,6 +70,7 @@ public class FoodInteraction : MonoBehaviour, InteractionInterface
         {
             eatingObject = Instantiate(eatingObject);
             eatingObject.transform.position = transform.position + (transform.forward * 0.2f);
+            eatingObject.transform.position = new Vector3(eatingObject.transform.position.x, eatingObject.transform.position.y + 0.092f, eatingObject.transform.position.z);
         }
 
         chewingSoundObject.SetActive(true);
