@@ -256,17 +256,16 @@ public class UIManager : MonoBehaviour
                 amenitySelected = false;
             }
 
-            if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.name.StartsWith("Toon Capybara"))
+            if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.name.StartsWith("BodyCollision"))
             {
-                SetCDetailsWindow(hit.transform.gameObject);
+                SetCDetailsWindow(hit.transform.parent.gameObject);
                 lastSelected = hit.transform.gameObject;
-                selectionScript = hit.transform.gameObject.GetComponent<SelectionIndicator>();
+                selectionScript = hit.transform.parent.gameObject.GetComponent<SelectionIndicator>();
                 selectionScript.activateSelection();
                 capybaraSelected = true;
             }
             else if(Physics.Raycast(ray, out hit) && hit.transform.gameObject.tag == "Amenity")
             {
-                Debug.Log(hit.transform.gameObject);
                 SetAmenityWindow(hit.transform.gameObject);
                 lastSelected = hit.transform.gameObject;
                 amenitySelected = true;

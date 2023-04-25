@@ -12,6 +12,10 @@ TagManager:
   - Front
   - Decor
   - UI
+  - Left
+  - Right
+  - PlotPurchase
+  - Fence
   layers:
   - Default
   - TransparentFX
@@ -19,7 +23,7 @@ TagManager:
   - Grass
   - Water
   - UI
-  - 
+  - Amenity
   - 
   - 
   - 

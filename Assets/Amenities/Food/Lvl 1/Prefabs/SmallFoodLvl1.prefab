@@ -14,7 +14,9 @@ GameObject:
   - component: {fileID: 6164383335567842254}
   - component: {fileID: 3669414848608259187}
   - component: {fileID: 8957638869056864218}
-  m_Layer: 0
+  - component: {fileID: -4266277736263390625}
+  - component: {fileID: 1436229877942834546}
+  m_Layer: 6
   m_Name: SmallFoodLvl1
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -101,7 +103,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amenityType: 1
-  enteringForwardMulti: 0
+  level: 0
+  enteringForwardMulti: 0.7
   hungerFill: 1
   comfortFill: 0
   funFill: 0
@@ -115,9 +118,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720341925075210288}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.88180923, y: 0.1570725, z: 0.881739}
   m_Center: {x: 0, y: 0.08, z: 0}
 --- !u!54 &8957638869056864218
@@ -127,21 +138,64 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720341925075210288}
-  serializedVersion: 2
+  serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-4266277736263390625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720341925075210288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ebe0fcdcd1a5a47b9b964a156d34bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  insidePositioningMulti: 0
+  insidePositioningRange: 0
+  positioningMultiExtender: 1
+  angleForSlots: 360
+  particleColor: {r: 0.20283908, g: 0.3584906, b: 0.025364896, a: 1}
+  eatingObject: {fileID: 0}
+--- !u!114 &1436229877942834546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720341925075210288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df42eb33b4b921c46a93cffdc665767c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeObject: {fileID: 3961727026926579734, guid: e1efb37b225f5a742a8ea8708fd3bb0e, type: 3}
+  upgradeCost: 1000
 --- !u!1001 &226766073356655379
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TransformParent: {fileID: 195057239149349514}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 05078808c279fb04dba574656df36826, type: 3}
@@ -208,8 +262,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grass
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 05078808c279fb04dba574656df36826, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05078808c279fb04dba574656df36826, type: 3}
 --- !u!4 &337519247686499576 stripped
 Transform:

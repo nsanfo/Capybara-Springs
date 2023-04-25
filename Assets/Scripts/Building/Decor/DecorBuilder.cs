@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.EventSystems;
 
 public class DecorBuilder : MonoBehaviour
 {
     [Header("Decor Blueprints")]
-		public GameObject toriiBlueprint;
-		public GameObject lampBlueprint;
+    public GameObject ToriiBlueprint;
+    public GameObject LampBlueprint;
+    public GameObject GreyLampBlueprint;
+    public GameObject MossyLampBlueprint;
+
 
     [Header("Blueprint Material")]
     public Material blueprintMat;
@@ -17,23 +21,32 @@ public class DecorBuilder : MonoBehaviour
     GameObject blueprint;
     bool red = false, rotating = false;
     Vector2 originalMousePos;
-    
+
+    AudioSource buildSFX;
+    AudioSource click2;
+    AudioSource errorSound;
+
     // Start is called before the first frame update
     void Start()
     {
         stats = GameObject.Find("Stats");
+        var UISounds = GameObject.Find("UISounds");
+        click2 = UISounds.transform.GetChild(1).GetComponent<AudioSource>();
+        buildSFX = UISounds.transform.GetChild(2).GetComponent<AudioSource>();
+        errorSound = UISounds.transform.GetChild(3).GetComponent<AudioSource>();
     }
 
-		public void toriiObjectSelect()
+    public void ObjectSelect(GameObject go, string s)
     {
-        if (blueprint != null && blueprint.name.StartsWith("Torii"))
+        click2.Play();
+        if (blueprint != null && blueprint.name.StartsWith(s))
         {
             Destroy(blueprint);
         }
         else if (blueprint != null)
         {
             Destroy(blueprint);
-            blueprint = Instantiate(toriiBlueprint);
+            blueprint = Instantiate(go);
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -48,7 +61,7 @@ public class DecorBuilder : MonoBehaviour
         }
         else if (blueprint == null)
         {
-            blueprint = Instantiate(toriiBlueprint);
+            blueprint = Instantiate(go);
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
@@ -62,48 +75,30 @@ public class DecorBuilder : MonoBehaviour
         }
     }
 
-		public void lampObjectSelect()
+    public void ToriiObjectSelect()
     {
-        if (blueprint != null && blueprint.name.StartsWith("Lamp"))
-        {
-            Destroy(blueprint);
-        }
-        else if (blueprint != null)
-        {
-            Destroy(blueprint);
-            blueprint = Instantiate(lampBlueprint);
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
-        else if (blueprint == null)
-        {
-            blueprint = Instantiate(lampBlueprint);
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
+        ObjectSelect(ToriiBlueprint, "Torii");
     }
 
-		// Update is called once per frame
+    public void LampObjectSelect()
+    {
+        ObjectSelect(LampBlueprint, "Lamp");
+    }
+
+    public void GreyLampObjectSelect()
+    {
+        ObjectSelect(GreyLampBlueprint, "StoneLampGrey");
+    }
+
+    public void MossyLampObjectSelect()
+    {
+        ObjectSelect(MossyLampBlueprint, "StoneLampMossy");
+    }
+
+    // Update is called once per frame
     void LateUpdate()
     {
-        if(blueprint != null)
+        if (blueprint != null)
         {
             var blueprintScript = blueprint.GetComponent<DecorBlueprint>();
             var balanceScript = stats.GetComponent<Balance>();
@@ -149,7 +144,7 @@ public class DecorBuilder : MonoBehaviour
 
                 else if (balance - cost >= 0)
                 {
-                    if(red)
+                    if (red)
                     {
                         var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
                         blueprintMat.SetColor("_Color", blueColor);
@@ -157,6 +152,7 @@ public class DecorBuilder : MonoBehaviour
                     }
                     if (Input.GetMouseButtonDown(0))
                     {
+                        buildSFX.Play();
                         var angle = blueprint.transform.eulerAngles.y;
                         var newDecor = Instantiate(blueprintScript.GetConcrete());
                         newDecor.transform.position = new Vector3(hitInfo.point.x, hitInfo.point.y, hitInfo.point.z);
@@ -165,6 +161,9 @@ public class DecorBuilder : MonoBehaviour
                         balanceScript.AdjustBalance(cost * -1);
                     }
                 }
+
+                if (red && EventSystem.current.IsPointerOverGameObject() == false)
+                    errorSound.Play();
 
                 if (Input.GetMouseButtonDown(1))
                 {

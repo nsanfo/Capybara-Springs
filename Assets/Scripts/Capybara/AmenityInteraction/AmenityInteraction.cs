@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class AmenityInteraction : MonoBehaviour
 {
+    Pathfinder pathfinderScript;
+    CapyAI aiScript;
     public Amenity amenity;
     Animator capyAnimator;
     int currentState = -1;
@@ -32,7 +34,24 @@ public class AmenityInteraction : MonoBehaviour
     private GameObject smokeEmitterObject;
     public GameObject splashEmitterPrefab;
     private GameObject splashEmitterObject;
+    public GameObject eatEmitterPrefab;
+    private GameObject eatEmitterObject;
     private Renderer[] capybaraRenderer = new Renderer[2];
+
+    public GameObject capybaraPlacer; // Used to find an open spot in front of the amenity for the capybara to be placed upon exiting
+    enum States { center, right, left };
+    States placerStates;
+
+    private GameObject chewingSoundObject;
+    private AudioSource poofSound;
+
+    private void Start()
+    {
+        pathfinderScript = GetComponent<Pathfinder>();
+        aiScript = GetComponent<CapyAI>();
+        chewingSoundObject = transform.GetChild(7).gameObject;
+        poofSound = transform.GetChild(8).GetComponent<AudioSource>();
+    }
 
     private void Update()
     {
@@ -42,7 +61,10 @@ public class AmenityInteraction : MonoBehaviour
         EnterAmenity();
         ExitAmenity();
 
-        if (currentState == 3 && interactionInterface != null) interactionInterface.HandleInteractingAnimation();
+        if (currentState == 3 && interactionInterface != null)
+        {
+            interactionInterface.HandleInteractingAnimation();
+        }
     }
 
     public void HandleInteraction(Amenity amenity)
@@ -86,6 +108,7 @@ public class AmenityInteraction : MonoBehaviour
 
         capybaraRenderer = renderList.ToArray();
 
+        rotationStartPosition = transform.rotation;
         rotationEndPosition = Quaternion.LookRotation(amenity.transform.position - transform.position);
         capyAnimator.SetBool("Turning", true);
 
@@ -101,7 +124,7 @@ public class AmenityInteraction : MonoBehaviour
 
     private void PositionCapybara()
     {
-        if (currentState == 0 && (Mathf.Abs(rotationEndPosition.eulerAngles.y - gameObject.transform.eulerAngles.y) <= 1f))
+        if (currentState == 0 && (Mathf.Abs(rotationEndPosition.eulerAngles.y - gameObject.transform.eulerAngles.y) <= 5f))
         {
             capyAnimator.SetBool("Turning", false);
             rotationCompleted = 0;
@@ -141,12 +164,19 @@ public class AmenityInteraction : MonoBehaviour
             splashEmitterObject = Instantiate(splashEmitterPrefab);
             splashEmitterObject.transform.SetParent(transform);
         }
+
+        if (eatEmitterObject == null)
+        {
+            eatEmitterObject = Instantiate(eatEmitterPrefab);
+            eatEmitterObject.transform.SetParent(transform);
+        }
     }
 
     private void CreateSmoke()
     {
         smokeEmitterObject.transform.position = transform.position;
         smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+        poofSound.Play();
     }
 
     private void HandleHiding(bool hide)
@@ -169,6 +199,17 @@ public class AmenityInteraction : MonoBehaviour
             onsenInteraction.SetSplashEmitter(splashEmitterObject);
             onsenInteraction.AmenityInterface = onsenAmenity;
             interactionInterface = onsenInteraction;
+            onsenInteraction.poofSound = poofSound;
+        }
+        else if (amenity.amenityType == AmenityEnum.Food)
+        {
+            FoodAmenity foodAmenity = amenity.gameObject.GetComponent<FoodAmenity>();
+            FoodInteraction foodInteraction = gameObject.AddComponent<FoodInteraction>();
+            foodInteraction.SetEatEmitter(eatEmitterObject);
+            foodInteraction.AmenityInterface = foodAmenity;
+            foodInteraction.chewingSoundObject = chewingSoundObject;
+            foodInteraction.poofSound = poofSound;
+            interactionInterface = foodInteraction;
         }
 
         interactionInterface.HandleInteraction(amenity, slotLocation, smokeEmitterObject);
@@ -200,9 +241,9 @@ public class AmenityInteraction : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         CapybaraInfo capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
-        capybaraInfo.hunger += amenity.hungerFill;
-        capybaraInfo.comfort += amenity.comfortFill;
-        capybaraInfo.fun += amenity.funFill;
+        capybaraInfo.hunger += (amenity.hungerFill * Time.deltaTime * 100);
+        capybaraInfo.comfort += (amenity.comfortFill * Time.deltaTime * 100);
+        capybaraInfo.fun += (amenity.funFill * Time.deltaTime * 100);
 
         if (!HandleMaxStats(capybaraInfo))
         {
@@ -210,7 +251,7 @@ public class AmenityInteraction : MonoBehaviour
         }
         else
         {
-            interactionInterface.StopEmitters();
+            interactionInterface.HandleInteractionEnd();
             currentState = 4;
         }
     }
@@ -242,7 +283,10 @@ public class AmenityInteraction : MonoBehaviour
     {
         if (currentState == 4)
         {
+            pathfinderScript.LastAmenityUsed = amenity.gameObject;
+            aiScript.previousNode = amenity.PathCollider;
             smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+            poofSound.Play();
             HandleHiding(false);
             StartCoroutine(AppearInFront());
             currentState = 5;
@@ -254,13 +298,70 @@ public class AmenityInteraction : MonoBehaviour
     private IEnumerator AppearInFront()
     {
         yield return new WaitForSeconds(1);
-        transform.position = amenityFront;
-        HandleHiding(true);
-        smokeEmitterObject.GetComponent<ParticleSystem>().Play();
-        currentState = -1;
-        capybaraRenderer = new Renderer[2];
-        RemoveInteraction();
-        GetComponent<CapyAI>().CompletedAmenityInteraction();
+
+        var capyPlacer = GameObject.Instantiate(capybaraPlacer);
+        var placerScript = capyPlacer.GetComponent<CapybaraPlacer>();
+        capyPlacer.transform.position = amenity.PathCollider.transform.position;
+        capyPlacer.transform.rotation = rotationStartPosition;
+        placerStates = States.center;
+        float pathDistance = 0;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+            if (placerScript.Collisions > 0)
+            {
+                if (placerStates == States.center)
+                {
+                    placerStates = States.right;
+                    capyPlacer.transform.Translate(Vector3.right * 0.13f);
+                    pathDistance += 0.10f;
+                }
+                else if (placerStates == States.right)
+                {
+                    if (pathDistance < 0.30)
+                    {
+                        capyPlacer.transform.Translate(Vector3.right * 0.13f);
+                        pathDistance += 0.10f;
+                    }
+                    else
+                    {
+                        placerStates = States.left;
+                        capyPlacer.transform.position = new Vector3(0, 0, 0);
+                        capyPlacer.transform.Translate(Vector3.left * 0.13f);
+                        pathDistance = -0.10f;
+                    }
+                }
+                else if (placerStates == States.left)
+                {
+                    if (pathDistance > -0.30)
+                    {
+                        capyPlacer.transform.Translate(Vector3.left * 0.13f);
+                        pathDistance -= 0.10f;
+                    }
+                    else
+                    {
+                        placerStates = States.center;
+                        capyPlacer.transform.position = new Vector3(0, 0, 0);
+                        pathDistance = 0;
+                    }
+                }
+            }
+            else
+            {
+                transform.position = capyPlacer.transform.position;
+                transform.rotation = rotationStartPosition;
+                GameObject.Destroy(capyPlacer);
+                HandleHiding(true);
+                smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+                poofSound.Play();
+                currentState = -1;
+                capybaraRenderer = new Renderer[2];
+                RemoveInteraction();
+                aiScript.CompletedAmenityInteraction();
+                break;
+            }
+        }
     }
 
     private void RemoveInteraction()
@@ -270,6 +371,7 @@ public class AmenityInteraction : MonoBehaviour
             Destroy((UnityEngine.Object) interactionInterface);
         }
 
+        interactionInterface = null;
         amenity = null;
     }
 }

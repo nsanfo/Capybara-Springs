@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -97,6 +98,17 @@ public class PathBuilder : MonoBehaviour
     public Vector3 enterVector1 = new Vector3(0, 0, 0);
     public Vector3 enterVector2 = new Vector3(1, 0, 0);
 
+    // Path text
+    public GameObject pathTextPrefab;
+    private GameObject pathText;
+
+    // Balance
+    Balance balance;
+    double cost = 0;
+
+    AudioSource buildSFX;
+    AudioSource click3;
+
     void Start()
     {
         PlayerBuilding buildingScript = gameObject.GetComponent<PlayerBuilding>();
@@ -132,6 +144,21 @@ public class PathBuilder : MonoBehaviour
         entranceNode2.AddPath(entrancePath);
 
         meshOffset = 0.0001f;
+
+        // Get balance
+        GameObject stats = GameObject.Find("Stats");
+        if (stats != null)
+        {
+            balance = stats.GetComponent<Balance>();
+        }
+
+        pathText = Instantiate(pathTextPrefab);
+        pathText.SetActive(false);
+        pathText.transform.SetParent(transform);
+
+        var UISounds = GameObject.Find("UISounds");
+        buildSFX = UISounds.transform.GetChild(2).GetComponent<AudioSource>();
+        click3 = UISounds.transform.GetChild(4).GetComponent<AudioSource>();
     }
 
     void Update()
@@ -256,11 +283,99 @@ public class PathBuilder : MonoBehaviour
             if (pathHelper.pathPoints.Item3 == Vector3.zero) pathHelper.mouseBuildable = true;
         }
         #endregion
+
+        // Check for path cost
+        #region CheckPathCost
+        if (pathHelper.pathPoints.Item1 != Vector3.zero && pathHelper.pathBuildable)
+        {
+            if (!pathText.activeSelf)
+            {
+                pathText.SetActive(true);
+            }
+
+            Vector3 guideMousePosition = gameObject.GetComponent<PathGuide>().GetGuideMousePosition();
+
+            // Handle path text rotation and sizing
+            pathText.transform.rotation = Camera.main.transform.rotation;
+            pathText.GetComponent<TextMeshPro>().fontSize = Vector3.Distance(pathText.transform.position, Camera.main.transform.position) / 1.6f;
+
+            if (pathHelper.curvedPath)
+            {
+                if (pathHelper.pathPoints.Item3 == Vector3.zero)
+                {
+                    if (pathHelper.snappedMouseNode != null)
+                    {
+                        cost = Vector3.Distance(pathHelper.pathPoints.Item1, pathHelper.snappedMouseNode.gameObject.transform.position);
+                    }
+                    else
+                    {
+                        cost = Vector3.Distance(pathHelper.pathPoints.Item1, guideMousePosition);
+                    }
+
+                    pathText.transform.position = (pathHelper.pathPoints.Item1 + guideMousePosition) / 2;
+                }
+                else
+                {
+                    if (pathHelper.snappedMouseNode != null)
+                    {
+                        cost = Vector3.Distance(pathHelper.pathPoints.Item1, pathHelper.pathPoints.Item3)
+                            + Vector3.Distance(pathHelper.pathPoints.Item3, pathHelper.snappedMouseNode.gameObject.transform.position);
+                    }
+                    else
+                    {
+                        cost = Vector3.Distance(pathHelper.pathPoints.Item1, pathHelper.pathPoints.Item3)
+                            + Vector3.Distance(pathHelper.pathPoints.Item3, guideMousePosition);
+                    }
+
+                    pathText.transform.position = (pathHelper.pathPoints.Item1 + pathHelper.pathPoints.Item3 + guideMousePosition) / 3;
+                }
+            }
+            else
+            {
+                if (pathHelper.snappedMouseNode != null)
+                {
+                    cost = Vector3.Distance(pathHelper.pathPoints.Item1, pathHelper.snappedMouseNode.gameObject.transform.position);
+                }
+                else
+                {
+                    cost = Vector3.Distance(pathHelper.pathPoints.Item1, guideMousePosition);
+                }
+
+                pathText.transform.position = (pathHelper.pathPoints.Item1 + guideMousePosition) / 2;
+            }
+
+            pathText.transform.position += new Vector3(0, 0.5f, 0);
+
+            cost *= 500;
+            cost = Mathf.Ceil((float) cost);
+            if (balance.balance < cost)
+            {
+                pathText.GetComponent<TextMeshPro>().text = "$" + cost + "\nToo Expensive!";
+                pathText.GetComponent<TextMeshPro>().outlineColor = new Color32(241, 125, 69, 255);
+                pathHelper.pathBuildable = false;
+            }
+            else
+            {
+                pathText.GetComponent<TextMeshPro>().text = "$" + cost;
+                pathText.GetComponent<TextMeshPro>().outlineColor = new Color32(136, 216, 255, 255);
+            }
+        }
+        else
+        {
+            if (pathText.activeSelf)
+            {
+                pathText.SetActive(false);
+            }
+        }
+        #endregion
     }
 
     void CheckLeftMouseInput()
     {
         if (!Input.GetMouseButtonDown(0)) return;
+
+        // Get guide mouse vector
+        Vector3 guideMousePosition = gameObject.GetComponent<PathGuide>().GetGuideMousePosition();
 
         // Set first point
         #region SetFirstPoint
@@ -278,8 +393,16 @@ public class PathBuilder : MonoBehaviour
             // Set point at mouse raycast position
             else if(pathHelper.mouseBuildable)
             {
-                pathHelper.pathPoints.Item1 = mouseRaycast.GetPosition();
+                if (mouseRaycast.GetHitInfo().transform.CompareTag("Terrain"))
+                {
+                    pathHelper.pathPoints.Item1 = mouseRaycast.GetPosition();
+                }
+                else
+                {
+                    pathHelper.pathPoints.Item1 = guideMousePosition;
+                }
             }
+            click3.Play();
         }
         #endregion
         // Set second point to complete path (linear path)
@@ -306,7 +429,14 @@ public class PathBuilder : MonoBehaviour
             // Set point at mouse raycast position
             else
             {
-                pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
+                if (mouseRaycast.GetHitInfo().transform.CompareTag("Terrain"))
+                {
+                    pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
+                }
+                else
+                {
+                    pathHelper.pathPoints.Item2 = guideMousePosition;
+                }
             }
 
             // Create path
@@ -321,7 +451,14 @@ public class PathBuilder : MonoBehaviour
             // Set curved point
             if (pathHelper.mouseBuildable && pathHelper.pathPoints.Item3 == Vector3.zero)
             {
-                pathHelper.pathPoints.Item3 = mouseRaycast.GetPosition();
+                if (mouseRaycast.GetHitInfo().transform.CompareTag("Terrain"))
+                {
+                    pathHelper.pathPoints.Item3 = mouseRaycast.GetPosition();
+                }
+                else
+                {
+                    pathHelper.pathPoints.Item3 = guideMousePosition;
+                }
             }
             // Set second point to complete path
             else if (pathHelper.pathBuildable)
@@ -341,7 +478,14 @@ public class PathBuilder : MonoBehaviour
                 // Set point at mouse raycast position
                 else if (pathHelper.mouseBuildable)
                 {
-                    pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
+                    if (mouseRaycast.GetHitInfo().transform.CompareTag("Terrain"))
+                    {
+                        pathHelper.pathPoints.Item2 = mouseRaycast.GetPosition();
+                    }
+                    else
+                    {
+                        pathHelper.pathPoints.Item2 = guideMousePosition;
+                    }
                 }
 
                 // Create path
@@ -384,6 +528,11 @@ public class PathBuilder : MonoBehaviour
 
         // Add path to node graph
         nodeGraph.AddPath(pathComponent);
+
+        // Handle cost
+        balance.AdjustBalance(cost * -1);
+
+        buildSFX.Play();
     }
 
     void TrackNearbyNodes()
