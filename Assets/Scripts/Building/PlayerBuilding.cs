@@ -67,6 +67,8 @@ public class PlayerBuilding : MonoBehaviour
     // Mouse raycast
     public MouseRaycast mouseRaycast = new MouseRaycast();
 
+    AudioSource click1;
+
     void Start()
     {
         // Get text from build button
@@ -80,6 +82,8 @@ public class PlayerBuilding : MonoBehaviour
             buttons.Add(child.GetComponent<Button>());
         }
         buildTypeButtons = buttons.ToArray();
+        var UISounds = GameObject.Find("UISounds");
+        click1 = UISounds.transform.GetChild(0).GetComponent<AudioSource>();
     }
 
     void Update()
@@ -98,6 +102,7 @@ public class PlayerBuilding : MonoBehaviour
         if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
 
         buildingModes.enableBuild = !buildingModes.enableBuild;
+        click1.Play();
 
         if (!buildingModes.enableBuild)
         {
@@ -137,7 +142,8 @@ public class PlayerBuilding : MonoBehaviour
         if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
 
         buildingModes.enableAmenities = !buildingModes.enableAmenities;
-        
+        click1.Play();
+
         if (buildingModes.enablePath)
         {
             buildingModes.enablePath = false;
@@ -184,7 +190,8 @@ public class PlayerBuilding : MonoBehaviour
         if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
 
         buildingModes.enablePath = !buildingModes.enablePath;
-        
+        click1.Play();
+
         if (buildingModes.enableAmenities)
         {
             buildingModes.enableAmenities = false;
@@ -235,7 +242,8 @@ public class PlayerBuilding : MonoBehaviour
         if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
 
         buildingModes.enableDecor = !buildingModes.enableDecor;
-        
+        click1.Play();
+
         if (buildingModes.enablePath)
         {
             buildingModes.enablePath = false;
@@ -282,6 +290,7 @@ public class PlayerBuilding : MonoBehaviour
         if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
 
         buildingModes.enablePlots = !buildingModes.enablePlots;
+        click1.Play();
 
         PlotBuyer plotBuyer = gameObject.GetComponent<PlotBuyer>();
         if (plotBuyer != null )

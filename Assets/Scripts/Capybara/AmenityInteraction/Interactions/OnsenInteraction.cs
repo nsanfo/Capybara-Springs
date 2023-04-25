@@ -12,6 +12,8 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
     public AmenityInterface AmenityInterface { get; set; }
     private OnsenAmenity onsenInterface;
 
+    public AudioSource poofSound;
+
     public void SetSplashEmitter(GameObject splashEmitterObject)
     {
         this.splashEmitterObject = splashEmitterObject;
@@ -36,6 +38,7 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
         transform.position = new Vector3(amenityPosition.x, amenityPosition.y + onsenInterface.insideCenteringHeight, amenityPosition.z);
         transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
         smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+        poofSound.Play();
 
         splashEmitterObject.transform.position = transform.position + new Vector3(0, onsenInterface.splashHeight, 0);
         splashEmitterObject.GetComponent<ParticleSystem>().Play();
@@ -93,6 +96,9 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
     {
         yield return new WaitForSeconds(Random.Range(5, 8));
         GetComponent<Animator>().SetBool("Turning", true);
+        var splashSounds = transform.GetChild(9);
+        var random = Random.Range(0, 4);
+        splashSounds.GetChild(random).GetComponent<AudioSource>().Play();
         CalculateRotation();
     }
 

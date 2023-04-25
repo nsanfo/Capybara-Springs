@@ -107,6 +107,7 @@ public class PathBuilder : MonoBehaviour
     double cost = 0;
 
     AudioSource buildSFX;
+    AudioSource click3;
 
     void Start()
     {
@@ -155,7 +156,9 @@ public class PathBuilder : MonoBehaviour
         pathText.SetActive(false);
         pathText.transform.SetParent(transform);
 
-        buildSFX = transform.GetChild(0).GetComponent<AudioSource>();
+        var UISounds = GameObject.Find("UISounds");
+        buildSFX = UISounds.transform.GetChild(2).GetComponent<AudioSource>();
+        click3 = UISounds.transform.GetChild(4).GetComponent<AudioSource>();
     }
 
     void Update()
@@ -399,6 +402,7 @@ public class PathBuilder : MonoBehaviour
                     pathHelper.pathPoints.Item1 = guideMousePosition;
                 }
             }
+            click3.Play();
         }
         #endregion
         // Set second point to complete path (linear path)

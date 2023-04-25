@@ -16,7 +16,7 @@ public class MusicPlayer : MonoBehaviour
         notPlayedRemaining = transform.childCount;
         for (int i = 0; i < transform.childCount; i++)
         {
-            songs.Add(transform.GetChild(0).GetComponent<AudioSource>());
+            songs.Add(transform.GetChild(i).GetComponent<AudioSource>());
             played[i] = false;
         }
         var random = Random.Range(0, transform.childCount - 1);

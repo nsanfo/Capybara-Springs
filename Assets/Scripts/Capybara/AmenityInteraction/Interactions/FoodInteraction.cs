@@ -15,6 +15,9 @@ public class FoodInteraction : MonoBehaviour, InteractionInterface
     public AmenityInterface AmenityInterface { get; set; }
     private FoodAmenity foodInterface;
 
+    public GameObject chewingSoundObject;
+    public AudioSource poofSound;
+
     public void SetEatEmitter(GameObject eatEmitterObject)
     {
         this.eatEmitterObject = eatEmitterObject;
@@ -42,6 +45,7 @@ public class FoodInteraction : MonoBehaviour, InteractionInterface
         transform.position = amenityPosition;
         transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
         smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+        poofSound.Play();
 
         // Set emitter path
         string path = "Root/Pelvis/Spine.1/Spine.2/Neck.1/Neck.2/Head/Joe/Tongue.1/Tongue.2";
@@ -68,6 +72,8 @@ public class FoodInteraction : MonoBehaviour, InteractionInterface
             eatingObject.transform.position = transform.position + (transform.forward * 0.2f);
         }
 
+        chewingSoundObject.SetActive(true);
+
         StartCoroutine(PlayEatAnimation());
         //DebugPositions(amenity);
     }
@@ -86,6 +92,7 @@ public class FoodInteraction : MonoBehaviour, InteractionInterface
         eatEmitterObject.transform.SetParent(transform);
         GetComponent<Animator>().SetBool("Chewing", false);
         if (eatingObject != null) Destroy(eatingObject);
+        chewingSoundObject.SetActive(false);
     }
 
     private IEnumerator PlayEatAnimation()

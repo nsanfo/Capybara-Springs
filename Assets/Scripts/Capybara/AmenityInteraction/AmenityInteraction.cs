@@ -42,10 +42,15 @@ public class AmenityInteraction : MonoBehaviour
     enum States { center, right, left };
     States placerStates;
 
+    private GameObject chewingSoundObject;
+    private AudioSource poofSound;
+
     private void Start()
     {
         pathfinderScript = GetComponent<Pathfinder>();
         aiScript = GetComponent<CapyAI>();
+        chewingSoundObject = transform.GetChild(7).gameObject;
+        poofSound = transform.GetChild(8).GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -171,6 +176,7 @@ public class AmenityInteraction : MonoBehaviour
     {
         smokeEmitterObject.transform.position = transform.position;
         smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+        poofSound.Play();
     }
 
     private void HandleHiding(bool hide)
@@ -193,6 +199,7 @@ public class AmenityInteraction : MonoBehaviour
             onsenInteraction.SetSplashEmitter(splashEmitterObject);
             onsenInteraction.AmenityInterface = onsenAmenity;
             interactionInterface = onsenInteraction;
+            onsenInteraction.poofSound = poofSound;
         }
         else if (amenity.amenityType == AmenityEnum.Food)
         {
@@ -200,6 +207,8 @@ public class AmenityInteraction : MonoBehaviour
             FoodInteraction foodInteraction = gameObject.AddComponent<FoodInteraction>();
             foodInteraction.SetEatEmitter(eatEmitterObject);
             foodInteraction.AmenityInterface = foodAmenity;
+            foodInteraction.chewingSoundObject = chewingSoundObject;
+            foodInteraction.poofSound = poofSound;
             interactionInterface = foodInteraction;
         }
 
@@ -277,6 +286,7 @@ public class AmenityInteraction : MonoBehaviour
             pathfinderScript.LastAmenityUsed = amenity.gameObject;
             aiScript.previousNode = amenity.PathCollider;
             smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+            poofSound.Play();
             HandleHiding(false);
             StartCoroutine(AppearInFront());
             currentState = 5;
@@ -344,6 +354,7 @@ public class AmenityInteraction : MonoBehaviour
                 GameObject.Destroy(capyPlacer);
                 HandleHiding(true);
                 smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+                poofSound.Play();
                 currentState = -1;
                 capybaraRenderer = new Renderer[2];
                 RemoveInteraction();

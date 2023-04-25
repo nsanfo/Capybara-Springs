@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.EventSystems;
 
 public class DecorBuilder : MonoBehaviour
 {
@@ -21,14 +22,23 @@ public class DecorBuilder : MonoBehaviour
     bool red = false, rotating = false;
     Vector2 originalMousePos;
 
+    AudioSource buildSFX;
+    AudioSource click2;
+    AudioSource errorSound;
+
     // Start is called before the first frame update
     void Start()
     {
         stats = GameObject.Find("Stats");
+        var UISounds = GameObject.Find("UISounds");
+        click2 = UISounds.transform.GetChild(1).GetComponent<AudioSource>();
+        buildSFX = UISounds.transform.GetChild(2).GetComponent<AudioSource>();
+        errorSound = UISounds.transform.GetChild(3).GetComponent<AudioSource>();
     }
 
     public void ObjectSelect(GameObject go, string s)
     {
+        click2.Play();
         if (blueprint != null && blueprint.name.StartsWith(s))
         {
             Destroy(blueprint);
@@ -142,6 +152,7 @@ public class DecorBuilder : MonoBehaviour
                     }
                     if (Input.GetMouseButtonDown(0))
                     {
+                        buildSFX.Play();
                         var angle = blueprint.transform.eulerAngles.y;
                         var newDecor = Instantiate(blueprintScript.GetConcrete());
                         newDecor.transform.position = new Vector3(hitInfo.point.x, hitInfo.point.y, hitInfo.point.z);
@@ -150,6 +161,9 @@ public class DecorBuilder : MonoBehaviour
                         balanceScript.AdjustBalance(cost * -1);
                     }
                 }
+
+                if (red && EventSystem.current.IsPointerOverGameObject() == false)
+                    errorSound.Play();
 
                 if (Input.GetMouseButtonDown(1))
                 {

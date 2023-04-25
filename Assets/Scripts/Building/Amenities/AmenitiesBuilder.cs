@@ -31,6 +31,8 @@ public class AmenitiesBuilder : MonoBehaviour
     Vector2 originalMousePos;
 
     AudioSource buildSFX;
+    AudioSource click2;
+    AudioSource errorSound;
     
     // Start is called before the first frame update
     void Start()
@@ -38,7 +40,10 @@ public class AmenitiesBuilder : MonoBehaviour
         stats = GameObject.Find("Stats");
         balanceScript = stats.GetComponent<Balance>();
         gameplayStateScript = stats.GetComponent<GameplayState>();
-        buildSFX = transform.GetChild(0).GetComponent<AudioSource>();
+        var UISounds = GameObject.Find("UISounds");
+        click2 = UISounds.transform.GetChild(1).GetComponent<AudioSource>();
+        buildSFX = UISounds.transform.GetChild(2).GetComponent<AudioSource>();
+        errorSound = UISounds.transform.GetChild(3).GetComponent<AudioSource>();
     }
 
     public void SmallOnsenSelect()
@@ -66,6 +71,7 @@ public class AmenitiesBuilder : MonoBehaviour
             else
                 blueprintMat.SetColor("_BaseColor", blueColor);
         }
+        click2.Play();
     }
 
     public void MediumOnsenSelect()
@@ -93,6 +99,7 @@ public class AmenitiesBuilder : MonoBehaviour
             else
                 blueprintMat.SetColor("_BaseColor", blueColor);
         }
+        click2.Play();
     }
 
     public void LargeOnsenSelect()
@@ -120,6 +127,7 @@ public class AmenitiesBuilder : MonoBehaviour
             else
                 blueprintMat.SetColor("_BaseColor", blueColor);
         }
+        click2.Play();
     }
 
     public void SmallFoodSelect()
@@ -147,6 +155,7 @@ public class AmenitiesBuilder : MonoBehaviour
             else
                 blueprintMat.SetColor("_BaseColor", blueColor);
         }
+        click2.Play();
     }
 
     public void MediumFoodSelect()
@@ -174,6 +183,7 @@ public class AmenitiesBuilder : MonoBehaviour
             else
                 blueprintMat.SetColor("_BaseColor", blueColor);
         }
+        click2.Play();
     }
 
     public void LargeFoodSelect()
@@ -201,6 +211,7 @@ public class AmenitiesBuilder : MonoBehaviour
             else
                 blueprintMat.SetColor("_BaseColor", blueColor);
         }
+        click2.Play();
     }
 
     public void FreePlace(Vector3 hitVector)
@@ -211,6 +222,8 @@ public class AmenitiesBuilder : MonoBehaviour
             blueprintMat.SetColor("_BaseColor", redColor);
             red = true;
         }
+        if (Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject() == false)
+            errorSound.Play();
     }
 
     public void SnapPlace(Vector3 hitVector)
@@ -276,6 +289,9 @@ public class AmenitiesBuilder : MonoBehaviour
                 currentCap = 0;
             }
         }
+
+        if (Input.GetMouseButtonDown(0) && red && EventSystem.current.IsPointerOverGameObject() == false)
+            errorSound.Play();
 
         if (Input.GetMouseButtonDown(1))
         {

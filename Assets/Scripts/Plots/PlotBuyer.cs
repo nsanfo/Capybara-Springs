@@ -32,6 +32,9 @@ public class PlotBuyer : MonoBehaviour
     // Plot manager
     PlotManager plotManager;
 
+    AudioSource buildSFX;
+    AudioSource chainsawSound;
+
     void Start()
     {
         GameObject managerObject = GameObject.Find("PlotManager");
@@ -59,6 +62,10 @@ public class PlotBuyer : MonoBehaviour
         {
             this.spriteHolder = spriteHolder;
         }
+
+        var UISounds = GameObject.Find("UISounds");
+        buildSFX = UISounds.transform.GetChild(2).GetComponent<AudioSource>();
+        chainsawSound = UISounds.transform.GetChild(5).GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -122,6 +129,9 @@ public class PlotBuyer : MonoBehaviour
             {
                 Destroy(child.gameObject);
             }
+
+            buildSFX.Play();
+            chainsawSound.Play();
 
             // Delete purchasing sprite
             GameObject scriptParent = purchaseScript.gameObject.transform.parent.gameObject;
