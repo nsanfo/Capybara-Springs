@@ -1,8 +1,7 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 using System;
-using UnityEngine.UIElements;
-using UnityEditor.Experimental.GraphView;
 
 [ExecuteInEditMode]
 public class EntranceBuilder : MonoBehaviour
@@ -119,6 +118,7 @@ public class EntranceBuilder : MonoBehaviour
     void HandleNodeSelection()
     {
         GameObject activeObject = Selection.activeGameObject;
+
         if (activeObject == null) return;
         if (activeObject.transform.parent == null) return;
 
@@ -164,3 +164,4 @@ public class EntranceBuilder : MonoBehaviour
         Destroy(controllers);
     }
 }
+#endif
