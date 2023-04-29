@@ -14,6 +14,9 @@ public class AmenitiesBuilder : MonoBehaviour
     public GameObject smallFoodBlueprint;
     public GameObject mediumFoodBlueprint;
     public GameObject largeFoodBlueprint;
+    public GameObject smallFunBlueprint;
+    public GameObject mediumFunBlueprint;
+    public GameObject largeFunBlueprint;
 
     private int numSmall, numMedium, numLarge, currentCap;
 
@@ -205,6 +208,90 @@ public class AmenitiesBuilder : MonoBehaviour
         else if (blueprint == null)
         {
             blueprint = Instantiate(largeFoodBlueprint);
+            currentCap = 10;
+            if (red)
+                blueprintMat.SetColor("_BaseColor", redColor);
+            else
+                blueprintMat.SetColor("_BaseColor", blueColor);
+        }
+        click2.Play();
+    }
+
+    public void SmallFunSelect()
+    {
+        if (blueprint != null && blueprint.name.StartsWith("SmallFun"))
+        {
+            Destroy(blueprint);
+        }
+        else if (blueprint != null)
+        {
+            Destroy(blueprint);
+            blueprint = Instantiate(smallFunBlueprint);
+            currentCap = 10;
+            if (red)
+                blueprintMat.SetColor("_BaseColor", redColor);
+            else
+                blueprintMat.SetColor("_BaseColor", blueColor);
+        }
+        else if (blueprint == null)
+        {
+            blueprint = Instantiate(smallFunBlueprint);
+            currentCap = 10;
+            if (red)
+                blueprintMat.SetColor("_BaseColor", redColor);
+            else
+                blueprintMat.SetColor("_BaseColor", blueColor);
+        }
+        click2.Play();
+    }
+
+    public void MediumFunSelect()
+    {
+        if (blueprint != null && blueprint.name.StartsWith("MediumFun"))
+        {
+            Destroy(blueprint);
+        }
+        else if (blueprint != null)
+        {
+            Destroy(blueprint);
+            blueprint = Instantiate(mediumFunBlueprint);
+            currentCap = 10;
+            if (red)
+                blueprintMat.SetColor("_BaseColor", redColor);
+            else
+                blueprintMat.SetColor("_BaseColor", blueColor);
+        }
+        else if (blueprint == null)
+        {
+            blueprint = Instantiate(mediumFunBlueprint);
+            currentCap = 10;
+            if (red)
+                blueprintMat.SetColor("_BaseColor", redColor);
+            else
+                blueprintMat.SetColor("_BaseColor", blueColor);
+        }
+        click2.Play();
+    }
+
+    public void LargeFunSelect()
+    {
+        if (blueprint != null && blueprint.name.StartsWith("LargeFun"))
+        {
+            Destroy(blueprint);
+        }
+        else if (blueprint != null)
+        {
+            Destroy(blueprint);
+            blueprint = Instantiate(largeFunBlueprint);
+            currentCap = 10;
+            if (red)
+                blueprintMat.SetColor("_BaseColor", redColor);
+            else
+                blueprintMat.SetColor("_BaseColor", blueColor);
+        }
+        else if (blueprint == null)
+        {
+            blueprint = Instantiate(largeFunBlueprint);
             currentCap = 10;
             if (red)
                 blueprintMat.SetColor("_BaseColor", redColor);

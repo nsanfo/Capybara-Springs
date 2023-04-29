@@ -211,6 +211,15 @@ public class AmenityInteraction : MonoBehaviour
             foodInteraction.poofSound = poofSound;
             interactionInterface = foodInteraction;
         }
+        else if (amenity.amenityType == AmenityEnum.Fun)
+        {
+            FunAmenity funAmenity = amenity.gameObject.GetComponent<FunAmenity>();
+            FunInteraction funInteraction = gameObject.AddComponent<FunInteraction>();
+            //funInteraction.SetMusicEmitter();
+            funInteraction.AmenityInterface = funAmenity;
+            funInteraction.poofSound = poofSound;
+            interactionInterface = funInteraction;
+        }
 
         interactionInterface.HandleInteraction(amenity, slotLocation, smokeEmitterObject);
         SetFilling();
