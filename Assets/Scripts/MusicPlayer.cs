@@ -64,6 +64,8 @@ public class MusicPlayer : MonoBehaviour
     {
         if (skip) Skip();
 
+        CheckEnd();
+
         if (playing) return;
 
         PlaySong();
@@ -117,6 +119,16 @@ public class MusicPlayer : MonoBehaviour
         skip = false;
         playing = false;
         songs[playingIndex].StopSong();
+        playingIndex = -1;
+    }
+
+    private void CheckEnd()
+    {
+        if (playingIndex == -1) return;
+
+        if (songs[playingIndex].IsPlaying()) return;
+
+        playing = false;
         playingIndex = -1;
     }
 }
