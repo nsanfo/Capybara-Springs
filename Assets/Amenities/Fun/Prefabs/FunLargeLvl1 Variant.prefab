@@ -274,7 +274,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   discoBallPrefab: {fileID: 8268974347824247708, guid: c451106447e482448a9c3742e210c46d, type: 3}
   splotlightPrefab: {fileID: 7887408560835207684, guid: f826e44667ad3774692f6069cf9e9d79, type: 3}
-  confettiPrefab: {fileID: 3113174672017564815, guid: c705ab8bd02f0a64c9d91c9c4f6b8735, type: 3}
+  confettiPrefab1: {fileID: 3113174672017564815, guid: c705ab8bd02f0a64c9d91c9c4f6b8735, type: 3}
+  confettiPrefab2: {fileID: 3113174672017564815, guid: 64f011090b7cb104eacb0d73f8fe5158, type: 3}
+  confettiPrefab3: {fileID: 3113174672017564815, guid: f4220a127581f604caaf47d2481c1779, type: 3}
   gradient1:
     serializedVersion: 2
     key0: {r: 0, g: 0.008504391, b: 1, a: 1}

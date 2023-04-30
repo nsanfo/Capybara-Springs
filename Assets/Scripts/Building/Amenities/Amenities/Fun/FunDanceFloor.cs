@@ -10,8 +10,8 @@ public class FunDanceFloor : MonoBehaviour
     public Light splotlightPrefab;
     private Light light1, light2, light3;
     private Vector3 rotate1, rotate2, rotate3;
-    public GameObject confettiPrefab;
-    private GameObject confettiEmitterObject;
+    public GameObject confettiPrefab1, confettiPrefab2, confettiPrefab3;
+    private GameObject confettiEmitterObject1, confettiEmitterObject2, confettiEmitterObject3;
 
     private bool occupied = false, previous = false, animate = false;
     private Amenity amenity;
@@ -29,11 +29,25 @@ public class FunDanceFloor : MonoBehaviour
         discoBall.transform.SetParent(transform);
         discoBall.transform.position = transform.position + new Vector3(0, 1, 0);
 
-        if (confettiEmitterObject == null)
+        if (confettiEmitterObject1 == null)
         {
-            confettiEmitterObject = Instantiate(confettiPrefab);
-            confettiEmitterObject.transform.SetParent(transform);
-            confettiEmitterObject.transform.position = transform.position + new Vector3(0, 1.3f, 0);
+            confettiEmitterObject1 = Instantiate(confettiPrefab1);
+            confettiEmitterObject1.transform.SetParent(transform);
+            confettiEmitterObject1.transform.position = transform.position + new Vector3(0, 1.3f, 0);
+        }
+
+        if (confettiEmitterObject2 == null)
+        {
+            confettiEmitterObject2 = Instantiate(confettiPrefab2);
+            confettiEmitterObject2.transform.SetParent(transform);
+            confettiEmitterObject2.transform.position = transform.position + new Vector3(0, 1.3f, 0);
+        }
+
+        if (confettiEmitterObject3 == null)
+        {
+            confettiEmitterObject3 = Instantiate(confettiPrefab3);
+            confettiEmitterObject3.transform.SetParent(transform);
+            confettiEmitterObject3.transform.position = transform.position + new Vector3(0, 1.3f, 0);
         }
 
         amenity = GetComponent<Amenity>();
@@ -73,9 +87,7 @@ public class FunDanceFloor : MonoBehaviour
         light3.transform.position = (amenity.transform.position + rot * (Vector3.forward * 0.2f)) + new Vector3(0, 1.5f, 0);
         rotate3 = amenity.transform.position + rot * (Vector3.forward * 0.6f);
 
-        light1.enabled = false;
-        light2.enabled = false;
-        light3.enabled = false;
+        DisableLights();
     }
 
     void Update()
@@ -101,18 +113,14 @@ public class FunDanceFloor : MonoBehaviour
         if (occupied && !previous)
         {
             animate = true;
-            light1.enabled = true;
-            light2.enabled = true;
-            light3.enabled = true;
-            confettiEmitterObject.GetComponent<ParticleSystem>().Play();
+            EnableLights();
+            PlayConfetti();
         }
         else if (!occupied && previous)
         {
             animate = false;
-            light1.enabled = false;
-            light2.enabled = false;
-            light3.enabled = false;
-            confettiEmitterObject.GetComponent<ParticleSystem>().Stop();
+            DisableLights();
+            StopConfetti();
         }
 
         // Update previous frame
@@ -134,5 +142,33 @@ public class FunDanceFloor : MonoBehaviour
         light1.transform.RotateAround(rotate1, Vector3.up, 70 * Time.deltaTime);
         light2.transform.RotateAround(rotate2, Vector3.up, 90 * Time.deltaTime);
         light3.transform.RotateAround(rotate3, Vector3.up, 80 * Time.deltaTime);
+    }
+
+    private void EnableLights()
+    {
+        light1.enabled = true;
+        light2.enabled = true;
+        light3.enabled = true;
+    }
+
+    private void DisableLights()
+    {
+        light1.enabled = false;
+        light2.enabled = false;
+        light3.enabled = false;
+    }
+
+    private void PlayConfetti()
+    {
+        confettiEmitterObject1.GetComponent<ParticleSystem>().Play();
+        confettiEmitterObject2.GetComponent<ParticleSystem>().Play();
+        confettiEmitterObject3.GetComponent<ParticleSystem>().Play();
+    }
+
+    private void StopConfetti()
+    {
+        confettiEmitterObject1.GetComponent<ParticleSystem>().Stop();
+        confettiEmitterObject2.GetComponent<ParticleSystem>().Stop();
+        confettiEmitterObject3.GetComponent<ParticleSystem>().Stop();
     }
 }

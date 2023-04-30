@@ -5,24 +5,36 @@ using UnityEngine;
 
 public class FunDanceMachine : MonoBehaviour
 {
-    public GameObject musicEmitterPrefab;
-    private GameObject musicEmitterObject;
+    public GameObject musicEmitterPrefab1, musicEmitterPrefab2, musicEmitterPrefab3;
+    private GameObject musicEmitterObject1, musicEmitterObject2, musicEmitterObject3;
 
     private bool occupied = false, previous = false;
     private Amenity amenity;
 
     void Start()
     {
-        if (musicEmitterObject == null)
+        if (musicEmitterObject1 == null)
         {
-            musicEmitterObject = Instantiate(musicEmitterPrefab);
-            musicEmitterObject.transform.SetParent(transform);
-            musicEmitterObject.transform.position = transform.position + (Vector3.forward * 0.65f);
+            musicEmitterObject1 = Instantiate(musicEmitterPrefab1);
+            musicEmitterObject1.transform.SetParent(transform);
+            musicEmitterObject1.transform.position = transform.position + (Vector3.forward * 0.65f);
+        }
+
+        if (musicEmitterObject2 == null)
+        {
+            musicEmitterObject2 = Instantiate(musicEmitterPrefab2);
+            musicEmitterObject2.transform.SetParent(transform);
+            musicEmitterObject2.transform.position = transform.position + (Vector3.forward * 0.65f);
+        }
+
+        if (musicEmitterObject3 == null)
+        {
+            musicEmitterObject3 = Instantiate(musicEmitterPrefab3);
+            musicEmitterObject3.transform.SetParent(transform);
+            musicEmitterObject3.transform.position = transform.position + (Vector3.forward * 0.65f);
         }
 
         amenity = GetComponent<Amenity>();
-
-        musicEmitterObject.GetComponent<ParticleSystem>().Play();
     }
 
     void Update()
@@ -41,14 +53,28 @@ public class FunDanceMachine : MonoBehaviour
         // Check for previous
         if (occupied && !previous)
         {
-            musicEmitterObject.GetComponent<ParticleSystem>().Play();
+            PlayNotes();
         }
         else if (!occupied && previous)
         {
-            musicEmitterObject.GetComponent<ParticleSystem>().Stop();
+            StopNotes();
         }
 
         // Update previous frame
         previous = occupied;
+    }
+
+    private void PlayNotes()
+    {
+        musicEmitterObject1.GetComponent<ParticleSystem>().Play();
+        musicEmitterObject2.GetComponent<ParticleSystem>().Play();
+        musicEmitterObject3.GetComponent<ParticleSystem>().Play();
+    }
+
+    private void StopNotes()
+    {
+        musicEmitterObject1.GetComponent<ParticleSystem>().Stop();
+        musicEmitterObject2.GetComponent<ParticleSystem>().Stop();
+        musicEmitterObject3.GetComponent<ParticleSystem>().Stop();
     }
 }

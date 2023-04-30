@@ -194,7 +194,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe5995b7ea8fe104e9b3fdc0ac7ac3f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicEmitterPrefab: {fileID: 687659293366660835, guid: 15fbf95fb9a782541ba02939751c6e6d, type: 3}
+  musicEmitterPrefab1: {fileID: 687659293366660835, guid: 15fbf95fb9a782541ba02939751c6e6d, type: 3}
+  musicEmitterPrefab2: {fileID: 687659293366660835, guid: e640b3a5db12807479275b2a4506ee49, type: 3}
+  musicEmitterPrefab3: {fileID: 687659293366660835, guid: ad5df815a4e6b4442a0c4c2812df3e31, type: 3}
 --- !u!4 &1779751178223627999 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2d2c9154de021e147aa915302b67d90c, type: 3}
