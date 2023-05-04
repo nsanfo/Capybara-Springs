@@ -61,6 +61,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 5000
   itemName: Medium Fun Pen
+  itemBlueprint: {fileID: 1439219939040457829, guid: fbe9baca85290fe43baafe8eec1d85b9, type: 3}
+  itemType: 1
 --- !u!1 &5140355906702732853
 GameObject:
   m_ObjectHideFlags: 0

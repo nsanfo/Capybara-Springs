@@ -61,6 +61,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 250
   itemName: Mossy Stone Lamp
+  itemBlueprint: {fileID: 732739900938536226, guid: 3dd9c4d19c2f3da4ea4226ebae290d1f, type: 3}
+  itemType: 2
 --- !u!1 &5140355906702732853
 GameObject:
   m_ObjectHideFlags: 0

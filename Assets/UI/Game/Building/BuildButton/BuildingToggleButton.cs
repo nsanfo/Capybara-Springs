@@ -22,18 +22,27 @@ public class BuildingToggleButton : MonoBehaviour
     [Header("Item Select Toggles")]
     public ItemToggleHandler itemToggles;
 
+    [Header("Player Building")]
+    public BuildingUpgrade playerBuilding;
+
     private Toggle toggle;
     private Image background;
+
+    private AudioSource clickSound;
 
     void Start()
     {
         toggle = GetComponent<Toggle>();
         background = transform.Find("Background").GetComponent<Image>();
         originalSprite = background.sprite;
+
+        clickSound = GameObject.Find("UISounds").transform.GetChild(0).GetComponent<AudioSource>();
     }
 
     public void ToggleBuilding()
     {
+        clickSound.Play();
+
         bool toggleState = toggle.isOn;
         GetComponent<AnimateBuildMenu>().UpdateAnimation(toggleState);
         buildHover.UpdateAnimation(toggleState);
@@ -49,5 +58,8 @@ public class BuildingToggleButton : MonoBehaviour
             buildToggles.AllTogglesOff();
             itemToggles.AllTogglesOff();
         }
+
+        // Update building
+        playerBuilding.buildingModes.enableBuild = toggleState;
     }
 }

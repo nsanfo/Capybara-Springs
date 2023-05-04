@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5140355905739561770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 612.894, y: 656.6087, z: -258.81842}
+  m_LocalPosition: {x: 2612.894, y: 656.6087, z: -258.81842}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -61,6 +61,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 1000
   itemName: Small Onsen
+  itemBlueprint: {fileID: 4247958983374117989, guid: 5ecd193afff5a514bb368b9fa0038950, type: 3}
+  itemType: 1
 --- !u!1 &5140355906702732853
 GameObject:
   m_ObjectHideFlags: 0

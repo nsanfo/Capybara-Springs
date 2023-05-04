@@ -12,7 +12,7 @@ public class AnimationItemHover : MonoBehaviour, IPointerEnterHandler, IPointerE
     readonly private float targetTime = 0.03f;
     private float elapsedTime;
     private Quaternion startingRot, targetRot, originalRot;
-    private bool animate = false, selected = false;
+    private bool animate = false, selected = false, hovered = false;
     public Image background;
 
     void Start()
@@ -39,6 +39,8 @@ public class AnimationItemHover : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        hovered = true;
+
         if (selected) return;
 
         animate = true;
@@ -49,6 +51,8 @@ public class AnimationItemHover : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        hovered = false;
+
         if (selected) return;
 
         animate = true;
@@ -68,10 +72,14 @@ public class AnimationItemHover : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             selected = false;
             background.color = unselectedColor;
-            animate = true;
-            elapsedTime = 0;
-            startingRot = transform.rotation;
-            targetRot = originalRot;
+
+            if (!hovered)
+            {
+                animate = true;
+                elapsedTime = 0;
+                startingRot = transform.rotation;
+                targetRot = originalRot;
+            }
         }
     }
 }

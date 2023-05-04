@@ -16,13 +16,19 @@ public class ItemToggleHandler : MonoBehaviour
     [Header("Item Template")]
     public GameObject itemTemplate;
 
+    [Header("Player Building Object")]
+    public GameObject playerBuilding;
+    private AmenitiesBuilder amenitiesBuilder;
+    private DecorBuilder decorBuilder;
+
     private ToggleGroup toggleGroup;
-    private GameObject currentItem;
 
     void Start()
     {
+        amenitiesBuilder = playerBuilding.GetComponent<AmenitiesBuilder>();
+        decorBuilder = playerBuilding.GetComponent<DecorBuilder>();
+
         toggleGroup = GetComponent<ToggleGroup>();
-        PopulateAmenityPopOut();
     }
 
     public void PopulateDecorPopOut()
@@ -68,20 +74,15 @@ public class ItemToggleHandler : MonoBehaviour
         itemDisplay.UpdateText(itemInfo.GetFormattedCost());
         itemDisplay.UpdateImage(prefab.GetComponent<CameraTextureCapture>().RetrieveTexture());
 
+        // Update item building
+        ItemBuilding itemBuilding = item.GetComponent<ItemBuilding>();
+        itemBuilding.amenitiesBuilder = amenitiesBuilder;
+        itemBuilding.decorBuilder = decorBuilder;
+        itemBuilding.buildType = itemInfo.itemType;
+        itemBuilding.itemBlueprint = itemInfo.itemBlueprint;
+
         // Destroy prefab
         Destroy(prefab);
-    }
-
-    public void UpdateCurrentItem(GameObject currentItem)
-    {
-        if (toggleGroup.ActiveToggles().FirstOrDefault() == null)
-        {
-            //currentBuildType = BuildType.None;
-        }
-        else
-        {
-            //currentBuildType = buttonBuildType.buildType;
-        }
     }
 
     public void AllTogglesOff()

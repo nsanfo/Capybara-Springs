@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ButtonBuildType : MonoBehaviour
 {
+    [Header("Plot Buyer")]
+    public PlotBuyer plotBuyer;
+
     public BuildType buildType;
     public bool popout;
     private BuildToggleHandler toggleHandler;

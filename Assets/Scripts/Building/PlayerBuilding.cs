@@ -99,8 +99,6 @@ public class PlayerBuilding : MonoBehaviour
 
     public void ToggleBuild()
     {
-        if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
-
         buildingModes.enableBuild = !buildingModes.enableBuild;
         click1.Play();
 
@@ -139,8 +137,6 @@ public class PlayerBuilding : MonoBehaviour
 
     public void ToggleAmenitiesBuilding()
     {
-        if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
-
         buildingModes.enableAmenities = !buildingModes.enableAmenities;
         click1.Play();
 
@@ -187,8 +183,6 @@ public class PlayerBuilding : MonoBehaviour
 
     public void TogglePathBuilding()
     {
-        if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
-
         buildingModes.enablePath = !buildingModes.enablePath;
         click1.Play();
 
@@ -239,8 +233,6 @@ public class PlayerBuilding : MonoBehaviour
 
 	public void ToggleDecorBuilding()
     {
-        if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
-
         buildingModes.enableDecor = !buildingModes.enableDecor;
         click1.Play();
 
@@ -287,8 +279,6 @@ public class PlayerBuilding : MonoBehaviour
 
     public void TogglePlotPurchasing()
     {
-        if (gameObject.GetComponent<PlotBuyer>().cameraAnimation) return;
-
         buildingModes.enablePlots = !buildingModes.enablePlots;
         click1.Play();
 

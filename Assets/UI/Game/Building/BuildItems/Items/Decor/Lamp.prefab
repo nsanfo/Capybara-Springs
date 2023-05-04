@@ -61,6 +61,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 250
   itemName: Grey Stone Lamp
+  itemBlueprint: {fileID: 1823883865782276436, guid: 1dfd766e8d6e3f343a2b9be0c3243606, type: 3}
+  itemType: 2
 --- !u!1 &5140355906702732853
 GameObject:
   m_ObjectHideFlags: 0

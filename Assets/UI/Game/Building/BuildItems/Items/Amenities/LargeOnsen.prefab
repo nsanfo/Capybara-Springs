@@ -61,6 +61,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 10000
   itemName: Large Onsen
+  itemBlueprint: {fileID: 7071271868903205791, guid: 9e89b61b18340e345b81c362bffb9b40, type: 3}
+  itemType: 1
 --- !u!1 &5140355906702732853
 GameObject:
   m_ObjectHideFlags: 0

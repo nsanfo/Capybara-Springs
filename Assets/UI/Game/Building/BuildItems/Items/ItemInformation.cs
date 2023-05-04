@@ -6,6 +6,8 @@ public class ItemInformation : MonoBehaviour
 {
     public double cost = 0;
     public string itemName;
+    public GameObject itemBlueprint;
+    public BuildType itemType;
 
     public string GetFormattedCost()
     {

@@ -18,19 +18,31 @@ public class BuildToggleHandler : MonoBehaviour
     [Header("Item Select Toggles")]
     public ItemToggleHandler itemToggles;
 
+    [Header("Plot Buyer")]
+    public PlotBuyer plotBuyer;
+
+    [Header("Curved Path Toggle")]
+    public Toggle curvedToggle;
+
     private ToggleGroup toggleGroup;
     private GameObject typeObject;
     private BuildType currentBuildType;
+
+    private AudioSource clickSound;
 
     void Start()
     {
         toggleGroup = GetComponent<ToggleGroup>();
         currentBuildType = BuildType.None;
         selectionPanel.SetActive(false);
+
+        clickSound = GameObject.Find("UISounds").transform.GetChild(0).GetComponent<AudioSource>();
     }
 
     public void UpdateBuildingType(ButtonBuildType buttonBuildType)
     {
+        clickSound.Play();
+
         typeObject = buttonBuildType.gameObject;
 
         if (toggleGroup.ActiveToggles().FirstOrDefault() == null)
@@ -42,6 +54,7 @@ public class BuildToggleHandler : MonoBehaviour
             currentBuildType = buttonBuildType.buildType;
         }
 
+        curvedToggle.isOn = false;
         HandlePopOut(buttonBuildType);
         HandleSelection(buttonBuildType);
     }

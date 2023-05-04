@@ -61,6 +61,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 1000
   itemName: Small Food Pen
+  itemBlueprint: {fileID: 8214022565517131252, guid: 2644d555c1e8a4f49b73d41128273bc2, type: 3}
+  itemType: 1
 --- !u!1 &5140355906702732853
 GameObject:
   m_ObjectHideFlags: 0

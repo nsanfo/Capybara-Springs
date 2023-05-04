@@ -12,7 +12,7 @@ public class Balance : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        balanceText.text = balance.ToString("C2");
+        balanceText.text = $"{balance:n2}";
     }
 
     public double GetBalance()
@@ -23,7 +23,7 @@ public class Balance : MonoBehaviour
     public void AdjustBalance(double amount)
     {
         balance += amount;
-        balanceText.text = balance.ToString("C2");
+        balanceText.text = $"{balance:n2}";
     }
 
     // Update is called once per frame
