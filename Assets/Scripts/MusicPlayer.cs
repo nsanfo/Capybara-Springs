@@ -5,46 +5,32 @@ using UnityEngine;
 public class MusicPlayer : MonoBehaviour
 {
     List<AudioSource> songs = new List<AudioSource>();
-    bool[] played;
-    int notPlayedRemaining;
-    int currentlyPlaying;
+    List<AudioSource> unplayedSongs;
+    AudioSource currentlyPlaying;
 
     // Start is called before the first frame update
     void Start()
     {
-        played = new bool[transform.childCount];
-        notPlayedRemaining = transform.childCount;
         for (int i = 0; i < transform.childCount; i++)
-        {
             songs.Add(transform.GetChild(i).GetComponent<AudioSource>());
-            played[i] = false;
-        }
-        var random = Random.Range(0, transform.childCount - 1);
-        songs[random].Play();
-        currentlyPlaying = random;
+        unplayedSongs = new List<AudioSource>(songs);
+        var random = Random.Range(0, unplayedSongs.Count - 1);
+        unplayedSongs[random].Play();
+        currentlyPlaying = unplayedSongs[random];
     }
 
     void LateUpdate()
     {
-        if (!songs[currentlyPlaying].isPlaying)
+        if (!currentlyPlaying.isPlaying)
         {
-            played[currentlyPlaying] = true;
-            notPlayedRemaining--;
-            if(notPlayedRemaining == 0)
+            unplayedSongs.Remove(currentlyPlaying);
+            if(unplayedSongs.Count == 0)
             {
-                for (int i = 0; i < played.Length; i++)
-                    played[i] = false;
-                notPlayedRemaining = played.Length;
+                unplayedSongs = new List<AudioSource>(songs);
             }
-            while (true)
-            {
-                var random = Random.Range(0, transform.childCount - 1);
-                if(played[random] == false)
-                {
-                    songs[random].Play();
-                    currentlyPlaying = random;
-                }
-            }
+            var random = Random.Range(0, unplayedSongs.Count - 1);
+            unplayedSongs[random].Play();
+            currentlyPlaying = unplayedSongs[random];
         }
     }
 }

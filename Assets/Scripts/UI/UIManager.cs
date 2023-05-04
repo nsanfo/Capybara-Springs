@@ -228,6 +228,9 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if(capybaraSelected && lastSelected == null)
+                selectionScript.deactivateSelection();
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
