@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class CapybaraHandler : MonoBehaviour
 {
+    [Header("Information Handler")]
+    public InformationHandler informationHandler;
+
     private List<GameObject> capybaras = new List<GameObject>();
+
+    private float elapsedTime;
+
+    void Update()
+    {
+        UpdateHappinessInfo();
+    }
 
     public void AddCapybara(GameObject capybara)
     {
         capybaras.Add(capybara);
+        informationHandler.UpdateUINumCapybaras(capybaras.Count);
     }
 
     public void RemoveCapybara(GameObject capybara)
     {
         capybaras.Remove(capybara);
+        informationHandler.UpdateUINumCapybaras(capybaras.Count);
     }
 
     public int CapybaraCount()
@@ -36,5 +48,14 @@ public class CapybaraHandler : MonoBehaviour
         }
 
         return happiness / capybaras.Count;
+    }
+
+    private void UpdateHappinessInfo()
+    {
+        elapsedTime += Time.deltaTime;
+        if (elapsedTime < 10) return;
+
+        elapsedTime = 0;
+        informationHandler.UpdateUIAverageHappiness(AverageHappiness());
     }
 }

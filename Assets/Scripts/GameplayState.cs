@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class GameplayState : MonoBehaviour
 {
-    public int currentCapacity = 0;
+    private int currentCapacity = 0;
+
+    public int GetCapacity()
+    {
+        return currentCapacity;
+    }
 
     public void AdjustCapacity(int capacity)
     {

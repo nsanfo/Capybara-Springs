@@ -67,7 +67,7 @@ public class SpawnManager : MonoBehaviour
 
     float GetSpawnWeight()
     {
-        if (gameplayStateScript.currentCapacity < 1)
+        if (gameplayStateScript.GetCapacity() < 1)
         {
             return 0f;
         }
@@ -79,7 +79,7 @@ public class SpawnManager : MonoBehaviour
             averageHappiness = capybaraHandlerScript.AverageHappiness();
         }
 
-        float happinessCapacity = gameplayStateScript.currentCapacity;
+        float happinessCapacity = gameplayStateScript.GetCapacity();
 
         if (capybaraHandlerScript.CapybaraCount() >= happinessCapacity)
         {
