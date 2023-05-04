@@ -15,6 +15,9 @@ public class BuildToggleHandler : MonoBehaviour
     [Header("Selection Panel")]
     public GameObject selectionPanel;
 
+    [Header("Item Select Toggles")]
+    public ItemToggleHandler itemToggles;
+
     private ToggleGroup toggleGroup;
     private GameObject typeObject;
     private BuildType currentBuildType;
@@ -57,6 +60,16 @@ public class BuildToggleHandler : MonoBehaviour
 
         if (currentBuildType != BuildType.None)
         {
+            // Populate popout
+            if (currentBuildType == BuildType.Amenity)
+            {
+                itemToggles.PopulateAmenityPopOut();
+            }
+            else if (currentBuildType == BuildType.Decor)
+            {
+                itemToggles.PopulateDecorPopOut();
+            }
+
             popoutPanel.GetComponent<AnimateBuildingPopOut>().UpdateAnimation(true);
         }
         else

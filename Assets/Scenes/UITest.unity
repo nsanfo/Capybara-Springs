@@ -571,7 +571,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 20
+  m_ScrollSensitivity: -35
   m_Viewport: {fileID: 246515480}
   m_HorizontalScrollbar: {fileID: 515924280}
   m_VerticalScrollbar: {fileID: 0}
@@ -1882,6 +1882,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popoutPanel: {fileID: 1310438731}
   selectionPanel: {fileID: 1172412596}
+  itemToggles: {fileID: 265096631}
 --- !u!1 &1172412596
 GameObject:
   m_ObjectHideFlags: 0
@@ -2049,6 +2050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdd751d15ef303046b57dd3ae721b0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemToggles: {fileID: 265096631}
 --- !u!114 &1310438736
 MonoBehaviour:
   m_ObjectHideFlags: 0

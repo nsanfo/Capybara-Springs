@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class AnimateBuildingPopOut : MonoBehaviour
 {
+    [Header("Item Select Toggles")]
+    public ItemToggleHandler itemToggles;
+
     private RectTransform panelTransform;
 
     readonly private float targetTime = 0.15f;
     private float originalHeight, elapsedTime;
     private Vector2 startingHeight, targetHeight;
-    private bool animate = false, active = false, toggleState;
+    private bool animate = false, active = false;
 
     void Start()
     {
@@ -38,7 +41,6 @@ public class AnimateBuildingPopOut : MonoBehaviour
     public void UpdateAnimation(bool toggleState)
     {
         animate = true;
-        this.toggleState = toggleState;
         startingHeight = new Vector2(panelTransform.rect.width, panelTransform.rect.height);
 
         // Expand menu
@@ -54,6 +56,7 @@ public class AnimateBuildingPopOut : MonoBehaviour
             elapsedTime = 0;
             targetHeight = new Vector2(panelTransform.rect.width, 0);
             active = false;
+            itemToggles.AllTogglesOff();
         }
     }
 

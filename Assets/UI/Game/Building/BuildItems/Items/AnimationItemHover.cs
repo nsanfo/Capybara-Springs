@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AnimationItemHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class AnimationItemHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Item Colors")]
     public Color unselectedColor, selectedColor;
@@ -15,7 +15,6 @@ public class AnimationItemHover : MonoBehaviour, IPointerEnterHandler, IPointerE
     private bool animate = false, selected = false;
     public Image background;
 
-    // Start is called before the first frame update
     void Start()
     {
         originalRot = transform.rotation;
@@ -56,24 +55,6 @@ public class AnimationItemHover : MonoBehaviour, IPointerEnterHandler, IPointerE
         elapsedTime = 0;
         startingRot = transform.rotation;
         targetRot = originalRot;
-    }
-
-    public void OnPointerClick(PointerEventData pointerEventData)
-    {
-        /*
-        if (pointerEventData.button != PointerEventData.InputButton.Left) return;
-
-        selected = !selected;
-
-        if (selected)
-        {
-            background.color = selectedColor;
-        }
-        else
-        {
-            background.color = unselectedColor;
-        }
-        */
     }
 
     public void UpdateClick()
