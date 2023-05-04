@@ -28,7 +28,7 @@ public class WindowPosition : MonoBehaviour
         newLocation = Camera.main.WorldToScreenPoint(target.transform.position + posOffset);
         if (newLocation.y > Screen.height - ((rect.sizeDelta.y * rect.localScale.x) / 2))
         {
-            newLocation.y = Screen.height - ((rect.sizeDelta.y * rect.localScale.x) / 2);
+            newLocation.y = Screen.height - (((rect.sizeDelta.y + 70) * rect.localScale.x) / 2);
         }
         else if (newLocation.y < ((rect.sizeDelta.y * rect.localScale.x) / 2))
         {

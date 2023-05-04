@@ -16,6 +16,7 @@ TagManager:
   - Right
   - PlotPurchase
   - Fence
+  - PathNode
   layers:
   - Default
   - TransparentFX

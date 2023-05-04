@@ -163,6 +163,9 @@ public class SpawnManager : MonoBehaviour
                 var capyInfo = newCapy.GetComponent<CapybaraInfo>();
                 var capyAI = newCapy.GetComponent<CapyAI>();
                 capyInfo.capyName = CapyNames.GetRandomName();
+                capyInfo.hunger = Random.Range(50, 75);
+                capyInfo.comfort = Random.Range(50, 75);
+                capyInfo.fun = Random.Range(50, 75);
                 newCapy.transform.position = capyPlacer.transform.position;
                 newCapy.transform.Rotate(Vector3.up, 45);
 

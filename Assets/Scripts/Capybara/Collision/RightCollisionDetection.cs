@@ -15,7 +15,7 @@ public class RightCollisionDetection : MonoBehaviour
     {
         if (other.gameObject.tag == "Capybara")
         {
-            ai.RightCollisionEnter(other);
+            ai.RightCollisionEnter();
         }
 
     }
@@ -24,7 +24,7 @@ public class RightCollisionDetection : MonoBehaviour
     {
         if (other.gameObject.tag == "Capybara")
         {
-            ai.RightCollisionExit(other);
+            ai.RightCollisionExit();
         }
     }
 }
