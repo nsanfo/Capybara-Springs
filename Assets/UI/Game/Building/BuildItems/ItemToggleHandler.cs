@@ -23,41 +23,81 @@ public class ItemToggleHandler : MonoBehaviour
 
     private ToggleGroup toggleGroup;
 
+    private GameObject[] amenityPanels, decorPanels;
+
     void Start()
     {
         amenitiesBuilder = playerBuilding.GetComponent<AmenitiesBuilder>();
         decorBuilder = playerBuilding.GetComponent<DecorBuilder>();
 
         toggleGroup = GetComponent<ToggleGroup>();
+        InstantiatePanelPrefabs();
+    }
+
+    private void InstantiatePanelPrefabs()
+    {
+        List<GameObject> panelPrefabs = new();
+        for (int i = 0; i < amenityItems.Length; i++)
+        {
+            GameObject amenity = InstantiateItemUI(amenityItems[i]);
+            amenity.SetActive(false);
+            panelPrefabs.Add(amenity);
+        }
+        amenityPanels = panelPrefabs.ToArray();
+        panelPrefabs = new();
+
+        for (int i = 0; i < decorItems.Length; i++)
+        {
+            GameObject decor = InstantiateItemUI(decorItems[i]);
+            decor.SetActive(false);
+            panelPrefabs.Add(decor);
+        }
+        decorPanels = panelPrefabs.ToArray();
     }
 
     public void PopulateDecorPopOut()
     {
-        CleanUpContent();
-        for (int i = 0; i < decorItems.Length; i++)
-        {
-            InstantiateItemUI(decorItems[i]);
-        }
+        HandleAmenity(true);
+        HandleDecor(false);
     }
 
     public void PopulateAmenityPopOut()
     {
-        CleanUpContent();
-        for (int i = 0; i < amenityItems.Length; i++)
-        {
-            InstantiateItemUI(amenityItems[i]);
-        }
+        HandleDecor(true);
+        HandleAmenity(false);
     }
 
-    private void CleanUpContent()
+    private void HandleDecor(bool hide)
     {
-        foreach (Transform child in transform)
+        for (int i = 0; i < decorPanels.Length; i++)
         {
-            Destroy(child.gameObject);
+            if (hide)
+            {
+                if (decorPanels[i].activeSelf) decorPanels[i].SetActive(false);
+            }
+            else
+            {
+                if (!decorPanels[i].activeSelf) decorPanels[i].SetActive(true);
+            }
         }
     }
 
-    private void InstantiateItemUI(GameObject itemObject)
+    private void HandleAmenity(bool hide)
+    {
+        for (int i = 0; i < amenityPanels.Length; i++)
+        {
+            if (hide)
+            {
+                if (amenityPanels[i].activeSelf) amenityPanels[i].SetActive(false);
+            }
+            else
+            {
+                if (!amenityPanels[i].activeSelf) amenityPanels[i].SetActive(true);
+            }
+        }
+    }
+
+    private GameObject InstantiateItemUI(GameObject itemObject)
     {
         // Instantiate decor item
         GameObject prefab = Instantiate(itemObject);
@@ -83,6 +123,8 @@ public class ItemToggleHandler : MonoBehaviour
 
         // Destroy prefab
         Destroy(prefab);
+
+        return item;
     }
 
     public void AllTogglesOff()
