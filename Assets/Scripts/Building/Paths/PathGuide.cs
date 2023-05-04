@@ -39,7 +39,7 @@ public class PathGuide : MonoBehaviour
     void Start()
     {
         pathBuilderScript = gameObject.GetComponent<PathBuilder>();
-        PlayerBuilding buildingScript = gameObject.GetComponent<PlayerBuilding>();
+        BuildingUpgrade buildingScript = gameObject.GetComponent<BuildingUpgrade>();
 
         // Get guide settings from building script
         meshOffset = pathBuilderScript.meshOffset * 2;

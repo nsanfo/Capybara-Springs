@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -39,6 +40,7 @@ class EdgeDirectionInfo {
 public class PlotOutsideHandler : MonoBehaviour
 {
     public GameObject edgePrefab, middlePrefab, emptyEdgePrefab;
+    public Material bambooMat, rockMat;
 
     [Header("Performance")]
     public bool generateDeco = true;
@@ -185,7 +187,8 @@ public class PlotOutsideHandler : MonoBehaviour
         // Generate middle
         if (generateDeco)
         {
-            Instantiate(middlePrefab, tile.transform.position, Quaternion.Euler(0, Random.Range(0, 3) * 90, 0), tile.transform);
+            GameObject deco = Instantiate(middlePrefab, tile.transform.position, Quaternion.Euler(0, Random.Range(0, 3) * 90, 0), tile.transform);
+            CombineMesh(deco);
         }
     }
 
@@ -275,7 +278,44 @@ public class PlotOutsideHandler : MonoBehaviour
     {
         foreach (var edge in edges)
         {
-            Instantiate(edge.Item3, edge.Item1, edge.Item2, parent);
+            GameObject edgeObject = Instantiate(edge.Item3, edge.Item1, edge.Item2, parent);
+            CombineMesh(edgeObject);
         }
+    }
+
+    private void CombineMesh(GameObject objectToCombine)
+    {
+        if (objectToCombine.name.Equals("EdgePrefab(Clone)")) return;
+
+        Transform bamboo = objectToCombine.transform.Find("Bamboo");
+        CombineSubmesh(bamboo, bambooMat);
+
+        Transform rock = objectToCombine.transform.Find("Rocks");
+        CombineSubmesh(rock, rockMat);
+    }
+
+    private void CombineSubmesh(Transform meshTransform, Material material)
+    {
+        MeshFilter[] meshFilters = meshTransform.GetComponentsInChildren<MeshFilter>();
+        CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+
+        int i = 0;
+        while (i < meshFilters.Length)
+        {
+            combine[i].mesh = meshFilters[i].sharedMesh;
+            combine[i].transform = meshTransform.worldToLocalMatrix * meshFilters[i].transform.localToWorldMatrix;
+            meshFilters[i].gameObject.SetActive(false);
+
+            i++;
+        }
+        Mesh mesh = new()
+        {
+            indexFormat = UnityEngine.Rendering.IndexFormat.UInt32
+        };
+        mesh.CombineMeshes(combine);
+        meshTransform.AddComponent<MeshRenderer>();
+        meshTransform.AddComponent<MeshFilter>().sharedMesh = mesh;
+        meshTransform.GetComponent<Renderer>().sharedMaterial = material;
+        meshTransform.gameObject.SetActive(true);
     }
 }

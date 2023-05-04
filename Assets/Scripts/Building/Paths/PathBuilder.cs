@@ -63,7 +63,6 @@ public class PathBuilder : MonoBehaviour
     [Space(10)]
     [Header("Path Setting UI")]
     public CanvasRenderer pathPanel;
-    [HideInInspector]
     public Toggle pathCurvedToggle;
 
     [Space(10)]
@@ -111,7 +110,7 @@ public class PathBuilder : MonoBehaviour
 
     void Start()
     {
-        PlayerBuilding buildingScript = gameObject.GetComponent<PlayerBuilding>();
+        BuildingUpgrade buildingScript = gameObject.GetComponent<BuildingUpgrade>();
 
         // Get building modes from building script
         buildingModes = buildingScript.buildingModes;
@@ -125,7 +124,6 @@ public class PathBuilder : MonoBehaviour
 
         // Hide path panel at startup
         pathPanel.gameObject.SetActive(false);
-        pathCurvedToggle = pathPanel.transform.GetChild(0).gameObject.GetComponent<Toggle>();
 
         // Initialize node graph with entrance
         GameObject entranceObject = GameObject.Find("EntrancePath");

@@ -64,19 +64,128 @@ PrefabInstance:
       propertyPath: m_Name
       value: FunSmallLvl1 Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6f292e4924c0a9c4e9d901527c862c41, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6f292e4924c0a9c4e9d901527c862c41, type: 3}
+      propertyPath: m_TagString
+      value: Amenity
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6f292e4924c0a9c4e9d901527c862c41, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8668299118011818441}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6f292e4924c0a9c4e9d901527c862c41, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3250824965294176786}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6f292e4924c0a9c4e9d901527c862c41, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2663149380764228577}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6f292e4924c0a9c4e9d901527c862c41, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2322627800730132614}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6f292e4924c0a9c4e9d901527c862c41, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1686654276646366969}
   m_SourcePrefab: {fileID: 100100000, guid: 6f292e4924c0a9c4e9d901527c862c41, type: 3}
 --- !u!4 &1631563862167584110 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6f292e4924c0a9c4e9d901527c862c41, type: 3}
   m_PrefabInstance: {fileID: 1238142234124196485}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2157129786628810708 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6f292e4924c0a9c4e9d901527c862c41, type: 3}
+  m_PrefabInstance: {fileID: 1238142234124196485}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3250824965294176786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2157129786628810708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2508c4cbe1907d04db46d756fa0177ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amenityType: 2
+  level: 0
+  enteringForwardMulti: 0
+  hungerFill: 0
+  comfortFill: 0
+  funFill: 1
+  numSlots: 1
+  amenitySlots: []
+--- !u!114 &2663149380764228577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2157129786628810708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e75069683b55a14f9b3a7b29ab42e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  insideCenteringHeight: 0
+  insidePositioningMulti: 0
+  insidePositioningRange: 0
+  splashHeight: 0
+--- !u!54 &-2322627800730132614
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2157129786628810708}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &1686654276646366969
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2157129786628810708}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.82
+  m_Center: {x: 0, y: 0.02119504, z: 0}
 --- !u!1001 &9205715402566420002
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -140,6 +249,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 8d0fee36bdd15c54ea96169654fd5359, type: 3}
       propertyPath: m_Name
       value: FunSmallLvl1Trampoline
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8d0fee36bdd15c54ea96169654fd5359, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

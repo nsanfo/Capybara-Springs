@@ -36,6 +36,8 @@ public class AmenityInteraction : MonoBehaviour
     private GameObject splashEmitterObject;
     public GameObject eatEmitterPrefab;
     private GameObject eatEmitterObject;
+    public GameObject danceEmitterPrefab;
+    private GameObject danceEmitterObject;
     private Renderer[] capybaraRenderer = new Renderer[2];
 
     public GameObject capybaraPlacer; // Used to find an open spot in front of the amenity for the capybara to be placed upon exiting
@@ -170,6 +172,12 @@ public class AmenityInteraction : MonoBehaviour
             eatEmitterObject = Instantiate(eatEmitterPrefab);
             eatEmitterObject.transform.SetParent(transform);
         }
+
+        if (danceEmitterObject == null)
+        {
+            danceEmitterObject = Instantiate(danceEmitterPrefab);
+            danceEmitterObject.transform.SetParent(transform);
+        }
     }
 
     private void CreateSmoke()
@@ -210,6 +218,15 @@ public class AmenityInteraction : MonoBehaviour
             foodInteraction.chewingSoundObject = chewingSoundObject;
             foodInteraction.poofSound = poofSound;
             interactionInterface = foodInteraction;
+        }
+        else if (amenity.amenityType == AmenityEnum.Fun)
+        {
+            FunAmenity funAmenity = amenity.gameObject.GetComponent<FunAmenity>();
+            FunInteraction funInteraction = gameObject.AddComponent<FunInteraction>();
+            funInteraction.SetDanceEmitter(danceEmitterObject);
+            funInteraction.AmenityInterface = funAmenity;
+            funInteraction.poofSound = poofSound;
+            interactionInterface = funInteraction;
         }
 
         interactionInterface.HandleInteraction(amenity, slotLocation, smokeEmitterObject);

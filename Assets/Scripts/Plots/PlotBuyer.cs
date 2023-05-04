@@ -6,11 +6,15 @@ using UnityEngine;
 
 public class PlotBuyer : MonoBehaviour
 {
+    [Header("Mouse On UI")]
+    public MouseOnUI mouse;
+
     private Vector3 originalPos = Vector3.positiveInfinity, plotPos = Vector3.positiveInfinity;
     private Quaternion originalRot = Quaternion.identity, plotRot = Quaternion.identity;
+    private Quaternion plotViewAngle = Quaternion.Euler(new Vector3(90, -90, 0));
 
     private Vector3 targetPos = new Vector3(4, 15, 4);
-    private Quaternion targetRot = Quaternion.Euler(new Vector3(90, -90, 0));
+    private Quaternion targetRot;
 
     private float duration = 0.75f, elapsedTime;
     public bool cameraAnimation = false;
@@ -43,7 +47,7 @@ public class PlotBuyer : MonoBehaviour
             plotManager = managerObject.GetComponent<PlotManager>();
         }
 
-        PlayerBuilding buildingScript = gameObject.GetComponent<PlayerBuilding>();
+        BuildingUpgrade buildingScript = gameObject.GetComponent<BuildingUpgrade>();
 
         // Get building modes from building script
         buildingModes = buildingScript.buildingModes;
@@ -71,7 +75,7 @@ public class PlotBuyer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CameraAnimation();
+        HandleAnimation();
 
         if (!buildingModes.enablePlots) return;
 
@@ -93,6 +97,8 @@ public class PlotBuyer : MonoBehaviour
             // Check for left-click
             if (Input.GetMouseButtonDown(0))
             {
+                if (mouse.overUI) return;
+
                 if (!hitInfo.transform.gameObject.TryGetComponent<PurchasablePlotSprite>(out var purchaseScript)) return;
                 
                 PurchasePlot(purchaseScript);
@@ -248,7 +254,7 @@ public class PlotBuyer : MonoBehaviour
         return false;
     }
 
-    private void CameraAnimation()
+    private void HandleAnimation()
     {
         if (!cameraAnimation) return;
 
@@ -261,25 +267,12 @@ public class PlotBuyer : MonoBehaviour
         elapsedTime += Time.deltaTime;
         float percentageComplete = elapsedTime / duration;
 
-        if (zoom)
+        cameraObject.transform.position = Vector3.Lerp(originalPos, targetPos, Mathf.SmoothStep(0, 1, percentageComplete));
+        cameraObject.transform.rotation = Quaternion.Lerp(originalRot, targetRot, Mathf.SmoothStep(0, 1, percentageComplete));
+        if (percentageComplete >= 1)
         {
-            cameraObject.transform.position = Vector3.Lerp(originalPos, targetPos, Mathf.SmoothStep(0, 1, percentageComplete));
-            cameraObject.transform.rotation = Quaternion.Lerp(originalRot, targetRot, Mathf.SmoothStep(0, 1, percentageComplete));
-            if (percentageComplete > 1)
-            {
-                cameraAnimation = false;
-                elapsedTime = 0;
-            }
-        }
-        else
-        {
-            cameraObject.transform.position = Vector3.Lerp(plotPos, originalPos, Mathf.SmoothStep(0, 1, percentageComplete));
-            cameraObject.transform.rotation = Quaternion.Lerp(plotRot, originalRot, Mathf.SmoothStep(0, 1, percentageComplete));
-            if (percentageComplete > 1)
-            {
-                cameraAnimation = false;
-                elapsedTime = 0;
-            }
+            cameraAnimation = false;
+            elapsedTime = 0;
         }
     }
 
@@ -295,18 +288,17 @@ public class PlotBuyer : MonoBehaviour
             cameraControl.plotCamera = true;
         }
 
-        // Update target position to the camera's location
         targetPos = new Vector3(cameraObject.transform.position.x, 15, cameraObject.transform.position.z);
-
+        targetRot = plotViewAngle;
         originalPos = cameraObject.transform.position;
         originalRot = cameraObject.transform.rotation;
-
+        elapsedTime = 0;
         cameraAnimation = true;
-        zoom = true;
     }
 
     public void CameraZoomBack()
     {
+        
         if (cameraObject.TryGetComponent<CameraControl>(out var cameraControl))
         {
             if (!cameraControl.plotCamera)
@@ -317,13 +309,11 @@ public class PlotBuyer : MonoBehaviour
             cameraControl.plotCamera = false;
         }
 
-        // Use original position y-axis only
-        originalPos = new Vector3(cameraObject.transform.position.x, originalPos.y, cameraObject.transform.position.z);
-
-        plotPos = cameraObject.transform.position;
-        plotRot = cameraObject.transform.rotation;
-
+        targetPos = originalPos;
+        targetRot = originalRot;
+        originalPos = cameraObject.transform.position;
+        originalRot = cameraObject.transform.rotation;
+        elapsedTime = 0;
         cameraAnimation = true;
-        zoom = false;
     }
 }

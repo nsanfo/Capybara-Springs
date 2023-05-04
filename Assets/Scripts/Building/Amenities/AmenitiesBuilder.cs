@@ -7,18 +7,16 @@ using UnityEngine.InputSystem.LowLevel;
 
 public class AmenitiesBuilder : MonoBehaviour
 {
-    [Header("Amenity Blueprints")]
-    public GameObject smallOnsenBlueprint;
-    public GameObject mediumOnsenBlueprint;
-    public GameObject largeOnsenBlueprint;
-    public GameObject smallFoodBlueprint;
-    public GameObject mediumFoodBlueprint;
-    public GameObject largeFoodBlueprint;
-
-    private int numSmall, numMedium, numLarge, currentCap;
+    private int currentCap;
 
     [Header("Blueprint Material")]
     public Material blueprintMat;
+
+    [Header("Item Select Toggles")]
+    public ItemToggleHandler itemToggles;
+
+    [Header("Mouse On UI")]
+    public MouseOnUI mouse;
 
     Color redColor = new Color(1f, 0f, 0f, 0.27f);
     Color blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
@@ -33,7 +31,7 @@ public class AmenitiesBuilder : MonoBehaviour
     AudioSource buildSFX;
     AudioSource click2;
     AudioSource errorSound;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,17 +44,18 @@ public class AmenitiesBuilder : MonoBehaviour
         errorSound = UISounds.transform.GetChild(3).GetComponent<AudioSource>();
     }
 
-    public void SmallOnsenSelect()
+    public void BuildItem(GameObject blueprintPrefab)
     {
-        if (blueprint != null && blueprint.name.StartsWith("SmallOnsen"))
+        if (blueprint != null && blueprint.name.Equals(blueprintPrefab.name))
         {
             Destroy(blueprint);
         }
         else if (blueprint != null)
         {
             Destroy(blueprint);
-            blueprint = Instantiate(smallOnsenBlueprint);
-            currentCap = 1;
+            blueprint = Instantiate(blueprintPrefab);
+            blueprint.tag = "Blueprint";
+            currentCap = blueprint.GetComponent<AmenityBlueprint>().concrete.GetComponent<Amenity>().numSlots;
             if (red)
                 blueprintMat.SetColor("_BaseColor", redColor);
             else
@@ -64,148 +63,9 @@ public class AmenitiesBuilder : MonoBehaviour
         }
         else if (blueprint == null)
         {
-            blueprint = Instantiate(smallOnsenBlueprint);
-            currentCap = 1;
-            if (red)
-                blueprintMat.SetColor("_BaseColor", redColor);
-            else
-                blueprintMat.SetColor("_BaseColor", blueColor);
-        }
-        click2.Play();
-    }
-
-    public void MediumOnsenSelect()
-    {
-        if (blueprint != null && blueprint.name.StartsWith("MediumOnsen"))
-        {
-            Destroy(blueprint);
-        }
-        else if (blueprint != null)
-        {
-            Destroy(blueprint);
-            blueprint = Instantiate(mediumOnsenBlueprint);
-            currentCap = 4;
-            if (red)
-                blueprintMat.SetColor("_BaseColor", redColor);
-            else
-                blueprintMat.SetColor("_BaseColor", blueColor);
-        }
-        else if (blueprint == null)
-        {
-            blueprint = Instantiate(mediumOnsenBlueprint);
-            currentCap = 4;
-            if (red)
-                blueprintMat.SetColor("_BaseColor", redColor);
-            else
-                blueprintMat.SetColor("_BaseColor", blueColor);
-        }
-        click2.Play();
-    }
-
-    public void LargeOnsenSelect()
-    {
-        if (blueprint != null && blueprint.name.StartsWith("LargeOnsen"))
-        {
-            Destroy(blueprint);
-        }
-        else if (blueprint != null)
-        {
-            Destroy(blueprint);
-            blueprint = Instantiate(largeOnsenBlueprint);
-            currentCap = 10;
-            if (red)
-                blueprintMat.SetColor("_BaseColor", redColor);
-            else
-                blueprintMat.SetColor("_BaseColor", blueColor);
-        }
-        else if (blueprint == null)
-        {
-            blueprint = Instantiate(largeOnsenBlueprint);
-            currentCap = 10;
-            if (red)
-                blueprintMat.SetColor("_BaseColor", redColor);
-            else
-                blueprintMat.SetColor("_BaseColor", blueColor);
-        }
-        click2.Play();
-    }
-
-    public void SmallFoodSelect()
-    {
-        if (blueprint != null && blueprint.name.StartsWith("SmallFood"))
-        {
-            Destroy(blueprint);
-        }
-        else if (blueprint != null)
-        {
-            Destroy(blueprint);
-            blueprint = Instantiate(smallFoodBlueprint);
-            currentCap = 1;
-            if (red)
-                blueprintMat.SetColor("_BaseColor", redColor);
-            else
-                blueprintMat.SetColor("_BaseColor", blueColor);
-        }
-        else if (blueprint == null)
-        {
-            blueprint = Instantiate(smallFoodBlueprint);
-            currentCap = 1;
-            if (red)
-                blueprintMat.SetColor("_BaseColor", redColor);
-            else
-                blueprintMat.SetColor("_BaseColor", blueColor);
-        }
-        click2.Play();
-    }
-
-    public void MediumFoodSelect()
-    {
-        if (blueprint != null && blueprint.name.StartsWith("MediumFood"))
-        {
-            Destroy(blueprint);
-        }
-        else if (blueprint != null)
-        {
-            Destroy(blueprint);
-            blueprint = Instantiate(mediumFoodBlueprint);
-            currentCap = 4;
-            if (red)
-                blueprintMat.SetColor("_BaseColor", redColor);
-            else
-                blueprintMat.SetColor("_BaseColor", blueColor);
-        }
-        else if (blueprint == null)
-        {
-            blueprint = Instantiate(mediumFoodBlueprint);
-            currentCap = 4;
-            if (red)
-                blueprintMat.SetColor("_BaseColor", redColor);
-            else
-                blueprintMat.SetColor("_BaseColor", blueColor);
-        }
-        click2.Play();
-    }
-
-    public void LargeFoodSelect()
-    {
-        if (blueprint != null && blueprint.name.StartsWith("LargeFood"))
-        {
-            Destroy(blueprint);
-        }
-        else if (blueprint != null)
-        {
-            Destroy(blueprint);
-            blueprint = Instantiate(largeFoodBlueprint);
-            currentCap = 10;
-            if (red)
-                blueprintMat.SetColor("_BaseColor", redColor);
-            else
-                blueprintMat.SetColor("_BaseColor", blueColor);
-        }
-        else if (blueprint == null)
-        {
-            blueprint = Instantiate(largeFoodBlueprint);
-            currentCap = 10;
+            blueprint = Instantiate(blueprintPrefab);
+            blueprint.tag = "Blueprint";
+            currentCap = blueprint.GetComponent<AmenityBlueprint>().concrete.GetComponent<Amenity>().numSlots;
             if (red)
                 blueprintMat.SetColor("_BaseColor", redColor);
             else
@@ -273,6 +133,8 @@ public class AmenitiesBuilder : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject() == false)
             {
+                if (mouse.overUI) return;
+
                 var angle = blueprint.transform.eulerAngles.y;
                 var newAmenity = Instantiate(blueprintScript.GetConcrete());
                 newAmenity.transform.position = new Vector3(blueprint.transform.position.x, blueprint.transform.position.y, blueprint.transform.position.z);
@@ -284,6 +146,7 @@ public class AmenitiesBuilder : MonoBehaviour
                 Destroy(blueprint);
                 balanceScript.AdjustBalance(cost * -1);
                 buildSFX.Play();
+                itemToggles.AllTogglesOff();
 
                 gameplayStateScript.AdjustCapacity(currentCap);
                 currentCap = 0;
@@ -296,6 +159,7 @@ public class AmenitiesBuilder : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             Destroy(blueprint);
+            itemToggles.AllTogglesOff();
         }
     }
 
@@ -321,6 +185,7 @@ public class AmenitiesBuilder : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             Destroy(blueprint);
+            itemToggles.AllTogglesOff();
         }
     }
 }

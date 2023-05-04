@@ -13,9 +13,17 @@ public class DecorBuilder : MonoBehaviour
     public GameObject GreyLampBlueprint;
     public GameObject MossyLampBlueprint;
 
-
     [Header("Blueprint Material")]
     public Material blueprintMat;
+
+    [Header("Item Select Toggles")]
+    public ItemToggleHandler itemToggles;
+
+    [Header("Mouse On UI")]
+    public MouseOnUI mouse;
+
+    Color redColor = new Color(1f, 0f, 0f, 0.27f);
+    Color blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
 
     GameObject stats;
     GameObject blueprint;
@@ -34,6 +42,32 @@ public class DecorBuilder : MonoBehaviour
         click2 = UISounds.transform.GetChild(1).GetComponent<AudioSource>();
         buildSFX = UISounds.transform.GetChild(2).GetComponent<AudioSource>();
         errorSound = UISounds.transform.GetChild(3).GetComponent<AudioSource>();
+    }
+
+    public void BuildItem(GameObject blueprintPrefab)
+    {
+        if (blueprint != null && blueprint.name.Equals(blueprintPrefab.name))
+        {
+            Destroy(blueprint);
+        }
+        else if (blueprint != null)
+        {
+            Destroy(blueprint);
+            blueprint = Instantiate(blueprintPrefab);
+            if (red)
+                blueprintMat.SetColor("_BaseColor", redColor);
+            else
+                blueprintMat.SetColor("_BaseColor", blueColor);
+        }
+        else if (blueprint == null)
+        {
+            blueprint = Instantiate(blueprintPrefab);
+            if (red)
+                blueprintMat.SetColor("_BaseColor", redColor);
+            else
+                blueprintMat.SetColor("_BaseColor", blueColor);
+        }
+        click2.Play();
     }
 
     public void ObjectSelect(GameObject go, string s)
@@ -152,6 +186,8 @@ public class DecorBuilder : MonoBehaviour
                     }
                     if (Input.GetMouseButtonDown(0))
                     {
+                        if (mouse.overUI) return;
+
                         buildSFX.Play();
                         var angle = blueprint.transform.eulerAngles.y;
                         var newDecor = Instantiate(blueprintScript.GetConcrete());
@@ -159,6 +195,7 @@ public class DecorBuilder : MonoBehaviour
                         newDecor.transform.eulerAngles = new Vector3(newDecor.transform.eulerAngles.x, angle, newDecor.transform.eulerAngles.z);
                         Destroy(blueprint);
                         balanceScript.AdjustBalance(cost * -1);
+                        itemToggles.AllTogglesOff();
                     }
                 }
 
@@ -168,6 +205,7 @@ public class DecorBuilder : MonoBehaviour
                 if (Input.GetMouseButtonDown(1))
                 {
                     Destroy(blueprint);
+                    itemToggles.AllTogglesOff();
                 }
             }
         }
