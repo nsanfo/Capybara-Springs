@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class CapyAI : MonoBehaviour
 {
-    enum State { travelling, usingAmenity, walkingCollision, turnCollision, walkTurning, idleTurning, waiting, ready, leaving }
-    private State state = State.ready;
+    public enum State { travelling, usingAmenity, walkingCollision, turnCollision, walkTurning, idleTurning, waiting, ready, leaving }
+    public State state = State.ready;
 
     enum StrafeDirection { strafeLeft, strafeRight }
     private StrafeDirection strafeDirection;
@@ -26,6 +26,7 @@ public class CapyAI : MonoBehaviour
     private int initialRightCollisions;
     private int leftCollisions = 0;
     private int initialLeftCollisions;
+    private bool nodeCollision = false;
 
     private BoxCollider bodyCollider;
     private Vector3 bodyColliderSize;
@@ -286,6 +287,8 @@ public class CapyAI : MonoBehaviour
                     {
                         initialBodyCollisions = bodyCollisions;
                         state = State.turnCollision;
+                        capyAnimator.SetBool("Turning", false);
+                        capyAnimator.SetBool("Travelling", false);
                         if (strafeDirection == StrafeDirection.strafeRight)
                             capyAnimator.SetBool("StrafeRight", true);
                         else
@@ -370,7 +373,6 @@ public class CapyAI : MonoBehaviour
                 }
                 break;
             case State.turnCollision:
-                PathPosition = Intersection.CalculatePathPosition(new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z), gameObject.transform.right, new Vector3(currentPath.spacedPoints[0].x, 0, currentPath.spacedPoints[0].z), currentPath.spacedPoints[1] - currentPath.spacedPoints[0]);
                 if (bodyCollisions == 0)
                 {
                     startingDirection = gameObject.transform.eulerAngles.y;
@@ -380,9 +382,10 @@ public class CapyAI : MonoBehaviour
                         capyAnimator.SetBool("StrafeRight", false);
                     else
                         capyAnimator.SetBool("StrafeLeft", false);
+                    capyAnimator.SetBool("Travelling", true);
                     capyAnimator.SetBool("Turning", true);
                 }
-                else if ((bodyCollisions > initialBodyCollisions || PathPosition.magnitude >= (pathWidth / 2)) && (capyAnimator.GetBool("StrafeRight") || capyAnimator.GetBool("StrafeLeft")))
+                else if ((bodyCollisions > initialBodyCollisions || !nodeCollision) && (capyAnimator.GetBool("StrafeRight") || capyAnimator.GetBool("StrafeLeft")))
                 {
                     if (strafeDirection == StrafeDirection.strafeRight)
                         capyAnimator.SetBool("StrafeRight", false);
@@ -392,13 +395,14 @@ public class CapyAI : MonoBehaviour
                 }
                 else if ((bodyCollisions > initialBodyCollisions || PathPosition.magnitude >= (pathWidth / 2)) && !(capyAnimator.GetBool("StrafeRight") || capyAnimator.GetBool("StrafeLeft")))
                 {
-                    if (stuckTime >= 10)
+                    if (stuckTime >= 5)
                     {
                         noclip = true;
                         StartCoroutine(NoclipDuration(5));
                         startingDirection = gameObject.transform.eulerAngles.y;
                         CalculateTurn(startingDirection, endDirection);
                         state = State.walkTurning;
+                        capyAnimator.SetBool("Travelling", true);
                         capyAnimator.SetBool("Turning", true);
                     }
                     stuckTime += Time.deltaTime;
@@ -487,7 +491,7 @@ public class CapyAI : MonoBehaviour
         }
     }
 
-    public void BodyCollisionExit(Collider other)
+    public void BodyCollisionExit()
     {
         bodyCollisions--;
     }
@@ -506,24 +510,34 @@ public class CapyAI : MonoBehaviour
             opposingCollisions--;
     }
 
-    public void RightCollisionEnter(Collider other)
+    public void RightCollisionEnter()
     {
         rightCollisions++;
     }
 
-    public void RightCollisionExit(Collider other)
+    public void RightCollisionExit()
     {
         rightCollisions--;
     }
 
-    public void LeftCollisionEnter(Collider other)
+    public void LeftCollisionEnter()
     {
         leftCollisions++;
     }
 
-    public void LeftCollisionExit(Collider other)
+    public void LeftCollisionExit()
     {
         leftCollisions--;
+    }
+
+    public void nodeCollisionEnter()
+    {
+        nodeCollision = true;
+    }
+
+    public void nodeCollisionExit()
+    {
+        nodeCollision = false;
     }
 
     private void Leave()
