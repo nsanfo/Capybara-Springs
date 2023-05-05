@@ -26,7 +26,7 @@ public class CapyAI : MonoBehaviour
     private int initialRightCollisions;
     private int leftCollisions = 0;
     private int initialLeftCollisions;
-    private bool nodeCollision = false;
+    public bool nodeCollision = false;
 
     private BoxCollider bodyCollider;
     private Vector3 bodyColliderSize;
@@ -393,7 +393,7 @@ public class CapyAI : MonoBehaviour
                         capyAnimator.SetBool("StrafeLeft", false);
                     stuckTime = 0;
                 }
-                else if ((bodyCollisions > initialBodyCollisions || PathPosition.magnitude >= (pathWidth / 2)) && !(capyAnimator.GetBool("StrafeRight") || capyAnimator.GetBool("StrafeLeft")))
+                else if ((bodyCollisions > initialBodyCollisions || !nodeCollision) && !(capyAnimator.GetBool("StrafeRight") || capyAnimator.GetBool("StrafeLeft")))
                 {
                     if (stuckTime >= 5)
                     {
