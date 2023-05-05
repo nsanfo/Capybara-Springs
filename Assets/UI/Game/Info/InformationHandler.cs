@@ -12,6 +12,9 @@ public class InformationHandler : MonoBehaviour
     [Header("Capybara Amount Text")]
     [SerializeField] private TextMeshProUGUI capybaraAmountText;
 
+    [Header("Amenity Capacity Text")]
+    [SerializeField] private TextMeshProUGUI amenityCapacityText;
+
     [Header("Capybara Happiness Image")]
     [SerializeField] private Image capybaraHappinessImage;
     [SerializeField] private Sprite capyRelaxed, capyHappy, capyNeutral, capySad;
@@ -24,6 +27,11 @@ public class InformationHandler : MonoBehaviour
     public void UpdateUINumCapybaras(int amount)
     {
         capybaraAmountText.text = amount.ToString();
+    }
+
+    public void UpdateUIAmenityCapacity(int amount)
+    {
+        amenityCapacityText.text = amount.ToString();
     }
 
     public void UpdateUIAverageHappiness(float happiness)
