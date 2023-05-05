@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amenityType: 2
-  level: 0
+  level: 1
   enteringForwardMulti: 0
   hungerFill: 0
   comfortFill: 0
@@ -134,10 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e75069683b55a14f9b3a7b29ab42e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  insideCenteringHeight: 0
   insidePositioningMulti: 0
-  insidePositioningRange: 0
-  splashHeight: 0
+  musicHeight: 0
 --- !u!54 &-2322627800730132614
 Rigidbody:
   m_ObjectHideFlags: 0

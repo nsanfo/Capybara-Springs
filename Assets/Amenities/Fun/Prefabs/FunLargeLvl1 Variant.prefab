@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amenityType: 2
-  level: 0
+  level: 1
   enteringForwardMulti: 0
   hungerFill: 0
   comfortFill: 0

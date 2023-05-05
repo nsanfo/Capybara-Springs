@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amenityType: 2
-  level: 0
+  level: 1
   enteringForwardMulti: 0
   hungerFill: 0
   comfortFill: 0
@@ -180,8 +180,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.61, y: 0.4089623, z: 2.83}
-  m_Center: {x: -0.000000834465, y: 0.16153583, z: 0.09020454}
+  m_Size: {x: 2.61, y: 0.4089623, z: 2.61}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!114 &4478300467239209904
 MonoBehaviour:
   m_ObjectHideFlags: 0
