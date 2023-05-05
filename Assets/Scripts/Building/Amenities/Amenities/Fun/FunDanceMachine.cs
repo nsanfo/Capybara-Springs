@@ -13,28 +13,37 @@ public class FunDanceMachine : MonoBehaviour
 
     void Start()
     {
+        amenity = GetComponent<Amenity>();
+
+        Quaternion rot = Quaternion.AngleAxis(amenity.transform.localRotation.eulerAngles.y + 180, Vector3.up);
+        Vector3 forwardMulti = Vector3.forward * 0.55f;
+        Vector3 pos = amenity.transform.position + rot * forwardMulti;
+        Vector3 eulers = amenity.transform.localRotation.eulerAngles;
+        Quaternion emitterRot = Quaternion.Euler(eulers.x - 69, eulers.y, eulers.z);
+
         if (musicEmitterObject1 == null)
         {
             musicEmitterObject1 = Instantiate(musicEmitterPrefab1);
             musicEmitterObject1.transform.SetParent(transform);
-            musicEmitterObject1.transform.position = transform.position + (Vector3.forward * 0.65f);
+            musicEmitterObject1.transform.position = pos;
+            musicEmitterObject1.transform.rotation = emitterRot;
         }
 
         if (musicEmitterObject2 == null)
         {
             musicEmitterObject2 = Instantiate(musicEmitterPrefab2);
             musicEmitterObject2.transform.SetParent(transform);
-            musicEmitterObject2.transform.position = transform.position + (Vector3.forward * 0.65f);
+            musicEmitterObject2.transform.position = pos;
+            musicEmitterObject2.transform.rotation = emitterRot;
         }
 
         if (musicEmitterObject3 == null)
         {
             musicEmitterObject3 = Instantiate(musicEmitterPrefab3);
             musicEmitterObject3.transform.SetParent(transform);
-            musicEmitterObject3.transform.position = transform.position + (Vector3.forward * 0.65f);
+            musicEmitterObject3.transform.position = pos;
+            musicEmitterObject3.transform.rotation = emitterRot;
         }
-
-        amenity = GetComponent<Amenity>();
     }
 
     void Update()

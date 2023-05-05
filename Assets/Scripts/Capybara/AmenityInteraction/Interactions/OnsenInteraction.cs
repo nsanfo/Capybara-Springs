@@ -27,7 +27,10 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
         this.amenity = amenity;
 
         // Get position related to slot
-        Quaternion rot = Quaternion.AngleAxis((float) slotLocation / amenity.numSlots * 360, Vector3.up);
+        // Quaternion rot = Quaternion.AngleAxis((float) slotLocation / amenity.numSlots * 360, Vector3.up);
+        //Debug.Log(amenity.gameObject.transform.forward);
+        
+        Quaternion rot = Quaternion.AngleAxis((float)slotLocation / amenity.numSlots * 360 + amenity.transform.localRotation.eulerAngles.y + 45, Vector3.up);
         float randomForward = Random.Range(onsenInterface.insidePositioningMulti - onsenInterface.insidePositioningRange, onsenInterface.insidePositioningMulti);
         Vector3 forwardMulti = Vector3.forward * randomForward;
         amenityPosition = amenity.transform.position + rot * forwardMulti;
