@@ -344,7 +344,7 @@ public class AmenityInteraction : MonoBehaviour
                     else
                     {
                         placerStates = States.left;
-                        capyPlacer.transform.position = new Vector3(0, 0, 0);
+                        capyPlacer.transform.position = amenity.PathCollider.transform.position;
                         capyPlacer.transform.Translate(Vector3.left * 0.13f);
                         pathDistance = -0.10f;
                     }
@@ -359,7 +359,7 @@ public class AmenityInteraction : MonoBehaviour
                     else
                     {
                         placerStates = States.center;
-                        capyPlacer.transform.position = new Vector3(0, 0, 0);
+                        capyPlacer.transform.position = amenity.PathCollider.transform.position;
                         pathDistance = 0;
                     }
                 }
