@@ -9,13 +9,6 @@ public class CapybaraHandler : MonoBehaviour
 
     private List<GameObject> capybaras = new List<GameObject>();
 
-    private float elapsedTime;
-
-    void Update()
-    {
-        UpdateHappinessInfo();
-    }
-
     public void AddCapybara(GameObject capybara)
     {
         capybaras.Add(capybara);
@@ -48,14 +41,5 @@ public class CapybaraHandler : MonoBehaviour
         }
 
         return happiness / capybaras.Count;
-    }
-
-    private void UpdateHappinessInfo()
-    {
-        elapsedTime += Time.deltaTime;
-        if (elapsedTime < 10) return;
-
-        elapsedTime = 0;
-        informationHandler.UpdateUIAverageHappiness(AverageHappiness());
     }
 }
