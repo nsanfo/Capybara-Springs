@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Stone
+  m_Name: StoneDark
   m_Shader: {fileID: 4800000, guid: be891319084e9d147b09d89e80ce60e0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -481,15 +481,15 @@ Material:
     - _utsVersionY: 9
     - _utsVersionZ: 2
     m_Colors:
-    - _1st_ShadeColor: {r: 0.241755, g: 0.30466884, b: 0.355, a: 1}
+    - _1st_ShadeColor: {r: 0, g: 0.08993103, b: 0.16299999, a: 1}
     - _2nd_ShadeColor: {r: 0.16520755, g: 0.18398112, b: 0.199, a: 1}
     - _AngelRingMaskColor: {r: 0, g: 1, b: 0, a: 1}
     - _AngelRing_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 0.48046458, g: 0.53497905, b: 0.5754717, a: 1}
+    - _BaseColor: {r: 0.24313727, g: 0.30588236, b: 0.35686275, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColorMaskColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.48046458, g: 0.53497905, b: 0.5754717, a: 1}
+    - _Color: {r: 0.24313727, g: 0.30588236, b: 0.35686275, a: 1}
     - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
