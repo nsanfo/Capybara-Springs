@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameplayState : MonoBehaviour
 {
+    [Header("Information Handler")]
+    public InformationHandler informationHandler;
+
     private int currentCapacity = 0;
 
     public int GetCapacity()
@@ -14,5 +17,6 @@ public class GameplayState : MonoBehaviour
     public void AdjustCapacity(int capacity)
     {
         currentCapacity += capacity;
+        informationHandler.UpdateUIAmenityCapacity(currentCapacity);
     }
 }

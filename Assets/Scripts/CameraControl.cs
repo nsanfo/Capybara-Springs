@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
+    [Header("Mouse On UI")]
+    public MouseOnUI mouse;
+
     public GameObject tmp;
     Ray ray;
     Plane ground;
@@ -78,6 +81,8 @@ public class CameraControl : MonoBehaviour
 
     void Zoom()
     {
+        if (mouse.overUI) return;
+
         scrollInput = Input.GetAxis("Mouse ScrollWheel");
         tmp.transform.rotation = transform.rotation;
         tmp.transform.Translate(Vector3.forward * Time.deltaTime * scrollInput * zoomSpeed);

@@ -54,7 +54,8 @@ public class FunInteraction : MonoBehaviour, InteractionInterface
 
     private void SetSlotPlosition(int slotLocation)
     {
-        Quaternion rotation = amenity.transform.rotation;
+        Vector3 rotationEuler = amenity.gameObject.transform.localRotation.eulerAngles;
+        Quaternion rotation = Quaternion.Euler(rotationEuler);
 
         // Get position related to slot
         if (amenity.numSlots == 1)
@@ -63,11 +64,11 @@ public class FunInteraction : MonoBehaviour, InteractionInterface
         }
         else if (amenity.numSlots == 4)
         {
-            Quaternion rot = Quaternion.AngleAxis(((float) slotLocation / 4 * 360) + 45, Vector3.up);
+            Quaternion rot = Quaternion.AngleAxis(((float) slotLocation / 4 * 360) + amenity.transform.localRotation.eulerAngles.y + 45, Vector3.up);
             Vector3 forwardMulti = Vector3.forward * 0.23f;
             amenityPosition = amenity.transform.position + rot * forwardMulti;
             amenityPosition = new Vector3(amenityPosition.x, amenityPosition.y + 0.18f, amenityPosition.z);
-            rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
+            rotation = Quaternion.Euler(rotationEuler.x, rotationEuler.y + 180, rotationEuler.z);
         }
         else if (amenity.numSlots == 10)
         {
@@ -75,7 +76,8 @@ public class FunInteraction : MonoBehaviour, InteractionInterface
             Vector3 forwardMulti = Vector3.forward * 0.7f;
             amenityPosition = amenity.transform.position + rot * forwardMulti;
             amenityPosition = new Vector3(amenityPosition.x, amenityPosition.y + 0.045f, amenityPosition.z);
-            rotation = Quaternion.Euler(rotation.x, rotation.y + 200, rotation.z);
+            //rotation = Quaternion.Euler(rotation.x, rotation.y + 200, rotation.z);
+            rotation = Quaternion.Euler(rotationEuler);
         }
 
         // Set position
