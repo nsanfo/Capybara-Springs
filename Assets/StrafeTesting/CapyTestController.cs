@@ -20,6 +20,11 @@ public class CapyTestController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+            capyAnimator.SetBool("isDancing", true);
+        else if (capyAnimator.GetBool("isDancing"))
+            capyAnimator.SetBool("isDancing", false);
+
         if (Input.GetKey(KeyCode.W))
         {
             if (!Input.GetKey(KeyCode.LeftShift)) //Walking
