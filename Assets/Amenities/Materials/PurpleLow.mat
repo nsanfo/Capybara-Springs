@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BlueLow
+  m_Name: PurpleLow
   m_Shader: {fileID: 4800000, guid: be891319084e9d147b09d89e80ce60e0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -481,15 +481,15 @@ Material:
     - _utsVersionY: 9
     - _utsVersionZ: 2
     m_Colors:
-    - _1st_ShadeColor: {r: 0.21407063, g: 0, b: 0.4716981, a: 1}
+    - _1st_ShadeColor: {r: 0.43452504, g: 0.066015, b: 0.48900002, a: 1}
     - _2nd_ShadeColor: {r: 1, g: 1, b: 1, a: 1}
     - _AngelRingMaskColor: {r: 0, g: 1, b: 0, a: 1}
     - _AngelRing_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 0.25818336, g: 0.2249911, b: 0.6037736, a: 1}
+    - _BaseColor: {r: 0.6039216, g: 0.2235294, b: 0.557405, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColorMaskColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.25818336, g: 0.2249911, b: 0.6037736, a: 1}
+    - _Color: {r: 0.6039216, g: 0.2235294, b: 0.557405, a: 1}
     - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
