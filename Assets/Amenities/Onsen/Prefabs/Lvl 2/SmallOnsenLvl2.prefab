@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5115275664502080760}
   - component: {fileID: 4727427188851604529}
   - component: {fileID: 1743985335610357247}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Band.006
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 2038127581294537288}
   - component: {fileID: 7109567608944187901}
   - component: {fileID: 2064940422182126536}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Band.004
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 2229037453386249365}
   - component: {fileID: 3178530695429022805}
   - component: {fileID: 4799071709656589604}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Band.007
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -333,7 +333,7 @@ GameObject:
   - component: {fileID: 4222209888449840469}
   - component: {fileID: 3098285637256665656}
   - component: {fileID: 2283108503999081260}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gem
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -458,7 +458,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1387606845286023180}
   - component: {fileID: 3330617966861196340}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -588,7 +588,7 @@ GameObject:
   - component: {fileID: 4049236401123790878}
   - component: {fileID: 3828716515767268596}
   - component: {fileID: 6892889840489257618}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Onsen S.001
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -768,6 +768,7 @@ MonoBehaviour:
   funFill: 0
   numSlots: 1
   amenitySlots: []
+  filledSlots: 0
 --- !u!114 &2322864322913843927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -837,7 +838,7 @@ GameObject:
   - component: {fileID: 8094622940699151940}
   - component: {fileID: 6603998391817781135}
   - component: {fileID: 2198723757739993569}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Water
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -942,7 +943,7 @@ GameObject:
   - component: {fileID: 6033361371424829701}
   - component: {fileID: 9093462618615073529}
   - component: {fileID: 6013990242575339867}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Star.001
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -1097,6 +1098,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ToonConfettiDirectionalPastel
       objectReference: {fileID: 0}
+    - target: {fileID: 2742492824044505757, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3887977740042797703, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -1104,6 +1109,18 @@ PrefabInstance:
     - target: {fileID: 4181871130265796722, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4402713992100065107, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953117531023919729, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8420125688860540082, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -125,7 +125,7 @@ public class UIManager : MonoBehaviour
         }
         if (amenityScript.funFill > 0 || upgradeAmenityScript.funFill > 0)
         {
-            amenityValues.Add(AmenityValues.hunger);
+            amenityValues.Add(AmenityValues.fun);
         }
 
         if (amenityValues.Count == 1)

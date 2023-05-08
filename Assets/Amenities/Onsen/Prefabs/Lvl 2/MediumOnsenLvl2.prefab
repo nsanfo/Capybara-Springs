@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8696235345989652}
   - component: {fileID: 6800863890994748717}
   - component: {fileID: 2205325938364332153}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MTop Band.001
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3380739136869033110}
   - component: {fileID: 515413766008970960}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 5116961769726135573}
   - component: {fileID: 4468332822961031230}
   - component: {fileID: 1129312365654118320}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Planks
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -425,6 +425,7 @@ MonoBehaviour:
   funFill: 0
   numSlots: 4
   amenitySlots: []
+  filledSlots: 0
 --- !u!114 &-6801600283142495494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,7 +495,7 @@ GameObject:
   - component: {fileID: 1073332797915370086}
   - component: {fileID: 2243198717791607818}
   - component: {fileID: 6794432951102825043}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MBotBand.001
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -600,7 +601,7 @@ GameObject:
   - component: {fileID: 1396456046268419426}
   - component: {fileID: 670008513908681606}
   - component: {fileID: 8915789821510492180}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MFloor.001
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -766,6 +767,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ToonConfettiDirectionalPastel
       objectReference: {fileID: 0}
+    - target: {fileID: 2742492824044505757, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3887977740042797703, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -773,6 +778,18 @@ PrefabInstance:
     - target: {fileID: 4181871130265796722, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4402713992100065107, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953117531023919729, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8420125688860540082, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -846,7 +863,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 05e795ace55e9394c8c9da30e4872bd8, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 05e795ace55e9394c8c9da30e4872bd8, type: 3}
       propertyPath: m_TagString

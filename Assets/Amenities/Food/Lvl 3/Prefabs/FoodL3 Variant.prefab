@@ -384,7 +384,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
       propertyPath: m_TagString
@@ -432,7 +432,97 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3481465291524209082}
+    - targetCorrespondingSourceObject: {fileID: 2497053522756568025, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5722486274785470476}
+    - targetCorrespondingSourceObject: {fileID: -3998595984231121370, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4092275442023185685}
+    - targetCorrespondingSourceObject: {fileID: -3333021970230017534, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7094300303312322962}
   m_SourcePrefab: {fileID: 100100000, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
+--- !u!1 &2942049754698094100 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3333021970230017534, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
+  m_PrefabInstance: {fileID: 8749078486293943318}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &7094300303312322962
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2942049754698094100}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4175017989373528303, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
+--- !u!1 &3596364700633901616 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3998595984231121370, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
+  m_PrefabInstance: {fileID: 8749078486293943318}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &4092275442023185685
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3596364700633901616}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -175170241788444889, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
+--- !u!1 &6615128650936948687 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2497053522756568025, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
+  m_PrefabInstance: {fileID: 8749078486293943318}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &5722486274785470476
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615128650936948687}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5297671267641929037, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
 --- !u!1 &8479030525021727047 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bb6da5a56abd4e04cb7cd42ab427527d, type: 3}
@@ -458,6 +548,7 @@ MonoBehaviour:
   funFill: 0
   numSlots: 10
   amenitySlots: []
+  filledSlots: 0
 --- !u!135 &8930569850917861549
 SphereCollider:
   m_ObjectHideFlags: 0

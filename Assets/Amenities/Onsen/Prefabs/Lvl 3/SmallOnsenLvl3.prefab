@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6475503201184868271}
   - component: {fileID: 2154476451111136595}
   - component: {fileID: 4375906115847896466}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SmallShimenawa
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 7824837407935055995}
   - component: {fileID: 521269562009596650}
   - component: {fileID: 3000278692746534274}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Small3Floor
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 3427519940957542709}
   - component: {fileID: 1091016928205264584}
   - component: {fileID: 4173796407430687829}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tile
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 7333269245116938500}
   - component: {fileID: 1897317980260281978}
   - component: {fileID: 5230126108077235803}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BottomRing
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -509,6 +509,7 @@ MonoBehaviour:
   funFill: 0
   numSlots: 1
   amenitySlots: []
+  filledSlots: 0
 --- !u!114 &2000251772209137674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,7 +565,7 @@ GameObject:
   - component: {fileID: 5211726440513057586}
   - component: {fileID: 7677297039580726010}
   - component: {fileID: 895053993488935957}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TopRing
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -670,7 +671,7 @@ GameObject:
   - component: {fileID: 2360330662193344135}
   - component: {fileID: 6065236208218554980}
   - component: {fileID: 398963570944800827}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shide
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -776,7 +777,7 @@ GameObject:
   - component: {fileID: 1136361500553529652}
   - component: {fileID: 1077808632584303679}
   - component: {fileID: 1097964546018217429}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Amenity
   m_Icon: {fileID: 0}
@@ -879,7 +880,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6945167001896153624}
   - component: {fileID: 3827129767516542601}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1057,6 +1058,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ToonConfettiDirectionalPastel
       objectReference: {fileID: 0}
+    - target: {fileID: 2742492824044505757, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3887977740042797703, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -1064,6 +1069,18 @@ PrefabInstance:
     - target: {fileID: 4181871130265796722, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4402713992100065107, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953117531023919729, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8420125688860540082, guid: 35bcfdf233b61f64bb101b3c44b76d17, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
