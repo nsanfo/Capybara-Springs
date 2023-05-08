@@ -31,11 +31,24 @@ public class FunInteraction : MonoBehaviour, InteractionInterface
         smokeEmitterObject.GetComponent<ParticleSystem>().Play();
         poofSound.Play();
 
-        // Play dance emitter only on largest amenity
-        if (amenity.numSlots == 10)
+        if (amenity.numSlots == 1)
         {
-            danceEmitterObject.transform.position = transform.position;
-            danceEmitterObject.GetComponent<ParticleSystem>().Play();
+            GetComponent<Animator>().SetBool("Jumping", true);
+        }
+        else
+        {
+            if(amenity.filledSlots == 1)
+            {
+                var rand = Random.Range(0, 4);
+                amenity.gameObject.GetComponent<FunAmenity>().currentlyPlaying = amenity.transform.GetChild(1).GetChild(rand).GetComponent<AudioSource>();
+                amenity.gameObject.GetComponent<FunAmenity>().currentlyPlaying.Play();
+            }
+            GetComponent<Animator>().SetBool("Dancing", true);
+            if (amenity.numSlots == 10) // Play dance emitter only on largest amenity
+            {
+                danceEmitterObject.transform.position = transform.position;
+                danceEmitterObject.GetComponent<ParticleSystem>().Play();
+            }
         }
     }
 
@@ -45,10 +58,23 @@ public class FunInteraction : MonoBehaviour, InteractionInterface
 
     public void HandleInteractionEnd()
     {
-        if (amenity.numSlots == 10)
+        if (amenity.numSlots == 1)
         {
-            danceEmitterObject.GetComponent<ParticleSystem>().Stop();
-            danceEmitterObject.GetComponent<ParticleSystem>().Clear();
+            GetComponent<Animator>().SetBool("Jumping", false);
+        }
+        else
+        {
+            if (amenity.filledSlots == 1)
+            {
+                amenity.gameObject.GetComponent<FunAmenity>().currentlyPlaying.Stop();
+                amenity.gameObject.GetComponent<FunAmenity>().currentlyPlaying = null;
+            }
+            GetComponent<Animator>().SetBool("Dancing", false);
+            if (amenity.numSlots == 10)
+            {
+                danceEmitterObject.GetComponent<ParticleSystem>().Stop();
+                danceEmitterObject.GetComponent<ParticleSystem>().Clear();
+            }
         }
     }
 
