@@ -32,6 +32,8 @@ public class AmenitiesBuilder : MonoBehaviour
     AudioSource click2;
     AudioSource errorSound;
 
+    BuildType currentBuildType;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,8 +46,9 @@ public class AmenitiesBuilder : MonoBehaviour
         errorSound = UISounds.transform.GetChild(3).GetComponent<AudioSource>();
     }
 
-    public void BuildItem(GameObject blueprintPrefab)
+    public void BuildItem(GameObject blueprintPrefab, BuildType buildType)
     {
+        currentBuildType = buildType;
         if (blueprint != null && blueprint.name.Equals(blueprintPrefab.name))
         {
             Destroy(blueprint);
@@ -149,7 +152,21 @@ public class AmenitiesBuilder : MonoBehaviour
                 itemToggles.AllTogglesOff();
 
                 gameplayStateScript.AdjustCapacity(currentCap);
+                gameplayStateScript.AdjustMoneySpent(cost);
                 currentCap = 0;
+
+                if (currentBuildType == BuildType.Onsen)
+                {
+                    gameplayStateScript.AdjustOnsenAmount();
+                }
+                else if (currentBuildType == BuildType.Food)
+                {
+                    gameplayStateScript.AdjustFoodAmount();
+                }
+                else if (currentBuildType == BuildType.Fun)
+                {
+                    gameplayStateScript.AdjustFunAmount();
+                }
             }
         }
 

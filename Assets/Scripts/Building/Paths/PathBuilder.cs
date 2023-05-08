@@ -103,6 +103,7 @@ public class PathBuilder : MonoBehaviour
 
     // Balance
     Balance balance;
+    GameplayState gameplayState;
     double cost = 0;
 
     AudioSource buildSFX;
@@ -148,6 +149,7 @@ public class PathBuilder : MonoBehaviour
         if (stats != null)
         {
             balance = stats.GetComponent<Balance>();
+            gameplayState = stats.GetComponent<GameplayState>();
         }
 
         pathText = Instantiate(pathTextPrefab);
@@ -437,6 +439,9 @@ public class PathBuilder : MonoBehaviour
                 }
             }
 
+            float distance = Vector3.Distance(pathHelper.pathPoints.Item1, pathHelper.pathPoints.Item2);
+            gameplayState.AdjustPathDistance(distance);
+
             // Create path
             CreatePath();
             ResetPathHelper();
@@ -486,6 +491,10 @@ public class PathBuilder : MonoBehaviour
                     }
                 }
 
+                float distance = Vector3.Distance(pathHelper.pathPoints.Item1, pathHelper.pathPoints.Item3);
+                distance += Vector3.Distance(pathHelper.pathPoints.Item2, pathHelper.pathPoints.Item3);
+                gameplayState.AdjustPathDistance(distance);
+
                 // Create path
                 CreatePath();
                 ResetPathHelper();
@@ -529,6 +538,9 @@ public class PathBuilder : MonoBehaviour
 
         // Handle cost
         balance.AdjustBalance(cost * -1);
+
+        // Handle stats
+        gameplayState.AdjustMoneySpent(cost);
 
         buildSFX.Play();
     }

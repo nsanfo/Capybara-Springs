@@ -26,6 +26,7 @@ public class DecorBuilder : MonoBehaviour
     Color blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
 
     GameObject stats;
+    GameplayState gameplayState;
     GameObject blueprint;
     bool red = false, rotating = false;
     Vector2 originalMousePos;
@@ -38,6 +39,7 @@ public class DecorBuilder : MonoBehaviour
     void Start()
     {
         stats = GameObject.Find("Stats");
+        gameplayState = stats.GetComponent<GameplayState>();
         var UISounds = GameObject.Find("UISounds");
         click2 = UISounds.transform.GetChild(1).GetComponent<AudioSource>();
         buildSFX = UISounds.transform.GetChild(2).GetComponent<AudioSource>();
@@ -196,6 +198,8 @@ public class DecorBuilder : MonoBehaviour
                         Destroy(blueprint);
                         balanceScript.AdjustBalance(cost * -1);
                         itemToggles.AllTogglesOff();
+                        gameplayState.AdjustDecorAmount();
+                        gameplayState.AdjustMoneySpent(cost);
                     }
                 }
 

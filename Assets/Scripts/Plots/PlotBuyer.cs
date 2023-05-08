@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class PlotBuyer : MonoBehaviour
@@ -158,6 +159,11 @@ public class PlotBuyer : MonoBehaviour
             {
                 balance.AdjustBalance(plotInfo.price * -1);
             }
+
+            // Adjust gameplay state
+            GameplayState gameplayState = stats.GetComponent<GameplayState>();
+            gameplayState.AdjustPlotsPurchased();
+            gameplayState.AdjustMoneySpent(plotInfo.price);
 
             // Update plot sprites
             UpdatePurchaseSprites();

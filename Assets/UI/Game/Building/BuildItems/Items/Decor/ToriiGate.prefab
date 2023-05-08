@@ -62,7 +62,7 @@ MonoBehaviour:
   cost: 1000
   itemName: Torii Gate
   itemBlueprint: {fileID: 450413391056385145, guid: d3a730ecc6a8e26418f14fc69ee8c074, type: 3}
-  itemType: 2
+  itemType: 4
 --- !u!1 &5140355906702732853
 GameObject:
   m_ObjectHideFlags: 0

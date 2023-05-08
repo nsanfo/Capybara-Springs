@@ -15,7 +15,7 @@ public class CameraControl : MonoBehaviour
     public float cameraSpeed = 1.5f, zoomSpeed = 100f, maxZoom = 0.6f, minZoom = 5f;
     float horizontalInput, forwardInput, scrollInput, mouseInput, modifier;
 
-    public bool plotCamera = false;
+    public bool plotCamera = false, disableCamera = false;
     public (float, float, float, float) cameraBound;
 
     // Start is called before the first frame update
@@ -109,6 +109,8 @@ public class CameraControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (disableCamera) return;
+
         tmp.transform.position = transform.position;
         tmp.transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, transform.localEulerAngles.z);
         modifier = -0.1025f * Mathf.Pow((transform.position.y - 5), 2) + 2.583f;

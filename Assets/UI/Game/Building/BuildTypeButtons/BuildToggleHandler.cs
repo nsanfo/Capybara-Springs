@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public enum BuildType
 {
-    Path, Amenity, Decor, NewPlot, None
+    Path, Onsen, Food, Fun, Decor, NewPlot, None
 }
 public class BuildToggleHandler : MonoBehaviour
 {
@@ -74,7 +74,7 @@ public class BuildToggleHandler : MonoBehaviour
         if (currentBuildType != BuildType.None)
         {
             // Populate popout
-            if (currentBuildType == BuildType.Amenity)
+            if (currentBuildType == BuildType.Onsen || currentBuildType == BuildType.Food || currentBuildType == BuildType.Fun)
             {
                 itemToggles.PopulateAmenityPopOut();
             }

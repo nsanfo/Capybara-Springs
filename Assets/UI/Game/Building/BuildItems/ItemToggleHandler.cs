@@ -105,7 +105,7 @@ public class ItemToggleHandler : MonoBehaviour
 
         // Set item prefab to content
         GameObject item = Instantiate(itemTemplate);
-        item.transform.parent = transform;
+        item.transform.SetParent(transform);
         item.GetComponent<RectTransform>().localScale = Vector3.one;
         item.GetComponent<RectTransform>().localPosition = Vector3.zero;
 

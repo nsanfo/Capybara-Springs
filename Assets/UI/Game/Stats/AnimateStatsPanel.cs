@@ -12,6 +12,9 @@ public class AnimateStatsMenu : MonoBehaviour
     [Header("Scrollbar")]
     public Scrollbar scrollbar;
 
+    [Header("Camera")]
+    public CameraControl cameraControl;
+
     private Image fadePanel;
 
     private float elapsedTime, fadeTargetTime = 0.3f, panelTargetTime = 0.2f, startAlpha, endAlpha, targetAlpha;
@@ -101,6 +104,8 @@ public class AnimateStatsMenu : MonoBehaviour
 
             startRect = Vector2.zero;
             endRect = targetRect;
+
+            cameraControl.disableCamera = true;
         }
         else
         {
@@ -109,6 +114,8 @@ public class AnimateStatsMenu : MonoBehaviour
 
             startRect = targetRect;
             endRect = Vector2.zero;
+
+            cameraControl.disableCamera = false;
         }
 
         elapsedTime = 0;

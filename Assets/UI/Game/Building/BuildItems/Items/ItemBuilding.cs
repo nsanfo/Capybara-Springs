@@ -15,9 +15,9 @@ public class ItemBuilding : MonoBehaviour, IPointerClickHandler
     {
         if (pointerEventData.button != PointerEventData.InputButton.Left) return;
 
-        if (buildType == BuildType.Amenity)
+        if (buildType == BuildType.Onsen || buildType == BuildType.Food || buildType == BuildType.Fun)
         {
-            amenitiesBuilder.BuildItem(itemBlueprint);
+            amenitiesBuilder.BuildItem(itemBlueprint, buildType);
         }
         else if (buildType == BuildType.Decor)
         {

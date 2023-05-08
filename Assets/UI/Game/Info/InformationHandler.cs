@@ -15,18 +15,41 @@ public class InformationHandler : MonoBehaviour
     [Header("Amenity Capacity Text")]
     [SerializeField] private TextMeshProUGUI amenityCapacityText;
 
-    public void UpdateUIBalance(double balance)
+    [Header("Animate Capybara Amount")]
+    [SerializeField] private AnimateCapybaraAmount animateCapybaraAmount;
+    int capAmount, amenityAmount;
+
+    public void UpdateBalance(double balance)
     {
         balanceText.text = $"{balance:n2}";
     }
 
-    public void UpdateUINumCapybaras(int amount)
+    public void UpdateNumCapybaras(int amount)
     {
+        capAmount = amount;
         capybaraAmountText.text = amount.ToString();
+        UpdateCapybaraAmount();
     }
 
-    public void UpdateUIAmenityCapacity(int amount)
+    public void UpdateAmenityCapacity(int amount)
     {
+        amenityAmount = amount;
         amenityCapacityText.text = amount.ToString();
+        UpdateCapybaraAmount();
+    }
+
+    private void UpdateCapybaraAmount()
+    {
+        float percentage;
+        if (amenityAmount == 0)
+        {
+            percentage = 1;
+        }
+        else
+        {
+            percentage = (float)capAmount / amenityAmount;
+        }
+
+        animateCapybaraAmount.UpdateBackgroundColor(percentage);
     }
 }

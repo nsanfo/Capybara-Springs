@@ -58,6 +58,8 @@ public class CapyAI : MonoBehaviour
 
     const float pathWidth = 0.70f;
 
+    private GameplayState gameplayState;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -83,6 +85,8 @@ public class CapyAI : MonoBehaviour
         frontCollider = transform.GetChild(3).GetComponent<BoxCollider>();
         frontColliderSize = frontCollider.size;
         frontColliderCenter = frontCollider.center;
+
+        gameplayState = GameObject.Find("Stats").GetComponent<GameplayState>();
     }
 
     // Update is called once per frame
@@ -550,10 +554,16 @@ public class CapyAI : MonoBehaviour
         Balance balance = GameObject.Find("Stats").GetComponent<Balance>();
         balance.AdjustBalance(payment);
 
+        GameplayState gameplay = GameObject.Find("Stats").GetComponent<GameplayState>();
+        gameplay.AdjustMoneyEarned(payment);
+
         // Handle capybara number
         CapybaraHandler capybaraHandler = GameObject.Find("SpawnManager").GetComponent<CapybaraHandler>();
         if (capybaraHandler == null) return;
         capybaraHandler.RemoveCapybara(gameObject);
+
+        gameplayState.AdjustCapybarasServed();
+        gameplayState.AdjustMaxHappiness(capybaraInfo.happiness);
 
         // Handle destroy
         Destroy(gameObject);

@@ -12,13 +12,13 @@ public class CapybaraHandler : MonoBehaviour
     public void AddCapybara(GameObject capybara)
     {
         capybaras.Add(capybara);
-        informationHandler.UpdateUINumCapybaras(capybaras.Count);
+        informationHandler.UpdateNumCapybaras(capybaras.Count);
     }
 
     public void RemoveCapybara(GameObject capybara)
     {
         capybaras.Remove(capybara);
-        informationHandler.UpdateUINumCapybaras(capybaras.Count);
+        informationHandler.UpdateNumCapybaras(capybaras.Count);
     }
 
     public int CapybaraCount()

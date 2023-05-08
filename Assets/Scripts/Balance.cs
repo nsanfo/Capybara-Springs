@@ -15,7 +15,7 @@ public class Balance : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        informationHandler.UpdateUIBalance(balance);
+        informationHandler.UpdateBalance(balance);
     }
 
     public double GetBalance()
@@ -26,7 +26,7 @@ public class Balance : MonoBehaviour
     public void AdjustBalance(double amount)
     {
         balance += amount;
-        informationHandler.UpdateUIBalance(balance);
+        informationHandler.UpdateBalance(balance);
     }
 
     // Update is called once per frame
