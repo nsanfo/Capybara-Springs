@@ -20,6 +20,7 @@ public class Amenity : MonoBehaviour
     [Header("")]
     public int numSlots;
     public GameObject[] amenitySlots;
+    public int filledSlots = 0;
 
     public ((float, PathNode), (float, PathNode)) GetDistances()
     {
@@ -59,6 +60,7 @@ public class Amenity : MonoBehaviour
             if (amenitySlots[i] == null)
             {
                 amenitySlots[i] = capybara;
+                filledSlots++;
                 return i;
             }
         }
@@ -72,6 +74,7 @@ public class Amenity : MonoBehaviour
             if (amenitySlots[i] == capybara)
             {
                 amenitySlots[i] = null;
+                filledSlots--;
                 return;
             }
         }

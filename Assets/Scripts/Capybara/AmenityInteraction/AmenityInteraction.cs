@@ -46,6 +46,7 @@ public class AmenityInteraction : MonoBehaviour
 
     private GameObject chewingSoundObject;
     private AudioSource poofSound;
+    private AudioSource boingSound;
 
     private void Start()
     {
@@ -53,6 +54,7 @@ public class AmenityInteraction : MonoBehaviour
         aiScript = GetComponent<CapyAI>();
         chewingSoundObject = transform.GetChild(7).gameObject;
         poofSound = transform.GetChild(8).GetComponent<AudioSource>();
+        boingSound = transform.GetChild(10).GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -390,5 +392,17 @@ public class AmenityInteraction : MonoBehaviour
 
         interactionInterface = null;
         amenity = null;
+    }
+
+    public void TrampolineSound()
+    {
+        boingSound.Play();
+    }
+
+    public void FlipChance()
+    {
+        var outcome = Random.Range(0, 2);
+        if (outcome == 1)
+            capyAnimator.SetTrigger("Flip");
     }
 }
