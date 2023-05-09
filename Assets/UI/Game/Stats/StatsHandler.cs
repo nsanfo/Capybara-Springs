@@ -53,7 +53,7 @@ public class StatsHandler : MonoBehaviour
 
     public void UpdatePathLength(float distance)
     {
-        pathLength.text = $"{distance:n2}";
+        pathLength.text = $"{distance:n2}" + "m";
     }
 
     public void UpdatePlotsPurchased(int plots)
