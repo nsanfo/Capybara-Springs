@@ -28,7 +28,7 @@ public class UpgradeButton : MonoBehaviour
             return;
         else
         {
-            if (tutorial.activeSelf == true)
+            if (tutorial != null)
                 tutorial.GetComponent<Tutorial>().UpgradePress();
 
             balanceScript.AdjustBalance(-upgradeCost);
