@@ -26,9 +26,9 @@ public class WindowPosition : MonoBehaviour
         var rect = GetComponent<RectTransform>();
         posOffset.y = 0.6f * cam.transform.position.y;
         newLocation = Camera.main.WorldToScreenPoint(target.transform.position + posOffset);
-        if (newLocation.y > Screen.height - ((rect.sizeDelta.y * rect.localScale.x) / 2))
+        if (newLocation.y > Screen.height - ((rect.sizeDelta.y * rect.localScale.x + 230) / 2))
         {
-            newLocation.y = Screen.height - (((rect.sizeDelta.y + 70) * rect.localScale.x) / 2);
+            newLocation.y = Screen.height - (((rect.sizeDelta.y + 70) * rect.localScale.x + 230) / 2);
         }
         else if (newLocation.y < ((rect.sizeDelta.y * rect.localScale.x) / 2))
         {

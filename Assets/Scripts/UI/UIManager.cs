@@ -24,6 +24,9 @@ public class UIManager : MonoBehaviour
 
     bool capybaraSelected = false, amenitySelected = false;
 
+    public bool capyTutorialHook = false;
+    public bool amenityTutorialHook = false;
+
     public void Start()
     {
         var canvas = GameObject.Find("Canvas");
@@ -34,6 +37,7 @@ public class UIManager : MonoBehaviour
 
     public void SetCDetailsWindow(GameObject target)
     {
+        capyTutorialHook = true;
         var info = target.GetComponent<CapybaraInfo>();
 
         var canvas = GameObject.Find("Canvas");
@@ -222,6 +226,13 @@ public class UIManager : MonoBehaviour
     {
         Destroy(upgradeInstance);
         amenitySelected = false;
+    }
+
+    public void closeInfoScreen()
+    {
+        Destroy(detailsInstance);
+        capybaraSelected = false;
+        selectionScript.deactivateSelection();
     }
 
     void LateUpdate()

@@ -18,6 +18,7 @@ public class ItemBuilding : MonoBehaviour, IPointerClickHandler
         if (buildType == BuildType.Amenity)
         {
             amenitiesBuilder.BuildItem(itemBlueprint);
+            amenitiesBuilder.tutorialHookButton = true;
         }
         else if (buildType == BuildType.Decor)
         {

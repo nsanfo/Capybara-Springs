@@ -32,6 +32,9 @@ public class AmenitiesBuilder : MonoBehaviour
     AudioSource click2;
     AudioSource errorSound;
 
+    public bool tutorialHookButton = false;
+    public bool tutorialHookBuild = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -135,6 +138,7 @@ public class AmenitiesBuilder : MonoBehaviour
             {
                 if (mouse.overUI) return;
 
+                tutorialHookBuild = true;
                 var angle = blueprint.transform.eulerAngles.y;
                 var newAmenity = Instantiate(blueprintScript.GetConcrete());
                 newAmenity.transform.position = new Vector3(blueprint.transform.position.x, blueprint.transform.position.y, blueprint.transform.position.z);

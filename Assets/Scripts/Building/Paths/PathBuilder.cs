@@ -105,6 +105,8 @@ public class PathBuilder : MonoBehaviour
     Balance balance;
     double cost = 0;
 
+    public bool tutorialHook = false;
+
     AudioSource buildSFX;
     AudioSource click3;
 
@@ -203,7 +205,7 @@ public class PathBuilder : MonoBehaviour
     {
         if (activeState)
         {
-            if (!pathPanel.gameObject.activeSelf) pathPanel.gameObject.SetActive(true);
+            //if (!pathPanel.gameObject.activeSelf) pathPanel.gameObject.SetActive(true);
         }
         else
         {
@@ -531,6 +533,7 @@ public class PathBuilder : MonoBehaviour
         balance.AdjustBalance(cost * -1);
 
         buildSFX.Play();
+        tutorialHook = true;
     }
 
     void TrackNearbyNodes()

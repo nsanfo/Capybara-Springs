@@ -15,7 +15,7 @@ public class CameraControl : MonoBehaviour
     public float cameraSpeed = 1.5f, zoomSpeed = 100f, maxZoom = 0.6f, minZoom = 5f;
     float horizontalInput, forwardInput, scrollInput, mouseInput, modifier;
 
-    public bool plotCamera = false;
+    public bool plotCamera = false, tutorialHook = false;
     public (float, float, float, float) cameraBound;
 
     // Start is called before the first frame update
@@ -29,6 +29,9 @@ public class CameraControl : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");
         forwardInput = Input.GetAxis("Vertical");
+
+        if (horizontalInput != 0 || forwardInput != 0)
+            tutorialHook = true;
 
         if (plotCamera)
         {
@@ -84,6 +87,10 @@ public class CameraControl : MonoBehaviour
         if (mouse.overUI) return;
 
         scrollInput = Input.GetAxis("Mouse ScrollWheel");
+
+        if (scrollInput != 0)
+            tutorialHook = true;
+
         tmp.transform.rotation = transform.rotation;
         tmp.transform.Translate(Vector3.forward * Time.deltaTime * scrollInput * zoomSpeed);
 
@@ -96,6 +103,7 @@ public class CameraControl : MonoBehaviour
         if (plotCamera) return;
 
         mouseInput = Input.GetAxis("Mouse X");
+
         float enter = 0.0f;
         ray = new Ray(transform.position, transform.forward);
 
@@ -126,6 +134,7 @@ public class CameraControl : MonoBehaviour
 
         if (Input.GetMouseButton(2))
         {
+            tutorialHook = true;
             Rotate();
         }
     }

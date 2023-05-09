@@ -8,6 +8,7 @@ public class UpgradeButton : MonoBehaviour
     UIManager uiManagerScript;
     public GameObject previousObject;
     public AmenityUpgrade upgradeScript;
+    GameObject tutorial;
 
     void Start()
     {
@@ -15,6 +16,7 @@ public class UpgradeButton : MonoBehaviour
         balanceScript = stats.GetComponent<Balance>();
         GameObject uiManager = GameObject.Find("UI Manager");
         uiManagerScript = uiManager.GetComponent<UIManager>();
+        tutorial = GameObject.Find("Tutorial");
     }
 
     public void Upgrade()
@@ -26,6 +28,9 @@ public class UpgradeButton : MonoBehaviour
             return;
         else
         {
+            if (tutorial.activeSelf == true)
+                tutorial.GetComponent<Tutorial>().UpgradePress();
+
             balanceScript.AdjustBalance(-upgradeCost);
 
             Vector3 pos = previousObject.transform.position;
