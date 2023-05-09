@@ -62,7 +62,7 @@ MonoBehaviour:
   cost: 10000
   itemName: Large Food Pen
   itemBlueprint: {fileID: 3596668058575766152, guid: f4dde0e47fe173e4084535d9ca7c21eb, type: 3}
-  itemType: 1
+  itemType: 2
 --- !u!1 &5140355906702732853
 GameObject:
   m_ObjectHideFlags: 0

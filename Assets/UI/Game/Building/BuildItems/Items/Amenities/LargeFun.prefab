@@ -62,7 +62,7 @@ MonoBehaviour:
   cost: 10000
   itemName: Large Fun Pen
   itemBlueprint: {fileID: 3804246146665719770, guid: 990364564884fd54e90f47b15123a1d5, type: 3}
-  itemType: 1
+  itemType: 3
 --- !u!1 &5140355906702732853
 GameObject:
   m_ObjectHideFlags: 0
