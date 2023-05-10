@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.EventSystems;
 
 public class DecorBuilder : MonoBehaviour
 {
@@ -12,23 +13,66 @@ public class DecorBuilder : MonoBehaviour
     public GameObject GreyLampBlueprint;
     public GameObject MossyLampBlueprint;
 
-
     [Header("Blueprint Material")]
     public Material blueprintMat;
+
+    [Header("Item Select Toggles")]
+    public ItemToggleHandler itemToggles;
+
+    [Header("Mouse On UI")]
+    public MouseOnUI mouse;
+
+    Color redColor = new Color(1f, 0f, 0f, 0.27f);
+    Color blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
 
     GameObject stats;
     GameObject blueprint;
     bool red = false, rotating = false;
     Vector2 originalMousePos;
 
+    AudioSource buildSFX;
+    AudioSource click2;
+    AudioSource errorSound;
+
     // Start is called before the first frame update
     void Start()
     {
         stats = GameObject.Find("Stats");
+        var UISounds = GameObject.Find("UISounds");
+        click2 = UISounds.transform.GetChild(1).GetComponent<AudioSource>();
+        buildSFX = UISounds.transform.GetChild(2).GetComponent<AudioSource>();
+        errorSound = UISounds.transform.GetChild(3).GetComponent<AudioSource>();
+    }
+
+    public void BuildItem(GameObject blueprintPrefab)
+    {
+        if (blueprint != null && blueprint.name.Equals(blueprintPrefab.name))
+        {
+            Destroy(blueprint);
+        }
+        else if (blueprint != null)
+        {
+            Destroy(blueprint);
+            blueprint = Instantiate(blueprintPrefab);
+            if (red)
+                blueprintMat.SetColor("_BaseColor", redColor);
+            else
+                blueprintMat.SetColor("_BaseColor", blueColor);
+        }
+        else if (blueprint == null)
+        {
+            blueprint = Instantiate(blueprintPrefab);
+            if (red)
+                blueprintMat.SetColor("_BaseColor", redColor);
+            else
+                blueprintMat.SetColor("_BaseColor", blueColor);
+        }
+        click2.Play();
     }
 
     public void ObjectSelect(GameObject go, string s)
     {
+        click2.Play();
         if (blueprint != null && blueprint.name.StartsWith(s))
         {
             Destroy(blueprint);
@@ -40,13 +84,13 @@ public class DecorBuilder : MonoBehaviour
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
+                blueprintMat.SetColor("_BaseColor", redColor);
             }
             else
             {
 
                 var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
+                blueprintMat.SetColor("_BaseColor", blueColor);
             }
         }
         else if (blueprint == null)
@@ -55,12 +99,12 @@ public class DecorBuilder : MonoBehaviour
             if (red)
             {
                 var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
+                blueprintMat.SetColor("_BaseColor", redColor);
             }
             else
             {
                 var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
+                blueprintMat.SetColor("_BaseColor", blueColor);
             }
         }
     }
@@ -125,35 +169,43 @@ public class DecorBuilder : MonoBehaviour
                     blueprint.transform.position = new Vector3(hitInfo.point.x, hitInfo.point.y, hitInfo.point.z);
                 }
 
-                if (balance - cost < 0 && !red)
+                if ((balance - cost < 0 || blueprintScript.buildCollisions > 0)  && !red)
                 {
                     var redColor = new Color(1f, 0f, 0f, 0.27f);
-                    blueprintMat.SetColor("_Color", redColor);
+                    blueprintMat.SetColor("_BaseColor", redColor);
                     red = true;
                 }
 
-                else if (balance - cost >= 0)
+                else if (balance - cost >= 0 && blueprintScript.buildCollisions == 0)
                 {
                     if (red)
                     {
                         var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                        blueprintMat.SetColor("_Color", blueColor);
+                        blueprintMat.SetColor("_BaseColor", blueColor);
                         red = false;
                     }
                     if (Input.GetMouseButtonDown(0))
                     {
+                        if (mouse.overUI) return;
+
+                        buildSFX.Play();
                         var angle = blueprint.transform.eulerAngles.y;
                         var newDecor = Instantiate(blueprintScript.GetConcrete());
                         newDecor.transform.position = new Vector3(hitInfo.point.x, hitInfo.point.y, hitInfo.point.z);
                         newDecor.transform.eulerAngles = new Vector3(newDecor.transform.eulerAngles.x, angle, newDecor.transform.eulerAngles.z);
                         Destroy(blueprint);
                         balanceScript.AdjustBalance(cost * -1);
+                        itemToggles.AllTogglesOff();
                     }
                 }
+
+                if (red && EventSystem.current.IsPointerOverGameObject() == false && Input.GetMouseButtonDown(0))
+                    errorSound.Play();
 
                 if (Input.GetMouseButtonDown(1))
                 {
                     Destroy(blueprint);
+                    itemToggles.AllTogglesOff();
                 }
             }
         }

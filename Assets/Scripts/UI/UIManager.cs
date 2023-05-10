@@ -24,6 +24,9 @@ public class UIManager : MonoBehaviour
 
     bool capybaraSelected = false, amenitySelected = false;
 
+    public bool capyTutorialHook = false;
+    public bool amenityTutorialHook = false;
+
     public void Start()
     {
         var canvas = GameObject.Find("Canvas");
@@ -34,6 +37,7 @@ public class UIManager : MonoBehaviour
 
     public void SetCDetailsWindow(GameObject target)
     {
+        capyTutorialHook = true;
         var info = target.GetComponent<CapybaraInfo>();
 
         var canvas = GameObject.Find("Canvas");
@@ -125,7 +129,7 @@ public class UIManager : MonoBehaviour
         }
         if (amenityScript.funFill > 0 || upgradeAmenityScript.funFill > 0)
         {
-            amenityValues.Add(AmenityValues.hunger);
+            amenityValues.Add(AmenityValues.fun);
         }
 
         if (amenityValues.Count == 1)
@@ -224,8 +228,17 @@ public class UIManager : MonoBehaviour
         amenitySelected = false;
     }
 
+    public void closeInfoScreen()
+    {
+        Destroy(detailsInstance);
+        capybaraSelected = false;
+        selectionScript.deactivateSelection();
+    }
+
     void LateUpdate()
     {
+        if (capybaraSelected && lastSelected == null)
+            Destroy(detailsInstance);
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -256,11 +269,11 @@ public class UIManager : MonoBehaviour
                 amenitySelected = false;
             }
 
-            if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.name.StartsWith("Toon Capybara"))
+            if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.name.StartsWith("BodyCollision"))
             {
-                SetCDetailsWindow(hit.transform.gameObject);
+                SetCDetailsWindow(hit.transform.parent.gameObject);
                 lastSelected = hit.transform.gameObject;
-                selectionScript = hit.transform.gameObject.GetComponent<SelectionIndicator>();
+                selectionScript = hit.transform.parent.gameObject.GetComponent<SelectionIndicator>();
                 selectionScript.activateSelection();
                 capybaraSelected = true;
             }

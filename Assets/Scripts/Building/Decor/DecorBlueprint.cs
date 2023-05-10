@@ -7,7 +7,7 @@ public class DecorBlueprint : MonoBehaviour
     public GameObject concrete;
     public double cost;
     private List<(Vector3, GameObject)> pathCollisions = new List<(Vector3, GameObject)>(); // List of tuples, each containing (Forward vector, Position) of path colliders
-    private int buildCollisions = 0;
+    public int buildCollisions = 0;
 
     public GameObject GetConcrete()
     {

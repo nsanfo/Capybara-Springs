@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public class AmenityInteraction : MonoBehaviour
 {
     Pathfinder pathfinderScript;
+    CapyAI aiScript;
     public Amenity amenity;
     Animator capyAnimator;
     int currentState = -1;
@@ -35,15 +36,25 @@ public class AmenityInteraction : MonoBehaviour
     private GameObject splashEmitterObject;
     public GameObject eatEmitterPrefab;
     private GameObject eatEmitterObject;
+    public GameObject danceEmitterPrefab;
+    private GameObject danceEmitterObject;
     private Renderer[] capybaraRenderer = new Renderer[2];
 
     public GameObject capybaraPlacer; // Used to find an open spot in front of the amenity for the capybara to be placed upon exiting
     enum States { center, right, left };
     States placerStates;
 
+    private GameObject chewingSoundObject;
+    private AudioSource poofSound;
+    private AudioSource boingSound;
+
     private void Start()
     {
         pathfinderScript = GetComponent<Pathfinder>();
+        aiScript = GetComponent<CapyAI>();
+        chewingSoundObject = transform.GetChild(7).gameObject;
+        poofSound = transform.GetChild(8).GetComponent<AudioSource>();
+        boingSound = transform.GetChild(10).GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -163,12 +174,19 @@ public class AmenityInteraction : MonoBehaviour
             eatEmitterObject = Instantiate(eatEmitterPrefab);
             eatEmitterObject.transform.SetParent(transform);
         }
+
+        if (danceEmitterObject == null)
+        {
+            danceEmitterObject = Instantiate(danceEmitterPrefab);
+            danceEmitterObject.transform.SetParent(transform);
+        }
     }
 
     private void CreateSmoke()
     {
         smokeEmitterObject.transform.position = transform.position;
         smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+        poofSound.Play();
     }
 
     private void HandleHiding(bool hide)
@@ -191,6 +209,7 @@ public class AmenityInteraction : MonoBehaviour
             onsenInteraction.SetSplashEmitter(splashEmitterObject);
             onsenInteraction.AmenityInterface = onsenAmenity;
             interactionInterface = onsenInteraction;
+            onsenInteraction.poofSound = poofSound;
         }
         else if (amenity.amenityType == AmenityEnum.Food)
         {
@@ -198,7 +217,18 @@ public class AmenityInteraction : MonoBehaviour
             FoodInteraction foodInteraction = gameObject.AddComponent<FoodInteraction>();
             foodInteraction.SetEatEmitter(eatEmitterObject);
             foodInteraction.AmenityInterface = foodAmenity;
+            foodInteraction.chewingSoundObject = chewingSoundObject;
+            foodInteraction.poofSound = poofSound;
             interactionInterface = foodInteraction;
+        }
+        else if (amenity.amenityType == AmenityEnum.Fun)
+        {
+            FunAmenity funAmenity = amenity.gameObject.GetComponent<FunAmenity>();
+            FunInteraction funInteraction = gameObject.AddComponent<FunInteraction>();
+            funInteraction.SetDanceEmitter(danceEmitterObject);
+            funInteraction.AmenityInterface = funAmenity;
+            funInteraction.poofSound = poofSound;
+            interactionInterface = funInteraction;
         }
 
         interactionInterface.HandleInteraction(amenity, slotLocation, smokeEmitterObject);
@@ -230,9 +260,9 @@ public class AmenityInteraction : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         CapybaraInfo capybaraInfo = gameObject.GetComponent<CapybaraInfo>();
-        capybaraInfo.hunger += amenity.hungerFill;
-        capybaraInfo.comfort += amenity.comfortFill;
-        capybaraInfo.fun += amenity.funFill;
+        capybaraInfo.hunger += (amenity.hungerFill * Time.deltaTime * 100);
+        capybaraInfo.comfort += (amenity.comfortFill * Time.deltaTime * 100);
+        capybaraInfo.fun += (amenity.funFill * Time.deltaTime * 100);
 
         if (!HandleMaxStats(capybaraInfo))
         {
@@ -273,7 +303,9 @@ public class AmenityInteraction : MonoBehaviour
         if (currentState == 4)
         {
             pathfinderScript.LastAmenityUsed = amenity.gameObject;
+            aiScript.previousNode = amenity.PathCollider;
             smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+            poofSound.Play();
             HandleHiding(false);
             StartCoroutine(AppearInFront());
             currentState = 5;
@@ -314,7 +346,7 @@ public class AmenityInteraction : MonoBehaviour
                     else
                     {
                         placerStates = States.left;
-                        capyPlacer.transform.position = new Vector3(0, 0, 0);
+                        capyPlacer.transform.position = amenity.PathCollider.transform.position;
                         capyPlacer.transform.Translate(Vector3.left * 0.13f);
                         pathDistance = -0.10f;
                     }
@@ -329,7 +361,7 @@ public class AmenityInteraction : MonoBehaviour
                     else
                     {
                         placerStates = States.center;
-                        capyPlacer.transform.position = new Vector3(0, 0, 0);
+                        capyPlacer.transform.position = amenity.PathCollider.transform.position;
                         pathDistance = 0;
                     }
                 }
@@ -341,10 +373,11 @@ public class AmenityInteraction : MonoBehaviour
                 GameObject.Destroy(capyPlacer);
                 HandleHiding(true);
                 smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+                poofSound.Play();
                 currentState = -1;
                 capybaraRenderer = new Renderer[2];
                 RemoveInteraction();
-                GetComponent<CapyAI>().CompletedAmenityInteraction();
+                aiScript.CompletedAmenityInteraction();
                 break;
             }
         }
@@ -359,5 +392,17 @@ public class AmenityInteraction : MonoBehaviour
 
         interactionInterface = null;
         amenity = null;
+    }
+
+    public void TrampolineSound()
+    {
+        boingSound.Play();
+    }
+
+    public void FlipChance()
+    {
+        var outcome = Random.Range(0, 2);
+        if (outcome == 1)
+            capyAnimator.SetTrigger("Flip");
     }
 }

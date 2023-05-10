@@ -6,13 +6,16 @@ using TMPro;
 
 public class Balance : MonoBehaviour
 {
+    [Header("Information Handler")]
+    public InformationHandler informationHandler;
+
+    [Header("Balance")]
     public double balance = 100000;
-    public TextMeshProUGUI balanceText;
 
     // Start is called before the first frame update
     void Start()
     {
-        balanceText.text = balance.ToString("C2");
+        informationHandler.UpdateUIBalance(balance);
     }
 
     public double GetBalance()
@@ -23,7 +26,7 @@ public class Balance : MonoBehaviour
     public void AdjustBalance(double amount)
     {
         balance += amount;
-        balanceText.text = balance.ToString("C2");
+        informationHandler.UpdateUIBalance(balance);
     }
 
     // Update is called once per frame

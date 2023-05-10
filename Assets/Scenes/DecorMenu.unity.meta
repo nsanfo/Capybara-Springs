@@ -1,13 +1,12 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/MainMenuSkyBox.mat.meta
-guid: a71a30d3b1fe6774eb2ecfa2c463dc9b
-NativeFormatImporter:
+<<<<<<<< HEAD:Assets/Amenities/Fences.meta
+guid: 8e38d64de7fbe304895ac773fe980ec1
+folderAsset: yes
 ========
 guid: b4e17346dab850c42b2e57b123159f65
-DefaultImporter:
 >>>>>>>> main:Assets/Scenes/DecorMenu.unity.meta
+DefaultImporter:
   externalObjects: {}
-  mainObjectFileID: 2100000
   userData: 
   assetBundleName: 
   assetBundleVariant: 

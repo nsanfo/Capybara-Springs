@@ -39,7 +39,7 @@ public class PathGuide : MonoBehaviour
     void Start()
     {
         pathBuilderScript = gameObject.GetComponent<PathBuilder>();
-        PlayerBuilding buildingScript = gameObject.GetComponent<PlayerBuilding>();
+        BuildingUpgrade buildingScript = gameObject.GetComponent<BuildingUpgrade>();
 
         // Get guide settings from building script
         meshOffset = pathBuilderScript.meshOffset * 2;
@@ -157,7 +157,10 @@ public class PathGuide : MonoBehaviour
         }
         else
         {
-            guideMouseObject.transform.position = mouseRaycast.GetPosition() + new Vector3(0, 0.028f, 0);
+            if (mouseRaycast.GetHitInfo().transform.CompareTag("Terrain"))
+            {
+                guideMouseObject.transform.position = mouseRaycast.GetPosition() + new Vector3(0, 0.028f, 0);
+            }
         }
     }
 
@@ -319,7 +322,14 @@ public class PathGuide : MonoBehaviour
         }
         else
         {
-            point2 = new Vector3(mouseRaycast.GetPosition().x, localMeshOffset, mouseRaycast.GetPosition().z);
+            if (mouseRaycast.GetHitInfo().transform.CompareTag("Terrain"))
+            {
+                point2 = new Vector3(mouseRaycast.GetPosition().x, localMeshOffset, mouseRaycast.GetPosition().z);
+            }
+            else
+            {
+                point2 = guideMouseObject.transform.position;
+            }
         }
         
         Vector3 point3 = Vector3.zero;
@@ -411,7 +421,14 @@ public class PathGuide : MonoBehaviour
             }
             else
             {
-                positions[2] = mouseRaycast.GetPosition() + new Vector3(0, localMeshOffset, 0); ;
+                if (mouseRaycast.GetHitInfo().transform.CompareTag("Terrain"))
+                {
+                    positions[2] = mouseRaycast.GetPosition() + new Vector3(0, localMeshOffset, 0);
+                }
+                else
+                {
+                    positions[2] = guideMouseObject.transform.position;
+                }
             }
             
             lineRenderer.positionCount = positions.Length;
@@ -430,7 +447,14 @@ public class PathGuide : MonoBehaviour
             }
             else
             {
-                positions[1] = mouseRaycast.GetPosition() + new Vector3(0, localMeshOffset, 0); ;
+                if (mouseRaycast.GetHitInfo().transform.CompareTag("Terrain"))
+                {
+                    positions[1] = mouseRaycast.GetPosition() + new Vector3(0, localMeshOffset, 0);
+                }
+                else
+                {
+                    positions[1] = guideMouseObject.transform.position;
+                }
             }
 
             lineRenderer.positionCount = positions.Length;
@@ -477,5 +501,10 @@ public class PathGuide : MonoBehaviour
             Destroy(guideCurvedPointObject);
             guideCurvedPointObject = null;
         }
+    }
+
+    public Vector3 GetGuideMousePosition()
+    {
+        return guideMouseObject.transform.position;
     }
 }

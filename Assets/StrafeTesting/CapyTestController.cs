@@ -20,6 +20,21 @@ public class CapyTestController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Jumps: 1 = Jump1, 2 = Jump2, 3 = Jump3
+        if (Input.GetKey(KeyCode.I))
+            capyAnimator.SetTrigger("Jump1");
+        else if (Input.GetKey(KeyCode.O))
+            capyAnimator.SetTrigger("Jump2");
+        else if (Input.GetKey(KeyCode.P))
+            capyAnimator.SetTrigger("Jump3");
+
+        //Q = Dance
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            capyAnimator.SetTrigger("Dance");
+        }
+
         if (Input.GetKey(KeyCode.W))
         {
             if (!Input.GetKey(KeyCode.LeftShift)) //Walking

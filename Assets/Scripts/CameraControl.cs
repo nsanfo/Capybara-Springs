@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
+    [Header("Mouse On UI")]
+    public MouseOnUI mouse;
+
     public GameObject tmp;
     Ray ray;
     Plane ground;
@@ -11,11 +15,14 @@ public class CameraControl : MonoBehaviour
     public float cameraSpeed = 1.5f, zoomSpeed = 100f, maxZoom = 0.6f, minZoom = 5f;
     float horizontalInput, forwardInput, scrollInput, mouseInput, modifier;
 
+    public bool plotCamera = false, tutorialHook = false;
+    public (float, float, float, float) cameraBound;
+
     // Start is called before the first frame update
     void Start()
     {
+        cameraBound = (0.5f, 7.5f, 7.5f, 0.5f);
         ground = new Plane(Vector3.up, new Vector3(0, 0, 0));
-
     }
 
     void KeyMove()
@@ -23,8 +30,37 @@ public class CameraControl : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         forwardInput = Input.GetAxis("Vertical");
 
+        if (horizontalInput != 0 || forwardInput != 0)
+            tutorialHook = true;
+
+        if (plotCamera)
+        {
+            horizontalInput *= -1;
+            forwardInput *= -1;
+        }
+
         transform.Translate(((Vector3.right * Time.deltaTime * horizontalInput * cameraSpeed) / 0.6f) * modifier);
         transform.Translate(((Vector3.forward * Time.deltaTime * forwardInput * cameraSpeed) / 0.6f) * modifier, tmp.transform);
+    
+        // Horizontal bound
+        if (transform.position.z > cameraBound.Item2)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, cameraBound.Item2);
+        }
+        else if (transform.position.z < cameraBound.Item4)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, cameraBound.Item4);
+        }
+
+        // Vertical bound
+        if (transform.position.x < cameraBound.Item1)
+        {
+            transform.position = new Vector3(cameraBound.Item1, transform.position.y, transform.position.z);
+        }
+        else if (transform.position.x > cameraBound.Item3)
+        {
+            transform.position = new Vector3(cameraBound.Item3, transform.position.y, transform.position.z);
+        }
     }
 
     void EdgeMove()
@@ -48,7 +84,13 @@ public class CameraControl : MonoBehaviour
 
     void Zoom()
     {
+        if (mouse.overUI) return;
+
         scrollInput = Input.GetAxis("Mouse ScrollWheel");
+
+        if (scrollInput != 0)
+            tutorialHook = true;
+
         tmp.transform.rotation = transform.rotation;
         tmp.transform.Translate(Vector3.forward * Time.deltaTime * scrollInput * zoomSpeed);
 
@@ -58,7 +100,10 @@ public class CameraControl : MonoBehaviour
 
     void Rotate()
     {
+        if (plotCamera) return;
+
         mouseInput = Input.GetAxis("Mouse X");
+
         float enter = 0.0f;
         ray = new Ray(transform.position, transform.forward);
 
@@ -89,6 +134,7 @@ public class CameraControl : MonoBehaviour
 
         if (Input.GetMouseButton(2))
         {
+            tutorialHook = true;
             Rotate();
         }
     }

@@ -74,7 +74,7 @@ public class Pathfinder : MonoBehaviour
 
         float hungerRating = (1f / 10f) * Mathf.Pow(capyInfo.hunger - 100, 2) * hungerFill / distance; // the rating algorithm gives an exponentially greater priority to needs that are lower than others
         float comfortRating = (1f / 10f) * Mathf.Pow(capyInfo.comfort - 100, 2) * comfortFill / distance;
-        float funRating = (1 / 10) * Mathf.Pow(capyInfo.fun - 100, 2) * funFill / distance;
+        float funRating = (1f / 10f) * Mathf.Pow(capyInfo.fun - 100, 2) * funFill / distance;
         float bestRating;
 
         if (hungerRating > comfortRating)
@@ -133,7 +133,7 @@ public class Pathfinder : MonoBehaviour
         }
     }
 
-    public bool LeaveRoute(float timeSpent, int frustration)
+    public bool LeaveRoute(float timeSpent, float frustration)
     {
         return LeaveIfTimeSpent(timeSpent) || LeaveIfHappinessFrustration(frustration);
     }
@@ -155,7 +155,7 @@ public class Pathfinder : MonoBehaviour
         }
     }
 
-    private bool LeaveIfHappinessFrustration(int frustration)
+    private bool LeaveIfHappinessFrustration(float frustration)
     {
         // Frustration multiplier
         float frustMulti = 1, addPerFrust = 0.015f;

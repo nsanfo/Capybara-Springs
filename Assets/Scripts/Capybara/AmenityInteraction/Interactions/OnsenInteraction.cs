@@ -12,6 +12,8 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
     public AmenityInterface AmenityInterface { get; set; }
     private OnsenAmenity onsenInterface;
 
+    public AudioSource poofSound;
+
     public void SetSplashEmitter(GameObject splashEmitterObject)
     {
         this.splashEmitterObject = splashEmitterObject;
@@ -25,7 +27,10 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
         this.amenity = amenity;
 
         // Get position related to slot
-        Quaternion rot = Quaternion.AngleAxis((float) slotLocation / amenity.numSlots * 360, Vector3.up);
+        // Quaternion rot = Quaternion.AngleAxis((float) slotLocation / amenity.numSlots * 360, Vector3.up);
+        //Debug.Log(amenity.gameObject.transform.forward);
+        
+        Quaternion rot = Quaternion.AngleAxis((float)slotLocation / amenity.numSlots * 360 + amenity.transform.localRotation.eulerAngles.y + 45, Vector3.up);
         float randomForward = Random.Range(onsenInterface.insidePositioningMulti - onsenInterface.insidePositioningRange, onsenInterface.insidePositioningMulti);
         Vector3 forwardMulti = Vector3.forward * randomForward;
         amenityPosition = amenity.transform.position + rot * forwardMulti;
@@ -36,6 +41,7 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
         transform.position = new Vector3(amenityPosition.x, amenityPosition.y + onsenInterface.insideCenteringHeight, amenityPosition.z);
         transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
         smokeEmitterObject.GetComponent<ParticleSystem>().Play();
+        poofSound.Play();
 
         splashEmitterObject.transform.position = transform.position + new Vector3(0, onsenInterface.splashHeight, 0);
         splashEmitterObject.GetComponent<ParticleSystem>().Play();
@@ -93,6 +99,9 @@ public class OnsenInteraction : MonoBehaviour, InteractionInterface
     {
         yield return new WaitForSeconds(Random.Range(5, 8));
         GetComponent<Animator>().SetBool("Turning", true);
+        var splashSounds = transform.GetChild(9);
+        var random = Random.Range(0, 4);
+        splashSounds.GetChild(random).GetComponent<AudioSource>().Play();
         CalculateRotation();
     }
 

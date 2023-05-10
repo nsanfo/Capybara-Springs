@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Amenities/Fences/Models.meta
+guid: ee796cc6d0cc60d42be1fe2ca7b8b078
+========
 guid: 6ee489ca30002a643b0e88750ed3467d
+>>>>>>>> main:Assets/Scripts/Building/Amenities/Amenities.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

@@ -7,18 +7,19 @@ using UnityEngine.InputSystem.LowLevel;
 
 public class AmenitiesBuilder : MonoBehaviour
 {
-    [Header("Amenity Blueprints")]
-    public GameObject smallOnsenBlueprint;
-    public GameObject mediumOnsenBlueprint;
-    public GameObject largeOnsenBlueprint;
-    public GameObject smallFoodBlueprint;
-    public GameObject mediumFoodBlueprint;
-    public GameObject largeFoodBlueprint;
-
-    private int numSmall, numMedium, numLarge, currentCap;
+    private int currentCap;
 
     [Header("Blueprint Material")]
     public Material blueprintMat;
+
+    [Header("Item Select Toggles")]
+    public ItemToggleHandler itemToggles;
+
+    [Header("Mouse On UI")]
+    public MouseOnUI mouse;
+
+    Color redColor = new Color(1f, 0f, 0f, 0.27f);
+    Color blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
 
     GameObject stats;
     Balance balanceScript;
@@ -26,253 +27,54 @@ public class AmenitiesBuilder : MonoBehaviour
     GameObject blueprint;
     bool red = false;
     Vector2 originalMousePos;
-    
+
+    AudioSource buildSFX;
+    AudioSource click2;
+    AudioSource errorSound;
+
+    public bool tutorialHookButton = false;
+    public bool tutorialHookBuild = false;
+
     // Start is called before the first frame update
     void Start()
     {
         stats = GameObject.Find("Stats");
         balanceScript = stats.GetComponent<Balance>();
         gameplayStateScript = stats.GetComponent<GameplayState>();
+        var UISounds = GameObject.Find("UISounds");
+        click2 = UISounds.transform.GetChild(1).GetComponent<AudioSource>();
+        buildSFX = UISounds.transform.GetChild(2).GetComponent<AudioSource>();
+        errorSound = UISounds.transform.GetChild(3).GetComponent<AudioSource>();
     }
 
-    public void SmallOnsenSelect()
+    public void BuildItem(GameObject blueprintPrefab)
     {
-        if (blueprint != null && blueprint.name.StartsWith("SmallOnsen"))
+        if (blueprint != null && blueprint.name.Equals(blueprintPrefab.name))
         {
             Destroy(blueprint);
         }
         else if (blueprint != null)
         {
             Destroy(blueprint);
-            blueprint = Instantiate(smallOnsenBlueprint);
-            currentCap = 1;
+            blueprint = Instantiate(blueprintPrefab);
+            blueprint.tag = "Blueprint";
+            currentCap = blueprint.GetComponent<AmenityBlueprint>().concrete.GetComponent<Amenity>().numSlots;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
         else if (blueprint == null)
         {
-            blueprint = Instantiate(smallOnsenBlueprint);
-            currentCap = 1;
+            blueprint = Instantiate(blueprintPrefab);
+            blueprint.tag = "Blueprint";
+            currentCap = blueprint.GetComponent<AmenityBlueprint>().concrete.GetComponent<Amenity>().numSlots;
             if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
+                blueprintMat.SetColor("_BaseColor", redColor);
             else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
+                blueprintMat.SetColor("_BaseColor", blueColor);
         }
-    }
-
-    public void MediumOnsenSelect()
-    {
-        if (blueprint != null && blueprint.name.StartsWith("MediumOnsen"))
-        {
-            Destroy(blueprint);
-        }
-        else if (blueprint != null)
-        {
-            Destroy(blueprint);
-            blueprint = Instantiate(mediumOnsenBlueprint);
-            currentCap = 4;
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
-        else if (blueprint == null)
-        {
-            blueprint = Instantiate(mediumOnsenBlueprint);
-            currentCap = 4;
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
-    }
-
-    public void LargeOnsenSelect()
-    {
-        if (blueprint != null && blueprint.name.StartsWith("LargeOnsen"))
-        {
-            Destroy(blueprint);
-        }
-        else if (blueprint != null)
-        {
-            Destroy(blueprint);
-            blueprint = Instantiate(largeOnsenBlueprint);
-            currentCap = 10;
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
-        else if (blueprint == null)
-        {
-            blueprint = Instantiate(largeOnsenBlueprint);
-            currentCap = 10;
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
-    }
-
-    public void SmallFoodSelect()
-    {
-        if (blueprint != null && blueprint.name.StartsWith("SmallFood"))
-        {
-            Destroy(blueprint);
-        }
-        else if (blueprint != null)
-        {
-            Destroy(blueprint);
-            blueprint = Instantiate(smallFoodBlueprint);
-            currentCap = 1;
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
-        else if (blueprint == null)
-        {
-            blueprint = Instantiate(smallFoodBlueprint);
-            currentCap = 1;
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
-    }
-
-    public void MediumFoodSelect()
-    {
-        if (blueprint != null && blueprint.name.StartsWith("MediumFood"))
-        {
-            Destroy(blueprint);
-        }
-        else if (blueprint != null)
-        {
-            Destroy(blueprint);
-            blueprint = Instantiate(mediumFoodBlueprint);
-            currentCap = 4;
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
-        else if (blueprint == null)
-        {
-            blueprint = Instantiate(mediumFoodBlueprint);
-            currentCap = 4;
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
-    }
-
-    public void LargeFoodSelect()
-    {
-        if (blueprint != null && blueprint.name.StartsWith("LargeFood"))
-        {
-            Destroy(blueprint);
-        }
-        else if (blueprint != null)
-        {
-            Destroy(blueprint);
-            blueprint = Instantiate(largeFoodBlueprint);
-            currentCap = 10;
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
-        else if (blueprint == null)
-        {
-            blueprint = Instantiate(largeFoodBlueprint);
-            currentCap = 10;
-            if (red)
-            {
-                var redColor = new Color(1f, 0f, 0f, 0.27f);
-                blueprintMat.SetColor("_Color", redColor);
-            }
-            else
-            {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
-            }
-        }
+        click2.Play();
     }
 
     public void FreePlace(Vector3 hitVector)
@@ -280,10 +82,11 @@ public class AmenitiesBuilder : MonoBehaviour
         blueprint.transform.position = hitVector;
         if (!red)
         {
-            var redColor = new Color(1f, 0f, 0f, 0.27f);
-            blueprintMat.SetColor("_Color", redColor);
+            blueprintMat.SetColor("_BaseColor", redColor);
             red = true;
         }
+        if (Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject() == false)
+            errorSound.Play();
     }
 
     public void SnapPlace(Vector3 hitVector)
@@ -318,23 +121,24 @@ public class AmenitiesBuilder : MonoBehaviour
             blueprint.transform.position = closestPosition + Vector3.Scale(pathLeft, new Vector3(entranceDistance, entranceDistance, entranceDistance));
         }
 
-        if ((balance - cost < 0 || blueprintScript.GetBuildCollisions() != 0) && !red)
+        if ((balance - cost < 0 || blueprintScript.buildCollisions != 0) && !red)
         {
-            var redColor = new Color(1f, 0f, 0f, 0.27f);
-            blueprintMat.SetColor("_Color", redColor);
+            blueprintMat.SetColor("_BaseColor", redColor);
             red = true;
         }
 
-        else if (balance - cost >= 0 && blueprintScript.GetBuildCollisions() == 0)
+        else if (balance - cost >= 0 && blueprintScript.buildCollisions == 0)
         {
             if (red)
             {
-                var blueColor = new Color(0f, 0.69f, 0.98f, 0.27f);
-                blueprintMat.SetColor("_Color", blueColor);
+                blueprintMat.SetColor("_BaseColor", blueColor);
                 red = false;
             }
             if (Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject() == false)
             {
+                if (mouse.overUI) return;
+
+                tutorialHookBuild = true;
                 var angle = blueprint.transform.eulerAngles.y;
                 var newAmenity = Instantiate(blueprintScript.GetConcrete());
                 newAmenity.transform.position = new Vector3(blueprint.transform.position.x, blueprint.transform.position.y, blueprint.transform.position.z);
@@ -345,15 +149,21 @@ public class AmenitiesBuilder : MonoBehaviour
                 amenityScript.SlotSetup();
                 Destroy(blueprint);
                 balanceScript.AdjustBalance(cost * -1);
+                buildSFX.Play();
+                itemToggles.AllTogglesOff();
 
                 gameplayStateScript.AdjustCapacity(currentCap);
                 currentCap = 0;
             }
         }
 
+        if (Input.GetMouseButtonDown(0) && red && EventSystem.current.IsPointerOverGameObject() == false)
+            errorSound.Play();
+
         if (Input.GetMouseButtonDown(1))
         {
             Destroy(blueprint);
+            itemToggles.AllTogglesOff();
         }
     }
 
@@ -374,6 +184,12 @@ public class AmenitiesBuilder : MonoBehaviour
             {
                 SnapPlace(hitVector);
             }
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            Destroy(blueprint);
+            itemToggles.AllTogglesOff();
         }
     }
 }

@@ -67,7 +67,7 @@ public class SpawnManager : MonoBehaviour
 
     float GetSpawnWeight()
     {
-        if (gameplayStateScript.currentCapacity < 1)
+        if (gameplayStateScript.GetCapacity() < 1)
         {
             return 0f;
         }
@@ -79,7 +79,7 @@ public class SpawnManager : MonoBehaviour
             averageHappiness = capybaraHandlerScript.AverageHappiness();
         }
 
-        float happinessCapacity = gameplayStateScript.currentCapacity;
+        float happinessCapacity = gameplayStateScript.GetCapacity();
 
         if (capybaraHandlerScript.CapybaraCount() >= happinessCapacity)
         {
@@ -109,7 +109,7 @@ public class SpawnManager : MonoBehaviour
     IEnumerator SpawnCapybara()
     {
         GameObject capyPlacer = GameObject.Instantiate(capybaraPlacer);
-        capyPlacer.transform.position = new Vector3(0, 0, 0);
+        capyPlacer.transform.position = new Vector3(1, 0, 1);
         capyPlacer.transform.Rotate(Vector3.up, 45);
         var placerScript = capyPlacer.GetComponent<CapybaraPlacer>();
 
@@ -137,7 +137,7 @@ public class SpawnManager : MonoBehaviour
                     else
                     {
                         states = States.left;
-                        capyPlacer.transform.position = new Vector3(0, 0, 0);
+                        capyPlacer.transform.position = new Vector3(1, 0, 1);
                         capyPlacer.transform.Translate(Vector3.left * 0.13f);
                         pathDistance = -0.10f;
                     }
@@ -152,7 +152,7 @@ public class SpawnManager : MonoBehaviour
                     else
                     {
                         states = States.center;
-                        capyPlacer.transform.position = new Vector3(0, 0, 0);
+                        capyPlacer.transform.position = new Vector3(1, 0, 1);
                         pathDistance = 0;
                     }
                 }
@@ -163,6 +163,9 @@ public class SpawnManager : MonoBehaviour
                 var capyInfo = newCapy.GetComponent<CapybaraInfo>();
                 var capyAI = newCapy.GetComponent<CapyAI>();
                 capyInfo.capyName = CapyNames.GetRandomName();
+                capyInfo.hunger = Random.Range(50, 75);
+                capyInfo.comfort = Random.Range(50, 75);
+                capyInfo.fun = Random.Range(50, 75);
                 newCapy.transform.position = capyPlacer.transform.position;
                 newCapy.transform.Rotate(Vector3.up, 45);
 

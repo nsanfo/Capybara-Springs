@@ -262,9 +262,19 @@ public class Path : MonoBehaviour
             {
                 nodes[i] = newNode;
             }
-
             nodes[i].SetMaterial(nodeMaterial, node.transform, meshOffset);
             nodes[i].AddPath(this);
+            var nodeCollider = new GameObject("Node Collider");
+            nodeCollider.transform.SetParent(node.transform);
+            nodeCollider.transform.position = new Vector3(nodes[i].transform.position.x, meshOffset, nodes[i].transform.position.z);
+            nodeCollider.transform.localScale = new Vector3(0.105f, 0.105f, 0.105f);
+            nodeCollider.tag = "PathNode";
+            nodeCollider.layer = 2;
+            var rigidBody = nodeCollider.AddComponent<Rigidbody>();
+            rigidBody.useGravity = false;
+            rigidBody.isKinematic = true;
+            var collider = nodeCollider.AddComponent<SphereCollider>();
+            collider.radius = 3.1f;
         }
     }
 
@@ -288,15 +298,5 @@ public class Path : MonoBehaviour
     public void RemoveAmenity(Amenity param)
     {
         amenities.Remove(param);
-    }
-
-    public int FindPathDirection(PathNode currentNode)
-    {
-        if (currentNode == nodes[0])
-            return 1;
-        else if (currentNode == nodes[1])
-            return 2;
-        else
-            return -1;
     }
 }

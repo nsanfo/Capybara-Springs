@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class CapybaraHandler : MonoBehaviour
 {
+    [Header("Information Handler")]
+    public InformationHandler informationHandler;
+
     private List<GameObject> capybaras = new List<GameObject>();
 
     public void AddCapybara(GameObject capybara)
     {
         capybaras.Add(capybara);
+        informationHandler.UpdateUINumCapybaras(capybaras.Count);
     }
 
     public void RemoveCapybara(GameObject capybara)
     {
         capybaras.Remove(capybara);
+        informationHandler.UpdateUINumCapybaras(capybaras.Count);
     }
 
     public int CapybaraCount()

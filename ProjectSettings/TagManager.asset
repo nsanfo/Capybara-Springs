@@ -12,6 +12,11 @@ TagManager:
   - Front
   - Decor
   - UI
+  - Left
+  - Right
+  - PlotPurchase
+  - Fence
+  - PathNode
   layers:
   - Default
   - TransparentFX
@@ -19,7 +24,7 @@ TagManager:
   - Grass
   - Water
   - UI
-  - 
+  - Amenity
   - 
   - 
   - 

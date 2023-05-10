@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PathNode : MonoBehaviour
@@ -13,7 +12,7 @@ public class PathNode : MonoBehaviour
         GameObject nodeMatObj = GameObject.CreatePrimitive(PrimitiveType.Plane);
         nodeMatObj.transform.SetParent(nodeHolder.transform);
         nodeMatObj.transform.position = new Vector3(this.transform.position.x, meshOffset, this.transform.position.z);
-        nodeMatObj.transform.localScale = new Vector3(0.12f, 0.12f, 0.12f);
+        nodeMatObj.transform.localScale = new Vector3(0.105f, 0.105f, 0.105f);
         nodeMatObj.GetComponent<MeshRenderer>().material = nodeMaterial;
     }
 
