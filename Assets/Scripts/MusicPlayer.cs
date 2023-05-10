@@ -60,6 +60,12 @@ public class MusicPlayer : MonoBehaviour
         PlaySong();
     }
 
+    private void Awake()
+    {
+        //Persists Music Player throughout game
+        DontDestroyOnLoad(this);
+    }
+
     void LateUpdate()
     {
         if (skip) Skip();
