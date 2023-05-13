@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseSystem : MonoBehaviour
 {
+    public GameObject pauseAIO;
     public GameObject pauseMenu;
-    public Button resumeButton;
-    private bool isPaused = false;
+    public GameObject settingsMenu;
+    public GameObject mainMenuQuery;
+    public GameObject exitQuery;
 
     // Start is called before the first frame update
     void Start()
     {
-        resumeButton.onClick.AddListener(pauseToggle);
+
     }
 
     // Update is called once per frame
@@ -24,20 +27,67 @@ public class PauseSystem : MonoBehaviour
             pauseToggle(); 
         }
     }
-    void pauseToggle()
+    //Pause functionality
+    public void pauseToggle()
     {
-        if (isPaused)
+        //Pause or Unpause Game
+        if (pauseMenu.activeInHierarchy) //if unpausing
         {
-            isPaused = false;
-            Time.timeScale = 1.0f;
-            pauseMenu.SetActive(false);
+            //Close any active panels
+            if (settingsMenu.activeInHierarchy)
+                settingsMenu.SetActive(false);
+
+            if (mainMenuQuery.activeInHierarchy)
+                settingsMenu.SetActive(false);
+
+            if (exitQuery.activeInHierarchy)
+                settingsMenu.SetActive(false);
+
+
+            Time.timeScale = 1.0f;      //Resume time to normal speed
+            pauseMenu.SetActive(false); //Deactivate pause menu
         }
+        else                             //if pausing
+        {
+            Time.timeScale = 0f;         //freeze time
+            pauseMenu.SetActive(true);   //activate pause menu
+        }
+    }
+
+    //Settings
+    public void toggleSettingsPanel()
+    {
+        if (settingsMenu.activeInHierarchy)
+            settingsMenu.SetActive(false);
         else
-        {
-            isPaused = true;
-            Time.timeScale = 0f;
-            pauseMenu.SetActive(true);
-        }
+            settingsMenu.SetActive(true);
+    }
+
+    //Main Menu
+    public void toggleMainMenuQuery()
+    {
+        if (mainMenuQuery.activeInHierarchy)
+            mainMenuQuery.SetActive(false);
+        else
+            mainMenuQuery.SetActive(true);
+    }
+
+    public void returnToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    //Exit Game
+    public void toggleExitGameQuery()
+    {
+        if (exitQuery.activeInHierarchy)
+            exitQuery.SetActive(false);
+        else
+            exitQuery.SetActive(true);
+    }
+    public void exitGame()
+    {
+        Application.Quit();
     }
 }
 
