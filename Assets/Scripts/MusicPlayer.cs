@@ -45,6 +45,8 @@ class Song
 
 public class MusicPlayer : MonoBehaviour
 {
+    private static MusicPlayer instance;
+
     readonly private List<Song> songs = new();
     private int playingIndex = -1;
     private bool playing = false;
@@ -62,8 +64,16 @@ public class MusicPlayer : MonoBehaviour
 
     private void Awake()
     {
-        //Persists Music Player throughout game
-        DontDestroyOnLoad(this);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
     }
 
     void LateUpdate()
