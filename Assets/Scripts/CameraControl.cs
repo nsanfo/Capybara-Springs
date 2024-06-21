@@ -21,7 +21,7 @@ public class CameraControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cameraBound = (0.5f, 7.5f, 7.5f, 0.5f);
+        cameraBound = (0.5f, 8f, 9f, 0.5f);
         ground = new Plane(Vector3.up, new Vector3(0, 0, 0));
     }
 

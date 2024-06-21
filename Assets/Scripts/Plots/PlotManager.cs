@@ -190,7 +190,7 @@ public class PlotManager : MonoBehaviour
 
         upBound = -16 + (upBound * 8) + 0.5f;
         rightBound = (rightBound - 3) * 8 - 0.5f;
-        downBound = (downBound - 3) * 8 - 0.5f;
+        downBound = (downBound - 3) * 8 + 1.2f;
         leftBound = -16 + (leftBound * 8) + 0.5f;
 
         GameObject camera = GameObject.Find("Camera/Main Camera");
